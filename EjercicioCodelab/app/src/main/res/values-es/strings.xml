@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">EjercicioCodelab</string>
+    <string name="how_was_the_service">¿Cómo fue el servicio?</string>
+    <string name="cost_of_service">Coste del servicio</string>
+    <string name="amazing_service">Flipante (20%)</string>
+    <string name="good_service">Majo (18%)</string>
+    <string name="okay_service">Decente (15%)</string>
+    <string name="round_up_tip">¿Redondear?</string>
+    <string name="calculate">Calcular</string>
+    <string name="tip_amount">Cantidad de propina</string>
+</resources>
