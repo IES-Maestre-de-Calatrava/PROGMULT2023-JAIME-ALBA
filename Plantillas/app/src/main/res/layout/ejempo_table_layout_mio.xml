@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:contextClickable="false"
+    android:padding="16dp"
+    tools:context=".ActividadPrincipal"
+    tools:stretchColumns="1">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#128675">
+
+        <TextView
+            android:layout_column="0"
+            android:padding="3dip"
+            android:text="@string/encabezado_producto"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_column="2"
+            android:padding="3dip"
+            android:text="@string/encabezado_subtotal"
+            tools:textColor="@android:color/white" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_column="0"
+            android:padding="3dip"
+            android:text="@string/producto_jabon"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_column="2"
+            android:padding="3dip"
+            android:text="$2"
+            tools:textColor="@color/black" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_column="0"
+            android:padding="3dip"
+            android:text="@string/producto_shampoo"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_column="2"
+            android:padding="3dip"
+            android:text="$10"
+            tools:textColor="@color/black" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_column="0"
+            android:padding="3dip"
+            android:text="@string/producto_pastas"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_column="2"
+            android:padding="3dip"
+            android:text="$18"
+            tools:textColor="@color/black" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_column="0"
+            android:padding="3dip"
+            android:text="@string/producto_detergente"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_column="2"
+            android:padding="3dip"
+            android:text="$13,4"
+            tools:textColor="@color/black" />
+
+    </TableRow>
+
+    <View
+        android:layout_height="2dip"
+        android:background="#FF909090" />
+
+
+
+</TableLayout>

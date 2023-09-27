@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Crazy Layouts</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="encabezado_producto">Producto</string>
+    <string name="encabezado_subtotal">Subtotal</string>
+    <string name="producto_jabon">Jabón de manos x 1</string>
+    <string name="producto_shampoo">Shampoo Monster x 1</string>
+    <string name="producto_pastas">Pastas Duria x 2</string>
+    <string name="producto_detergente">Detergente Limpiadin x 1</string>
+    <string name="resultado_subtotal">Subtotal</string>
+    <string name="resultado_envio">Costo envío</string>
+    <string name="resultado_cupon">Cupón</string>
+    <string name="resultado_total">Total</string>
+
+    <string-array name="lista_estado_civil">
+        <item>Soltero</item>
+        <item>Casado</item>
+        <item>Union Libre</item>
+    </string-array>
+    <string-array name="lista_cargo">
+        <item>Ventas</item>
+        <item>Informática</item>
+        <item>Jardinería</item>
+    </string-array>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Crazy Layouts</string>
+    <string name="action_settings">Settings</string>
+    <string name="encabezado_producto">Product</string>
+    <string name="encabezado_subtotal">Amount</string>
+    <string name="producto_detergente">Limpiadin Detergent x 1</string>
+    <string name="producto_jabon">Hand Soap x 1</string>
+    <string name="producto_pastas">Duria Pasta x 2</string>
+    <string name="producto_shampoo">Monster Shampoo x 1</string>
+    <string name="resultado_cupon">Coupon</string>
+    <string name="resultado_envio">Shipping Charges</string>
+    <string name="resultado_subtotal">Sub Total</string>
+    <string name="resultado_total">Total Cost</string>
+</resources>
