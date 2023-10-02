@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ComunicacionActivities</string>
+    <string name="llamada_a_otra_activity">Llamada a otra activity</string>
+    <string name="llamada_enviando_datos">Llamada a otra activity enviando datos</string>
+    <string name="llamada_con_devolucion_de_datos">Llamada a otra activity con devolución de datos</string>
+    <string name="llamar">Llamar</string>
+    <string name="texto_a_enviar">Texto a enviar</string>
+    <string name="texto_devuelto">Texto devuelto</string>
+</resources>
