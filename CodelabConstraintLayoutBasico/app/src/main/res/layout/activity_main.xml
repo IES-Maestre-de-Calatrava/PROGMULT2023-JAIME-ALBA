@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!-- Si manejo elementos en el modo de vista blueprint, puedo soltar objetos
+    y luego crear constraints de unos con respecto a otros arrastranco desde los
+    círculos de los laterales hasta los elementos que quiera usar como referencia.
+
+    Si quiero referenciar usando el texto centrado de las views, click derecho en
+    ellas para mostrarlo y luego usarlo para crear una constraint.
+
+    Seleccionar dos elementos y luego create chain: genera una restricción
+    bidireccional entre dos o más elementos.
+
+    Puedo tocar cosas en el Constraint Widget. Clickar dos veces en el ajuste del
+    ancho hará que el elemento en cuestión se expanda hasta cubrir todo lo que no
+    este cubierto por constraints (Match constraints).
+
+    Recordatorio de que nada de hard code; todo debe estar en app > res > values > Strings.
+    Para ajustarlas luego a los elementos, botoncito en la opción de text y da opciones.
+
+    Para abrir el diseño, app > res > layout > activity_main-->
+
+
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="@string/edit_message"
+        app:layout_constraintEnd_toStartOf="@+id/button3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/button_send"
+        app:layout_constraintBaseline_toBaselineOf="@+id/editTextText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/editTextText" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
