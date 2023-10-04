@@ -6,4 +6,9 @@
     <string name="llamar">Llamar</string>
     <string name="texto_a_enviar">Texto a enviar</string>
     <string name="texto_devuelto">Texto devuelto</string>
+    <string name="texto_activity_caso_1">Activity que devuelve el control a la principal</string>
+    <string name="cerrar">Cerrar</string>
+    <string name="texto_activity_caso_2">Activity que recibe datos</string>
+    <string name="texto_recibido">Texto recibido</string>
+    <string name="texto_activity_caso_3">Activity que devuelve datos</string>
 </resources>
