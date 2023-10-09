@@ -22,7 +22,8 @@ class activity_actividad_caso_3 : AppCompatActivity() {
 
     fun volver(view: View) {
         val intent = Intent()
-        intent.putExtra("Mensaje", binding.textView10.text.toString())
+        intent.putExtra("Mensaje", binding.editTextText2.text.toString())
         setResult(123, intent)
+        finish()
     }
 }

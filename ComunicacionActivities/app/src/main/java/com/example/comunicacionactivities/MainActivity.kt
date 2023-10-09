@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import com.example.comunicacionactivities.databinding.ActivityMainBinding
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 
@@ -58,9 +57,16 @@ class MainActivity : AppCompatActivity() {
             result ->
                 // Si los datos de verdad devuelven algo
                 if (result.data != null) {
-                    val data: Intent = result.data!!
+                    val data: Intent = result.data !!
                     val nombreDevuelto = data.getStringExtra("Mensaje")
-                    binding.textView10.text = nombreDevuelto
+                    // pongo para que se muestre el texto devuelto en el
+                    // bloque de texto que corresponde en la MAIN ACTIVITY
+
+                    // TIENE QUE SER UN TEXT VIEW
+                    // NO UN TEXTO EDITABLE
+                    // ES UN TEXTO QUE SE VE PERO NO SE TOCA
+                    // SUBNORMAL
+                    binding.textView7.text = nombreDevuelto
                     // falta hacer algo en la activity 3 para que devuelva datos
                 }
         }
