@@ -12,6 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ComunicacionActivities"
         tools:targetApi="31">
+
+
         <activity
             android:name=".activity_actividad_caso_3"
             android:exported="false" />

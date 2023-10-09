@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.example.comunicacionactivities.databinding.ActivityMainBinding
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 
 
 /**
@@ -19,7 +21,22 @@ import com.example.comunicacionactivities.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
 
+    // Variable para el apartado 3
     lateinit var activityActividadCaso3ResultLauncher: ActivityResultLauncher<Intent>
+
+
+    /**
+     * APARTADO 3: apertura con devolución de datos
+     * @param[view] Vista que llama al método
+     * Apertura; la activity no hace nada, y la abierta nos devuelve datos
+     */
+    fun openSomeActivityForResult(view: View){
+        val intent = Intent(this, activity_actividad_caso_3::class.java)
+        activityActividadCaso3ResultLauncher.launch(intent)
+    }
+
+
+
 
     /**
      *  Binding
@@ -32,6 +49,21 @@ class MainActivity : AppCompatActivity() {
 
         crearObjetosDelXml()
 
+        // En el onCreate es donde tengo que recoger
+        // los datos que me devuelva la otra activity
+        activityActividadCaso3ResultLauncher = registerForActivityResult(StartActivityForResult()) {
+            // El StartActivityForResult es lo que se ejecuta cuando hago el launch
+            // Es lo que se registra cuando ejecuto la llamada
+            // Aquí mismo lo puedo procesar
+            result ->
+                // Si los datos de verdad devuelven algo
+                if (result.data != null) {
+                    val data: Intent = result.data!!
+                    val nombreDevuelto = data.getStringExtra("Mensaje")
+                    binding.textView10.text = nombreDevuelto
+                    // falta hacer algo en la activity 3 para que devuelva datos
+                }
+        }
     }
 
     /**
@@ -115,12 +147,5 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    /**
-     * APARTADO 3
-     * Apertura; la activity no hace nada, y la abierta nos devuelve datos
-     */
-    fun openSomeActivityForResult(view: View){
-        val intent = Intent(this, activity_actividad_caso_3::class.java)
-        activityActividadCaso3ResultLauncher.launch(intent)
-    }
+
 }
