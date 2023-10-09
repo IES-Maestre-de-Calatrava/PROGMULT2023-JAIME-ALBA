@@ -16,8 +16,6 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG,jaime.getProgrammerData().name)
         Log.d(TAG,jaime.getProgrammerData().age.toString())
         Log.d(TAG,jaime.getProgrammerData().language)
-        // También puedo declararme una variable que sea de tipo ProgrammerData y
-        // mediante el nombre de la variable acceder a los atributos que tenga asignados
     }
 }
 
