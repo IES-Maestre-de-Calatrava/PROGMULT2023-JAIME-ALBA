@@ -20,9 +20,15 @@ class activity_actividad_caso_3 : AppCompatActivity() {
         setContentView(binding.root)
     }
 
+    /**
+     * Volver
+     * Elimina la activity, vuelve a la inicial y a esta inicial le devuelve el
+     * texto que se le haya pasado por el EditText
+     */
     fun volver(view: View) {
         val intent = Intent()
         intent.putExtra("Mensaje", binding.editTextText2.text.toString())
+        // Para decirle que el intent vaya como resultado:
         setResult(123, intent)
         finish()
     }
