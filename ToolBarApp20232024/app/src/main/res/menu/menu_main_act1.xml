@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+
+
+
+    <item
+        android:id="@+id/action_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Contacto"
+        app:showAsAction="never" >
+        <menu
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+            <item
+                android:id="@+id/CompartirApp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:title="Compartir App" />
+            <item
+                android:id="@+id/Contactartlfn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:title="Llamar" />
+            <item
+                android:id="@+id/ContactarMail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:title="Mail" />
+            <item
+                android:id="@+id/Ubica"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:title="Ubicación" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/acercaDe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@android:drawable/ic_dialog_info"
+        android:title="Acerca de..."
+        app:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/Web"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@android:drawable/ic_menu_view"
+        android:title="Acceso a web"
+        app:showAsAction="always|collapseActionView|withText" />
+</menu>
