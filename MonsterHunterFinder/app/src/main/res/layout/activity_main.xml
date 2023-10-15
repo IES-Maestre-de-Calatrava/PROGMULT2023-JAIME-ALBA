@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/botonPerfil"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="@string/botonPerfil"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.231" />
+
+    <Button
+        android:id="@+id/botonBuscar"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="@string/botonBuscar"
+        app:layout_constraintEnd_toEndOf="@+id/botonPerfil"
+        app:layout_constraintStart_toStartOf="@+id/botonPerfil"
+        app:layout_constraintTop_toBottomOf="@+id/botonPerfil" />
+
+    <Button
+        android:id="@+id/botonMensajes"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="@string/botonMensajes"
+        app:layout_constraintEnd_toEndOf="@+id/botonBuscar"
+        app:layout_constraintStart_toStartOf="@+id/botonBuscar"
+        app:layout_constraintTop_toBottomOf="@+id/botonBuscar" />
+
+    <ImageView
+        android:id="@+id/iconoPerfil"
+        android:layout_width="53dp"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="@+id/botonPerfil"
+        app:layout_constraintEnd_toStartOf="@+id/botonPerfil"
+        app:layout_constraintTop_toTopOf="@+id/botonPerfil"
+        app:srcCompat="@android:drawable/ic_menu_myplaces" />
+
+    <ImageView
+        android:id="@+id/iconoBuscar"
+        android:layout_width="53dp"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="@+id/botonBuscar"
+        app:layout_constraintEnd_toStartOf="@+id/botonBuscar"
+        app:layout_constraintTop_toTopOf="@+id/botonBuscar"
+        app:srcCompat="@android:drawable/ic_menu_search" />
+
+    <ImageView
+        android:id="@+id/iconoMensajes"
+        android:layout_width="53dp"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="@+id/botonMensajes"
+        app:layout_constraintEnd_toStartOf="@+id/botonMensajes"
+        app:layout_constraintTop_toTopOf="@+id/botonMensajes"
+        app:srcCompat="@android:drawable/sym_action_email" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
