@@ -79,9 +79,65 @@ class MainActivity : AppCompatActivity() {
                 true
             }
 
+            // Ésto es del 16/10/2023
+            R.id.ContactarMail -> {
+                mandarCorreo()
+                true
+            }
+
+            R.id.Ubica -> {
+                verMapa()
+                true
+            }
+
+            R.id.CompartirApp -> {
+                compartir()
+                true
+            }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    // Ésto es del 16/10/2023
+    fun mandarCorreo() {
+        // Función que permite mandar un correo
+        // Intent especial; distinto, con más parámetros, como el asunto o el
+        // contenido del correo
+        // Para ésta, el ACTION_SEND va a tratar de abrir un sistema de mensajería
+        startActivity(
+            Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                // El EXTRA_SUBJECT es el asunto
+                putExtra(Intent.EXTRA_SUBJECT, "Correo de prueba")
+                // El EXTRA_TEXT es el contenido del correo
+                putExtra(Intent.EXTRA_TEXT, "Hola, ésto es un mensaje de prueba para la asignatura de ProgMult")
+                // Declaramos un array en el que podemos meter varias direcciones
+                putExtra(Intent.EXTRA_EMAIL, arrayOf("jaimealbaruiz@gmail.com"))
+            }
+        )
+    }
+
+
+    fun verMapa() {
+        startActivity(
+            // Al uri parse se le pasan unas coordenadas
+            Intent(Intent.ACTION_VIEW, Uri.parse("geo:39.2741,  -3.5193"))
+        )
+    }
+
+
+    fun compartir() {
+        startActivity(
+            Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, "Mira el sitio que he encontrado http://google.com")
+            }
+        )
+    }
+
+
+
 
 
     fun lanzarAcercaDe() {
@@ -100,6 +156,7 @@ class MainActivity : AppCompatActivity() {
      * Función que abre una página web. Por String le paso la web a buscar.
      */
     fun abrirPagina() {
+        // Para ésta, el ACTION_VIEW va a buscar una página que abrir
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://break4learning.weebly.com")))
     }
 }
