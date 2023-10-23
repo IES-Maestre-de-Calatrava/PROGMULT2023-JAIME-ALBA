@@ -4,26 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/material_dynamic_neutral20"
     tools:context=".MainActivity">
 
     <Button
         android:id="@+id/botonPerfil"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/system_neutral1_900"
         android:text="@string/botonPerfil"
+        android:textColor="@android:color/holo_orange_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.231" />
+        app:layout_constraintTop_toBottomOf="@+id/textTitulo"
+        app:layout_constraintVertical_bias="0.13999999" />
 
     <Button
         android:id="@+id/botonBuscar"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
+        android:backgroundTint="@android:color/system_neutral1_900"
         android:text="@string/botonBuscar"
+        android:textColor="@android:color/holo_orange_dark"
         app:layout_constraintEnd_toEndOf="@+id/botonPerfil"
         app:layout_constraintStart_toStartOf="@+id/botonPerfil"
         app:layout_constraintTop_toBottomOf="@+id/botonPerfil" />
@@ -33,7 +38,9 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
+        android:backgroundTint="@android:color/system_neutral1_900"
         android:text="@string/botonMensajes"
+        android:textColor="@android:color/holo_orange_dark"
         app:layout_constraintEnd_toEndOf="@+id/botonBuscar"
         app:layout_constraintStart_toStartOf="@+id/botonBuscar"
         app:layout_constraintTop_toBottomOf="@+id/botonBuscar" />
@@ -42,6 +49,8 @@
         android:id="@+id/iconoPerfil"
         android:layout_width="53dp"
         android:layout_height="48dp"
+        app:tint="@android:color/system_neutral1_900"
+        android:tintMode="add"
         app:layout_constraintBottom_toBottomOf="@+id/botonPerfil"
         app:layout_constraintEnd_toStartOf="@+id/botonPerfil"
         app:layout_constraintTop_toTopOf="@+id/botonPerfil"
@@ -51,6 +60,8 @@
         android:id="@+id/iconoBuscar"
         android:layout_width="53dp"
         android:layout_height="48dp"
+        app:tint="@android:color/system_neutral1_900"
+        android:tintMode="add"
         app:layout_constraintBottom_toBottomOf="@+id/botonBuscar"
         app:layout_constraintEnd_toStartOf="@+id/botonBuscar"
         app:layout_constraintTop_toTopOf="@+id/botonBuscar"
@@ -60,9 +71,25 @@
         android:id="@+id/iconoMensajes"
         android:layout_width="53dp"
         android:layout_height="48dp"
+        app:tint="@android:color/system_neutral1_900"
+        android:tintMode="add"
         app:layout_constraintBottom_toBottomOf="@+id/botonMensajes"
         app:layout_constraintEnd_toStartOf="@+id/botonMensajes"
         app:layout_constraintTop_toTopOf="@+id/botonMensajes"
         app:srcCompat="@android:drawable/sym_action_email" />
+
+    <TextView
+        android:id="@+id/textTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="75dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/textoTitulo"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_orange_dark"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

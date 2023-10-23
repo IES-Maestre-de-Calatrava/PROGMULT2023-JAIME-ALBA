@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">MonsterHunterFinder</string>
-    <string name="botonPerfil">Mi perfil</string>
-    <string name="botonBuscar">Buscar</string>
-    <string name="botonMensajes">Mensajes</string>
+    <string name="botonPerfil">MI PERFIL</string>
+    <string name="botonBuscar">BUSCAR</string>
+    <string name="botonMensajes">MENSAJES</string>
+    <string name="textoTitulo">MONSTER HUNTER FINDER</string>
 </resources>
