@@ -2,6 +2,7 @@ package com.example.monsterhunterfinder
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.example.monsterhunterfinder.databinding.ActivityPerfilBinding
 
 class activity_perfil : AppCompatActivity() {
@@ -15,5 +16,9 @@ class activity_perfil : AppCompatActivity() {
     private fun crearObjetosDelXml() {
         binding=ActivityPerfilBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
+
+    fun volver(view: View) {
+        finish()
     }
 }

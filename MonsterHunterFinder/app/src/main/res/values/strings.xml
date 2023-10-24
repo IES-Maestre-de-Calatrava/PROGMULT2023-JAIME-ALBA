@@ -4,4 +4,10 @@
     <string name="botonBuscar">BUSCAR</string>
     <string name="botonMensajes">MENSAJES</string>
     <string name="textoTitulo">MONSTER HUNTER FINDER</string>
+    <string name="botonVolver">VOLVER</string>
+    <string name="userName">User Name</string>
+    <string name="botonBuscarPalabras">BUSCAR POR PALABRAS</string>
+    <string name="botonBuscarZona">BUSCAR POR ZONA</string>
+    <string name="textoBuscar">¡Introduce lo que buscas!</string>
+    <string name="palabrasBuscadas">Palabras buscadas</string>
 </resources>

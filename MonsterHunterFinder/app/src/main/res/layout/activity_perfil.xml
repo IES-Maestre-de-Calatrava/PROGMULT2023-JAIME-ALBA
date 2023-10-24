@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/material_dynamic_neutral20"
     tools:context=".activity_perfil">
 
     <ImageView
-        android:id="@+id/header"
+        android:id="@+id/headerPerfil"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -16,12 +17,36 @@
         app:srcCompat="@drawable/header2" />
 
     <ImageView
-        android:id="@+id/imageView8"
+        android:id="@+id/iconPerfil"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginEnd="44dp"
-        app:layout_constraintBottom_toBottomOf="@+id/header"
+        app:layout_constraintBottom_toBottomOf="@+id/headerPerfil"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/icon3" />
+
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/userName"
+        android:textColor="@android:color/holo_orange_dark"
+        android:textSize="24dp"
+        app:layout_constraintEnd_toEndOf="@+id/iconPerfil"
+        app:layout_constraintStart_toStartOf="@+id/iconPerfil"
+        app:layout_constraintTop_toBottomOf="@+id/iconPerfil" />
+
+    <Button
+        android:id="@+id/botonVolver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="25dp"
+        android:backgroundTint="@android:color/system_neutral1_900"
+        android:onClick="volver"
+        android:text="@string/botonVolver"
+        android:textColor="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

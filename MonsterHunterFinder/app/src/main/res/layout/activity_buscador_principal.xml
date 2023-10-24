@@ -4,6 +4,95 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity_buscador_principal">
+    tools:context=".activity_buscador_principal"
+    android:background="@color/material_dynamic_neutral20">
 
+    <TextView
+        android:id="@+id/textTituloBuscador"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/textoTitulo"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_orange_dark"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/botonBuscarZona"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:backgroundTint="@android:color/system_neutral1_900"
+        android:text="@string/botonBuscarZona"
+        android:textColor="@android:color/holo_orange_dark"
+        app:layout_constraintEnd_toEndOf="@+id/botonBuscarPalabras"
+        app:layout_constraintStart_toStartOf="@+id/botonBuscarPalabras"
+        app:layout_constraintTop_toBottomOf="@+id/botonBuscarPalabras" />
+
+    <Button
+        android:id="@+id/botonBuscarPalabras"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/system_neutral1_900"
+        android:onClick="abrirBuscadorPalabras"
+        android:text="@string/botonBuscarPalabras"
+        android:textColor="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textTituloBuscador"
+        app:layout_constraintVertical_bias="0.16000003" />
+
+    <Button
+        android:id="@+id/botonVolverBuscador"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="25dp"
+        android:backgroundTint="@android:color/system_neutral1_900"
+        android:onClick="volver"
+        android:text="@string/botonVolver"
+        android:textColor="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/iconoBuscarPalabras"
+        android:layout_width="53dp"
+        android:layout_height="48dp"
+        app:tint="@android:color/system_neutral1_900"
+        android:tintMode="add"
+        app:layout_constraintBottom_toBottomOf="@+id/botonBuscarPalabras"
+        app:layout_constraintEnd_toStartOf="@+id/botonBuscarPalabras"
+        app:layout_constraintTop_toTopOf="@+id/botonBuscarPalabras"
+        app:srcCompat="@android:drawable/ic_menu_sort_alphabetically" />
+
+    <ImageView
+        android:id="@+id/iconoBuscarZona"
+        android:layout_width="53dp"
+        android:layout_height="48dp"
+        app:tint="@android:color/system_neutral1_900"
+        android:tintMode="add"
+        app:layout_constraintBottom_toBottomOf="@+id/botonBuscarZona"
+        app:layout_constraintEnd_toStartOf="@+id/botonBuscarZona"
+        app:layout_constraintTop_toTopOf="@+id/botonBuscarZona"
+        app:srcCompat="@android:drawable/ic_dialog_map" />
+
+    <EditText
+        android:id="@+id/editTextBuscar"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:ems="10"
+        android:hint="@string/textoBuscar"
+        android:inputType="text"
+        android:textColor="@android:color/holo_orange_dark"
+        android:textColorHint="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/botonBuscarPalabras"
+        app:layout_constraintStart_toStartOf="@+id/botonBuscarPalabras"
+        app:layout_constraintTop_toBottomOf="@+id/botonBuscarPalabras" />
 </androidx.constraintlayout.widget.ConstraintLayout>
