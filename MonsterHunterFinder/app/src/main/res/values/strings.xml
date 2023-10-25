@@ -10,4 +10,8 @@
     <string name="botonBuscarZona">BUSCAR POR ZONA</string>
     <string name="textoBuscar">¡Introduce lo que buscas!</string>
     <string name="palabrasBuscadas">Palabras buscadas</string>
+    <string name="más">Más...</string>
+    <string name="compartirApp">¡Enseña la app con tus amigos!</string>
+    <string name="acercaDe">Acerca del desarrollador</string>
+    <string name="buscarKiranico">Buscar en Kiranico</string>
 </resources>

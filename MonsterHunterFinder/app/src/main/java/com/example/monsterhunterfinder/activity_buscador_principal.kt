@@ -13,6 +13,9 @@ class activity_buscador_principal : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         crearObjetosDelXml()
+
+        setSupportActionBar(binding.toolbar.toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
     private fun crearObjetosDelXml() {

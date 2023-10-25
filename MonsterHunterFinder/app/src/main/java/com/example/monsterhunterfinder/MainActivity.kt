@@ -1,9 +1,13 @@
 package com.example.monsterhunterfinder
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import com.example.monsterhunterfinder.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -13,6 +17,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         crearObjetosDelXml()
+
+        setSupportActionBar(binding.toolbar.toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
     private fun crearObjetosDelXml() {
@@ -33,5 +40,53 @@ class MainActivity : AppCompatActivity() {
     fun abrirBuscador(view: View) {
         val intent = Intent(this, activity_buscador_principal::class.java)
         startActivity(intent)
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_main_activity, menu)
+        return true
+    }
+
+
+
+
+    fun compartir() {
+        startActivity(
+            Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, "¡Esta web te puede interesar! http://www.kiranico.com")
+            }
+        )
+    }
+
+    fun lanzarAcercaDe() {
+        Toast.makeText(this, "¡Sígueme en Twitter! @HajiTheHunter", Toast.LENGTH_LONG).show()
+    }
+
+    fun abrirKiranico() {
+        val lanzarWeb: Intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.kiranico.com"))
+        startActivity(lanzarWeb)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.AcercaDe -> {
+                lanzarAcercaDe()
+                true
+            }
+
+            R.id.Web -> {
+                abrirKiranico()
+                true
+            }
+
+            R.id.CompartirApp -> {
+                compartir()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

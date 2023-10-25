@@ -49,4 +49,22 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <com.google.android.material.carousel.MaskableFrameLayout
+        android:id="@+id/carousel_perfil"
+        android:layout_width="350dp"
+        android:layout_height="156dp"
+        android:layout_marginTop="20dp"
+        android:foreground="?attr/selectableItemBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userName"
+        app:shapeAppearance="?attr/shapeAppearanceCornerExtraLarge">
+
+        <ImageView
+            android:id="@+id/carousel_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+    </com.google.android.material.carousel.MaskableFrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

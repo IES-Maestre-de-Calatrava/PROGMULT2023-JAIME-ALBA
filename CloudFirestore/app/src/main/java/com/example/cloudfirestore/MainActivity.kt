@@ -2,9 +2,11 @@ package com.example.cloudfirestore
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.example.cloudfirestore.databinding.ActivityMainBinding
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +30,14 @@ class MainActivity : AppCompatActivity() {
     //      </NIF>
     // </Empresas>
     private val myCollection = db.collection("empresas")
+
+    // 25/10/2023
+    // Variables necesarias para la visualización en tiempo real; le
+    // metemos un listener de cambios
+    private lateinit var registration: ListenerRegistration
+    // Variable que determina si el listener está escuchando para asociar a los nodos;
+    // tenemos el botón de tiemporeal, que hace toggle de esta función
+    private var escuchando: Boolean = false
 
 
 
@@ -58,10 +68,61 @@ class MainActivity : AppCompatActivity() {
         binding.buttonFiltrarPorCiudad.setOnClickListener {
             listarConFiltro()
         }
+
+        // 25/10/2023
+        binding.buttonTiempoReal.setOnClickListener {
+            activarTiempoReal()
+        }
     }
 
     /**
+     * A FECHA 25/10/2023
+     * Activa la visualización en tiempo real
+     *
+     */
+    private fun activarTiempoReal() {
+        // Le decimos a qué elemento nos queremos asociar
+        // Nos asociamos a la colección empresas, al elemento 123; si ese elemento cambia, nos lo
+        // muestra en tiempo real
+        val docRef = db.collection("empresas").document("123")
+
+        // También tenemos que declararnos un tag
+        val TAG = "firebase-db"
+
+        // Toggler del modo tiempo real
+        if (this.escuchando) {
+            this.escuchando=false
+            // Si lo estoy desactivando, tengo que quitar la escucha de esta colección
+            registration.remove() // Le digo al listener que deje de oír
+        } else {
+            this.escuchando=true
+            // Si no, inicio todo el proceso de preparar el listener, coger la info, etc
+            // Lo que me llega es una "foto" de los datos que hay en Firebase,
+            // la compara con la "foto" de los datos que hay en local y en
+            // función de eso actualiza los datos que hay en local
+            registration = docRef.addSnapshotListener{ // Levanto un listener
+                snapshot, e -> // Ésto es como el result que se emite en respuesta a mi llamada
+                if (e != null) {
+                        return@addSnapshotListener // Si el result trae información, devuelvo
+                                                   // el snapshotListener
+                }
+                if (snapshot!=null && snapshot.exists()) {
+                    // En principio nunca va a venir nulo, pero hay que indicar que puede pasar
+                    binding.editTextNombre.setText(snapshot.data?.get("nombre").toString())
+                    binding.editTextDireccion.setText(snapshot.data?.get("direccion").toString())
+                } else {
+                    Log.d(TAG, "Datos a null")
+                }
+            }
+        }
+    }
+
+
+
+    /**
      * Guardar registro
+     *
+     * A FECHA 23/10/2023
      *
      * Si el registro con el ID suministrado no existe, entonces lo
      * crea. Si ya existe, modifica los datos. El mismo método se
