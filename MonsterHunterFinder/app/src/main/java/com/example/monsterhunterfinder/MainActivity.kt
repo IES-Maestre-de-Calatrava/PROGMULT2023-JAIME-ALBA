@@ -1,6 +1,7 @@
 package com.example.monsterhunterfinder
 
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -55,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(
             Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
-                putExtra(Intent.EXTRA_TEXT, "¡Esta web te puede interesar! http://www.kiranico.com")
+                putExtra(Intent.EXTRA_TEXT, "¿Aburrido de cazar en solitario? ¡Descarga ya Monster Hunter Finder!")
             }
         )
     }
@@ -65,7 +66,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun abrirKiranico() {
-        val lanzarWeb: Intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.kiranico.com"))
+        val lanzarWeb: Intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://mhrise.kiranico.com/es"))
         startActivity(lanzarWeb)
     }
 

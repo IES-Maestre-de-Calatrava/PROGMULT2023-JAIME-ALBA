@@ -6,11 +6,20 @@
 
 
     <item
+        android:id="@+id/Web"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@android:drawable/ic_menu_info_details"
+        android:title="@string/buscarKiranico"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/Desplegable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:icon="@android:drawable/ic_menu_add"
         android:title="@string/más"
-        app:showAsAction="never">
+        app:showAsAction="always">
         <menu
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -28,11 +37,4 @@
         </menu>
     </item>
 
-    <item
-        android:id="@+id/Web"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:icon="@android:drawable/ic_menu_today"
-        android:title="@string/buscarKiranico"
-        app:showAsAction="always|collapseActionView|withText" />
 </menu>
