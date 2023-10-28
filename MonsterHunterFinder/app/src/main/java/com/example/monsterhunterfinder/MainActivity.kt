@@ -28,28 +28,26 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 
-    fun abrirPerfil(view: View) {
-        val intent = Intent(this, activity_perfil::class.java)
-        startActivity(intent)
-    }
-
-    fun abrirMensajes(view: View) {
-        val intent = Intent(this, activity_mensajes_general::class.java)
-        startActivity(intent)
-    }
-
-    fun abrirBuscador(view: View) {
-        val intent = Intent(this, activity_buscador_principal::class.java)
-        startActivity(intent)
-    }
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_main_activity, menu)
         return true
     }
 
+    fun abrirPerfil(view: View) {
+        val intent = Intent(this, activity_perfil::class.java)
+        startActivity(intent)
+    }
 
+    fun abrirDiario(view: View) {
+        val intent = Intent(this, activity_diario::class.java)
+        startActivity(intent)
+    }
+
+    /**fun abrirBuscador(view: View) {
+        val intent = Intent(this, activity_buscador_principal::class.java)
+        startActivity(intent)
+    }*/
 
 
     fun compartir() {

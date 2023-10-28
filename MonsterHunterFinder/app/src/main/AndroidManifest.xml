@@ -13,16 +13,7 @@
         android:theme="@style/Theme.MonsterHunterFinder"
         tools:targetApi="31">
         <activity
-            android:name=".activity_mensajes_chat"
-            android:exported="false" />
-        <activity
-            android:name=".activity_mensajes_general"
-            android:exported="false" />
-        <activity
-            android:name=".activity_perfil_usuario"
-            android:exported="false" />
-        <activity
-            android:name=".activity_buscador_mapa"
+            android:name=".activity_diario"
             android:exported="false" />
         <activity
             android:name=".activity_buscador_palabras"
