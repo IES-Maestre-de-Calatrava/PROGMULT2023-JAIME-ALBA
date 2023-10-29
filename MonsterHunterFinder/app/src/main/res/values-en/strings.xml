@@ -19,10 +19,10 @@
     <string name="numEntrada">Entry number</string>
     <string name="arma">Used weapon</string>
     <string name="resumenCaza">Hunting summary</string>
-    <string name="vaciarCampos">CLEAR FIELDS</string>
-    <string name="vaciarCamposPregunta">Do you want to clear the fields?</string>
-    <string name="vaciarCamposSi">I\'m sure of it!</string>
-    <string name="vaciarCamposNo">I\'d prefer not.</string>
+    <string name="vaciarFiltro">CLEAR FILTER</string>
+    <string name="vaciarFiltroPregunta">Do you want to clear the filter?</string>
+    <string name="vaciarFiltroSi">I\'m sure of it!</string>
+    <string name="vaciarFiltroNo">I\'d prefer not.</string>
     <string name="cuidado">Be careful!</string>
     <string name="granEspada">Great sword</string>
     <string name="espadaLarga">Long sword</string>
@@ -38,4 +38,11 @@
     <string name="ballestaLigera">Light bowgun</string>
     <string name="ballestaPesada">Heavy bowgun</string>
     <string name="arco">Bow</string>
+    <string name="filtrarArma">FILTER BY WEAPON</string>
+    <string name="añadir">NEW</string>
+    <string name="tituloEntrada">Entry title</string>
+    <string name="guardarEntrada">SAVE ENTRY</string>
+    <string name="borrar">DELETE</string>
+    <string name="modificar">MODIFY</string>
+    <string name="modificarEntrada">Modify entries?</string>
 </resources>

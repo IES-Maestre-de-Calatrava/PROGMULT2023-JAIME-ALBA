@@ -1,7 +1,6 @@
 package com.example.monsterhunterfinder
 
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -40,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun abrirDiario(view: View) {
-        val intent = Intent(this, activity_diario::class.java)
+        val intent = Intent(this, activity_diario_vista::class.java)
         startActivity(intent)
     }
 

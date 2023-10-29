@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/material_dynamic_neutral20"
+    tools:context=".activity_diario_vista">
+
+    <include android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
+
+    <Button
+        android:id="@+id/botonVolverDiarioVista"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="@android:color/system_neutral1_900"
+        android:onClick="volver"
+        android:text="@string/botonVolver"
+        android:textColor="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/cajaFiltroArma"
+        android:layout_width="250dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="50dp"
+        android:hint="@string/arma"
+        android:textColorHint="@color/material_dynamic_neutral70"
+        app:boxStrokeColor="@android:color/holo_orange_dark"
+        app:boxStrokeWidth="2dp"
+        app:hintTextColor="@android:color/holo_orange_dark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:hintTextColor="@color/material_dynamic_neutral60">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textoFiltroArma"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/material_dynamic_neutral70" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/botonFiltrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="25dp"
+        android:backgroundTint="@android:color/system_neutral1_900"
+        android:text="@string/filtrarArma"
+        android:textColor="@android:color/holo_orange_dark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cajaFiltroArma" />
+
+    <Button
+        android:id="@+id/botonAñadir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:backgroundTint="@android:color/system_neutral1_900"
+        android:onClick="añadir"
+        android:text="@string/añadir"
+        android:textColor="@android:color/holo_orange_dark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <Button
+        android:id="@+id/botonVaciarFiltro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:backgroundTint="@android:color/system_neutral1_900"
+        android:onClick="mostrarOpciones"
+        android:text="@string/vaciarFiltro"
+        android:textColor="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toBottomOf="@+id/botonFiltrar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/botonFiltrar" />
+
+    <TextView
+        android:id="@+id/listaEntradas"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:text="TextView"
+        android:textColor="@color/material_dynamic_neutral70"
+        app:layout_constraintBottom_toTopOf="@+id/botonModificar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/botonFiltrar" />
+
+    <Button
+        android:id="@+id/botonBorrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="@android:color/system_neutral1_900"
+        android:text="@string/borrar"
+        android:textColor="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/botonModificar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="@android:color/system_neutral1_900"
+        android:text="@string/modificar"
+        android:textColor="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toTopOf="@+id/botonBorrar"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/cajaModificarEntrada"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:hint="@string/modificarEntrada"
+        android:textColorHint="@color/material_dynamic_neutral70"
+        app:boxStrokeColor="@android:color/holo_orange_dark"
+        app:boxStrokeWidth="2dp"
+        app:hintTextColor="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toBottomOf="@+id/botonModificar"
+        app:layout_constraintEnd_toStartOf="@+id/botonModificar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/botonModificar"
+        tools:hintTextColor="@color/material_dynamic_neutral60">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textoModificarEntrada"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/material_dynamic_neutral70" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
