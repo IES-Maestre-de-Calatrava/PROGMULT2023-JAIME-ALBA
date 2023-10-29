@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menuGranEspada"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/granEspada" />
+    <item
+        android:id="@+id/menuEspadaLarga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/espadaLarga" />
+    <item
+        android:id="@+id/menuEspadaYEscudo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/espadaYEscudo" />
+    <item
+        android:id="@+id/menuEspadasDobles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/espadasDobles" />
+    <item
+        android:id="@+id/menuLanza"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/lanza" />
+    <item
+        android:id="@+id/menuLanzaPistola"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/lanzaPistola" />
+    <item
+        android:id="@+id/menuMartillo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/martillo" />
+    <item
+        android:id="@+id/menuCornamusa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/cornamusa" />
+    <item
+        android:id="@+id/menuHachaEspada"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/hachaEspada" />
+    <item
+        android:id="@+id/menuHachaCargada"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/hachaCargada" />
+    <item
+        android:id="@+id/menuGlaiveInsecto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/glaiveInsecto" />
+    <item
+        android:id="@+id/menuBallestaLigera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/ballestaLigera" />
+    <item
+        android:id="@+id/menuBallestaPesada"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/ballestaPesada" />
+    <item
+        android:id="@+id/menuArco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/arco" />
+</menu>

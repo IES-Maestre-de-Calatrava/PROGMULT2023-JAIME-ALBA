@@ -19,5 +19,23 @@
     <string name="numEntrada">Entry number</string>
     <string name="arma">Used weapon</string>
     <string name="resumenCaza">Hunting summary</string>
-    <string name="limpiarCampos">CLEAR FIELDS</string>
+    <string name="vaciarCampos">CLEAR FIELDS</string>
+    <string name="vaciarCamposPregunta">Do you want to clear the fields?</string>
+    <string name="vaciarCamposSi">I\'m sure of it!</string>
+    <string name="vaciarCamposNo">I\'d prefer not.</string>
+    <string name="cuidado">Be careful!</string>
+    <string name="granEspada">Great sword</string>
+    <string name="espadaLarga">Long sword</string>
+    <string name="espadaYEscudo">Sword and shield</string>
+    <string name="espadasDobles">Dual blades</string>
+    <string name="lanza">Lance</string>
+    <string name="lanzaPistola">Gunlance</string>
+    <string name="martillo">Hammer</string>
+    <string name="cornamusa">Hunting horn</string>
+    <string name="hachaEspada">Switch axe</string>
+    <string name="hachaCargada">Charge blade</string>
+    <string name="glaiveInsecto">Insect glaive</string>
+    <string name="ballestaLigera">Light bowgun</string>
+    <string name="ballestaPesada">Heavy bowgun</string>
+    <string name="arco">Bow</string>
 </resources>

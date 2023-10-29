@@ -18,5 +18,23 @@
     <string name="numEntrada">Nº de entrada</string>
     <string name="arma">Arma utilizada</string>
     <string name="resumenCaza">Resumen de la caza</string>
-    <string name="limpiarCampos">VACIAR CAMPOS</string>
+    <string name="vaciarCampos">VACIAR CAMPOS</string>
+    <string name="vaciarCamposPregunta">¿Quieres vaciar los campos?</string>
+    <string name="vaciarCamposSi">¡Seguro!</string>
+    <string name="vaciarCamposNo">Mejor no.</string>
+    <string name="cuidado">¡Cuidado!</string>
+    <string name="granEspada">Gran espada</string>
+    <string name="espadaLarga">Espada larga</string>
+    <string name="espadaYEscudo">Espada y escudo</string>
+    <string name="espadasDobles">Espadas dobles</string>
+    <string name="lanza">Lanza</string>
+    <string name="lanzaPistola">Lanza pistola</string>
+    <string name="martillo">Martillo</string>
+    <string name="cornamusa">Cornamusa</string>
+    <string name="hachaEspada">Hacha espada</string>
+    <string name="hachaCargada">Hacha cargada</string>
+    <string name="glaiveInsecto">Glaive insecto</string>
+    <string name="ballestaLigera">Ballesta ligera</string>
+    <string name="ballestaPesada">Ballesta pesada</string>
+    <string name="arco">Arco</string>
 </resources>
