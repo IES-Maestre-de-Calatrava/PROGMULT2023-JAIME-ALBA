@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, "¡Sígueme en Twitter! @HajiTheHunter", Toast.LENGTH_LONG).show()
     }
 
-    fun abrirKiranico() {
+    fun abrirWeb() {
         val lanzarWeb: Intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://mhrise.kiranico.com/es"))
         startActivity(lanzarWeb)
     }
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.Web -> {
-                abrirKiranico()
+                abrirWeb()
                 true
             }
 

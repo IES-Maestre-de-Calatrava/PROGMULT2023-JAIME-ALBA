@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MonsterHunterFinder</string>
+    <string name="botonPerfil">MY PROFILE</string>
+    <string name="botonBuscar">SEARCH</string>
+    <string name="botonMensajes">MESSAGES</string>
+    <string name="textoTitulo">MONSTER HUNTER FINDER</string>
+    <string name="botonVolver">RETURN</string>
+    <string name="userName">User Name</string>
+    <string name="botonBuscarPalabras">SEARCH BY WORDS</string>
+    <string name="botonBuscarZona">SEARCH BY ZONE</string>
+    <string name="textoBuscar">Type what you\'re looking for!</string>
+    <string name="palabrasBuscadas">Searched words</string>
+    <string name="más">More...</string>
+    <string name="compartirApp">Show the app to your friends!</string>
+    <string name="acercaDe">About the developer</string>
+    <string name="buscarKiranico">Search in Kiranico</string>
+    <string name="diarioCaza">HUNTING DIARY</string>
+    <string name="numEntrada">Entry number</string>
+    <string name="arma">Used weapon</string>
+    <string name="resumenCaza">Hunting summary</string>
+    <string name="limpiarCampos">CLEAR FIELDS</string>
+</resources>

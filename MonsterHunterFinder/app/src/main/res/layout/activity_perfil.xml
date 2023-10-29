@@ -33,15 +33,14 @@
         android:textColor="@android:color/holo_orange_dark"
         android:textSize="24dp"
         app:layout_constraintEnd_toEndOf="@+id/iconPerfil"
-        app:layout_constraintStart_toStartOf="@+id/iconPerfil"
         app:layout_constraintTop_toBottomOf="@+id/iconPerfil" />
 
     <Button
         android:id="@+id/botonVolver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
         android:backgroundTint="@android:color/system_neutral1_900"
         android:onClick="volver"
         android:text="@string/botonVolver"

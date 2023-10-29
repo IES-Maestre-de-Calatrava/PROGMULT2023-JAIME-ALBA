@@ -10,6 +10,104 @@
     <include android:id="@+id/toolbar"
         layout="@layout/toolbar"/>
 
+    <Button
+        android:id="@+id/botonVolverDiario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="@android:color/system_neutral1_900"
+        android:onClick="volver"
+        android:text="@string/botonVolver"
+        android:textColor="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/cajaNumEntrada"
+        android:layout_width="250dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="25dp"
+        android:hint="@string/numEntrada"
+        android:textColorHint="@color/material_dynamic_neutral70"
+        app:boxStrokeColor="@android:color/holo_orange_dark"
+        app:boxStrokeWidth="2dp"
+        app:hintTextColor="@android:color/holo_orange_dark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:hintTextColor="@color/material_dynamic_neutral60">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textoNumEntrada"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/material_dynamic_neutral70" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/cajaArmaUtilizada"
+        android:layout_width="250dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="25dp"
+        android:hint="@string/arma"
+        android:textColorHint="@color/material_dynamic_neutral70"
+        app:boxStrokeColor="@android:color/holo_orange_dark"
+        app:boxStrokeWidth="2dp"
+        app:hintTextColor="@android:color/holo_orange_dark"
+        app:layout_constraintEnd_toEndOf="@+id/cajaNumEntrada"
+        app:layout_constraintStart_toStartOf="@+id/cajaNumEntrada"
+        app:layout_constraintTop_toBottomOf="@+id/cajaNumEntrada"
+        tools:hintTextColor="@color/material_dynamic_neutral60">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textoArmaUtilizada"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/material_dynamic_neutral70" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/cajaResumenCaza"
+        android:layout_width="250dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="25dp"
+        android:hint="@string/resumenCaza"
+        android:inputType="textMultiLine"
+        android:textColorHint="@color/material_dynamic_neutral70"
+        app:boxStrokeColor="@android:color/holo_orange_dark"
+        app:boxStrokeWidth="2dp"
+        app:hintTextColor="@android:color/holo_orange_dark"
+        app:layout_constraintEnd_toEndOf="@+id/cajaArmaUtilizada"
+        app:layout_constraintStart_toStartOf="@+id/cajaArmaUtilizada"
+        app:layout_constraintTop_toBottomOf="@+id/cajaArmaUtilizada"
+        tools:hintTextColor="@color/material_dynamic_neutral60">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textoResumenCaza"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/material_dynamic_neutral70" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/botonVaciarCampos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="@android:color/system_neutral1_900"
+        android:onClick="mostrarOpciones"
+        android:text="@string/limpiarCampos"
+        android:textColor="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

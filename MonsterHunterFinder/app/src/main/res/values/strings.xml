@@ -5,7 +5,7 @@
     <string name="botonMensajes">MENSAJES</string>
     <string name="textoTitulo">MONSTER HUNTER FINDER</string>
     <string name="botonVolver">VOLVER</string>
-    <string name="userName">User Name</string>
+    <string name="userName">Nombre de usuario</string>
     <string name="botonBuscarPalabras">BUSCAR POR PALABRAS</string>
     <string name="botonBuscarZona">BUSCAR POR ZONA</string>
     <string name="textoBuscar">¡Introduce lo que buscas!</string>
@@ -15,4 +15,8 @@
     <string name="acercaDe">Acerca del desarrollador</string>
     <string name="buscarKiranico">Buscar en Kiranico</string>
     <string name="diarioCaza">DIARIO DE CAZA</string>
+    <string name="numEntrada">Nº de entrada</string>
+    <string name="arma">Arma utilizada</string>
+    <string name="resumenCaza">Resumen de la caza</string>
+    <string name="limpiarCampos">VACIAR CAMPOS</string>
 </resources>
