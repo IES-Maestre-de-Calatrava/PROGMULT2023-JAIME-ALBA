@@ -7,17 +7,28 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import com.example.monsterhunterfinder.databinding.ActivityDiarioAnadirBinding
+import com.google.firebase.firestore.FirebaseFirestore
 
 class activity_diario_anadir : AppCompatActivity() {
 
     private lateinit var binding: ActivityDiarioAnadirBinding
+
+
+    private val db = FirebaseFirestore.getInstance()
+    private val myCollection = db.collection("cazas")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         crearObjetosDelXml()
 
         setSupportActionBar(binding.toolbar.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        binding.botonGuardar.setOnClickListener() {
+            guardarRegistro()
+        }
     }
 
     private fun crearObjetosDelXml() {
@@ -49,6 +60,28 @@ class activity_diario_anadir : AppCompatActivity() {
         val lanzarWeb: Intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://mhrise.kiranico.com/es"))
         startActivity(lanzarWeb)
     }
+
+    private fun guardarRegistro() {
+        myCollection.document(binding.textoNumEntradaAnadir.text.toString()).set(
+            hashMapOf(
+                "numentrada" to binding.textoNumEntradaAnadir.text.toString(),
+                "titulo" to binding.textoTituloEntradaAnadir.text.toString(),
+                "arma" to binding.textoArmaUtilizadaAnadir.text.toString(),
+                "resumen" to binding.textoResumenCazaAnadir.text.toString()
+            )
+        )
+        resultadoOperacion("Registro guardado correctamente")
+    }
+
+    private fun resultadoOperacion(mensaje: String){
+        binding.textoNumEntradaAnadir.setText("")
+        binding.textoTituloEntradaAnadir.setText("")
+        binding.textoArmaUtilizadaAnadir.setText("")
+        binding.textoResumenCazaAnadir.setText("")
+        Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show()
+    }
+
+
 
 
 

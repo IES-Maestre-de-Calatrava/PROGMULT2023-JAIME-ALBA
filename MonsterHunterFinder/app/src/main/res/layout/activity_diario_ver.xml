@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/material_dynamic_neutral20"
-    tools:context=".activity_diario_anadir">
+    tools:context=".activity_diario_ver">
 
     <include android:id="@+id/toolbar"
         layout="@layout/toolbar"/>
 
     <Button
-        android:id="@+id/botonVolverDiarioAnadir"
+        android:id="@+id/botonVolverDiarioVer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -24,7 +24,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/cajaNumEntradaAnadir"
+        android:id="@+id/cajaNumEntradaVer"
         android:layout_width="250dp"
         android:layout_height="65dp"
         android:layout_marginStart="15dp"
@@ -39,7 +39,7 @@
         tools:hintTextColor="@color/material_dynamic_neutral60">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textoNumEntradaAnadir"
+            android:id="@+id/textoNumEntradaVer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/material_dynamic_neutral70" />
@@ -48,7 +48,7 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/cajaTituloEntradaAnadir"
+        android:id="@+id/cajaTituloEntradaVer"
         android:layout_width="250dp"
         android:layout_height="65dp"
         android:layout_marginTop="15dp"
@@ -57,13 +57,13 @@
         app:boxStrokeColor="@android:color/holo_orange_dark"
         app:boxStrokeWidth="2dp"
         app:hintTextColor="@android:color/holo_orange_dark"
-        app:layout_constraintEnd_toEndOf="@+id/cajaNumEntradaAnadir"
-        app:layout_constraintStart_toStartOf="@+id/cajaNumEntradaAnadir"
-        app:layout_constraintTop_toBottomOf="@+id/cajaNumEntradaAnadir"
+        app:layout_constraintEnd_toEndOf="@+id/cajaNumEntradaVer"
+        app:layout_constraintStart_toStartOf="@+id/cajaNumEntradaVer"
+        app:layout_constraintTop_toBottomOf="@+id/cajaNumEntradaVer"
         tools:hintTextColor="@color/material_dynamic_neutral60">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textoTituloEntradaAnadir"
+            android:id="@+id/textoTituloEntradaVer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/material_dynamic_neutral70" />
@@ -72,7 +72,7 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/cajaArmaUtilizadaAnadir"
+        android:id="@+id/cajaArmaUtilizadaVer"
         android:layout_width="250dp"
         android:layout_height="65dp"
         android:layout_marginTop="15dp"
@@ -82,13 +82,13 @@
         app:boxStrokeColor="@android:color/holo_orange_dark"
         app:boxStrokeWidth="2dp"
         app:hintTextColor="@android:color/holo_orange_dark"
-        app:layout_constraintEnd_toEndOf="@+id/cajaTituloEntradaAnadir"
-        app:layout_constraintStart_toStartOf="@+id/cajaTituloEntradaAnadir"
-        app:layout_constraintTop_toBottomOf="@+id/cajaTituloEntradaAnadir"
+        app:layout_constraintEnd_toEndOf="@+id/cajaTituloEntradaVer"
+        app:layout_constraintStart_toStartOf="@+id/cajaTituloEntradaVer"
+        app:layout_constraintTop_toBottomOf="@+id/cajaTituloEntradaVer"
         tools:hintTextColor="@color/material_dynamic_neutral60">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textoArmaUtilizadaAnadir"
+            android:id="@+id/textoArmaUtilizadaVer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/material_dynamic_neutral70" />
@@ -96,7 +96,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/cajaResumenCazaAnadir"
+        android:id="@+id/cajaResumenCazaVer"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="25dp"
@@ -108,14 +108,14 @@
         app:boxStrokeColor="@android:color/holo_orange_dark"
         app:boxStrokeWidth="2dp"
         app:hintTextColor="@android:color/holo_orange_dark"
-        app:layout_constraintBottom_toTopOf="@+id/botonVolverDiarioAnadir"
+        app:layout_constraintBottom_toTopOf="@+id/botonVolverDiarioVer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/cajaArmaUtilizadaAnadir"
-        app:layout_constraintTop_toBottomOf="@+id/cajaArmaUtilizadaAnadir"
+        app:layout_constraintStart_toStartOf="@+id/cajaArmaUtilizadaVer"
+        app:layout_constraintTop_toBottomOf="@+id/cajaArmaUtilizadaVer"
         tools:hintTextColor="@color/material_dynamic_neutral60">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textoResumenCazaAnadir"
+            android:id="@+id/textoResumenCazaVer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textColor="@color/material_dynamic_neutral70" />
@@ -129,11 +129,21 @@
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
         android:backgroundTint="@android:color/system_neutral1_900"
-        android:text="@string/guardarEntrada"
+        android:text="@string/modificar"
         android:textColor="@android:color/holo_orange_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <Button
+        android:id="@+id/botonBorrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:backgroundTint="@android:color/system_neutral1_900"
+        android:text="@string/borrar"
+        android:textColor="@android:color/holo_orange_dark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cajaNumEntradaVer" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

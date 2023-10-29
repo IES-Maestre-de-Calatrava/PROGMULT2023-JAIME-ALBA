@@ -11,10 +11,14 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.example.monsterhunterfinder.databinding.ActivityDiarioVistaBinding
+import com.google.firebase.firestore.FirebaseFirestore
 
 class activity_diario_vista : AppCompatActivity() {
 
     private lateinit var binding: ActivityDiarioVistaBinding
+
+    private val db = FirebaseFirestore.getInstance()
+    private val myCollection = db.collection("cazas")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +28,12 @@ class activity_diario_vista : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         registerForContextMenu(binding.textoFiltroArma)
+
+        listarTodos()
+
+        binding.botonFiltrar.setOnClickListener {
+            listarFiltrando()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -146,6 +156,7 @@ class activity_diario_vista : AppCompatActivity() {
 
     fun vaciarCampos() {
         binding.textoFiltroArma.setText("")
+        listarTodos()
     }
 
     fun mostrarOpciones(view: View) {
@@ -174,4 +185,43 @@ class activity_diario_vista : AppCompatActivity() {
         startActivity(abrirAñadir)
     }
 
+    fun detalles(view: View) {
+        val abrirDetalles: Intent = Intent(this, activity_diario_ver::class.java)
+        abrirDetalles.putExtra("ID de la entrada", binding.textoDetallesEntrada.text.toString())
+        startActivity(abrirDetalles)
+    }
+
+
+    private fun listarTodos() {
+        myCollection
+            .get()
+            .addOnSuccessListener {
+                    resultado ->
+                binding.listaEntradas.setText("")
+                for (documento in resultado) {
+                    binding.listaEntradas.append(
+                        documento.get("numentrada").toString()+" --- "+
+                        documento.get("titulo").toString()+" --- "+
+                        documento.get("arma").toString()+"\n"
+                    )
+                }
+            }
+    }
+
+    private fun listarFiltrando() {
+        myCollection
+            .whereEqualTo("arma", binding.textoFiltroArma.text.toString())
+            .get()
+            .addOnSuccessListener {
+                    resultado ->
+                binding.listaEntradas.setText("")
+                for (documento in resultado) {
+                    binding.listaEntradas.append(
+                        documento.get("numentrada").toString()+" --- "+
+                        documento.get("titulo").toString()+" --- "+
+                        documento.get("arma").toString()+"\n"
+                    )
+                }
+            }
+    }
 }

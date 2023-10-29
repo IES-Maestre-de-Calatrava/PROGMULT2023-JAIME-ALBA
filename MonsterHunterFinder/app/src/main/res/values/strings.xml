@@ -42,6 +42,7 @@
     <string name="tituloEntrada">Título de la entrada</string>
     <string name="guardarEntrada">GUARDAR ENTRADA</string>
     <string name="borrar">BORRAR</string>
-    <string name="modificar">MODIFICAR</string>
-    <string name="modificarEntrada">¿Modificar entradas?</string>
+    <string name="modificar">"MODIFICAR "</string>
+    <string name="detalles">DETALLES</string>
+    <string name="verEntrada">ID de la entrada</string>
 </resources>
