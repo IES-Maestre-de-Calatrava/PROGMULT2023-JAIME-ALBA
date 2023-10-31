@@ -18,10 +18,6 @@ class activity_diario_ver : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-
-        val objetoIntent: Intent = intent
-        val datos = objetoIntent.getStringExtra("ID de la entrada")
-        binding.textoNumEntradaVer.setText(datos)
     }
 
     private fun crearObjetosDelXml() {

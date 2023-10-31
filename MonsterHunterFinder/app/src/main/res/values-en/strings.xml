@@ -44,6 +44,5 @@
     <string name="guardarEntrada">SAVE ENTRY</string>
     <string name="borrar">DELETE</string>
     <string name="modificar">MODIFY</string>
-    <string name="detalles">DETAILS</string>
-    <string name="verEntrada">Entry ID</string>
+    <string name="ver">>></string>
 </resources>

@@ -105,6 +105,7 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
+
     // Me creo el método para añadir información a la Firebase
     private fun insertRegister(producto: Producto) {
         myCollection

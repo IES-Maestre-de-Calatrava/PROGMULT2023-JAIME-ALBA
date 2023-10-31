@@ -10,6 +10,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.monsterhunterfinder.adapter.EntradasAdapter
 import com.example.monsterhunterfinder.databinding.ActivityDiarioVistaBinding
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -20,6 +23,14 @@ class activity_diario_vista : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private val myCollection = db.collection("cazas")
 
+
+    // Variables para el RecyclerView
+    private lateinit var entradaProvider: EntradaProvider
+    private lateinit var entradasAdapter: EntradasAdapter
+    val manager = LinearLayoutManager(this)
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         crearObjetosDelXml()
@@ -29,7 +40,8 @@ class activity_diario_vista : AppCompatActivity() {
 
         registerForContextMenu(binding.textoFiltroArma)
 
-        listarTodos()
+        iniciarRecyclerView()
+
 
         binding.botonFiltrar.setOnClickListener {
             listarFiltrando()
@@ -156,7 +168,7 @@ class activity_diario_vista : AppCompatActivity() {
 
     fun vaciarCampos() {
         binding.textoFiltroArma.setText("")
-        listarTodos()
+        iniciarRecyclerView()
     }
 
     fun mostrarOpciones(view: View) {
@@ -185,43 +197,42 @@ class activity_diario_vista : AppCompatActivity() {
         startActivity(abrirAñadir)
     }
 
-    fun detalles(view: View) {
-        val abrirDetalles: Intent = Intent(this, activity_diario_ver::class.java)
-        abrirDetalles.putExtra("ID de la entrada", binding.textoDetallesEntrada.text.toString())
-        startActivity(abrirDetalles)
-    }
 
+    private fun iniciarRecyclerView() {
+        val decoracion = DividerItemDecoration(this, manager.orientation)
 
-    private fun listarTodos() {
+        binding.recyclerEntradas.layoutManager = manager
+
+        entradaProvider = EntradaProvider()
+        entradasAdapter = EntradasAdapter(listaEntradas = entradaProvider.listaEntradas)
+
         myCollection
             .get()
             .addOnSuccessListener {
-                    resultado ->
-                binding.listaEntradas.setText("")
-                for (documento in resultado) {
-                    binding.listaEntradas.append(
-                        documento.get("numentrada").toString()+" --- "+
-                        documento.get("titulo").toString()+" --- "+
-                        documento.get("arma").toString()+"\n"
-                    )
-                }
+                resultado ->
+                    entradaProvider.actualizarLista(resultado)
+                    binding.recyclerEntradas.adapter = entradasAdapter
+                    binding.recyclerEntradas.addItemDecoration(decoracion)
             }
     }
 
+
     private fun listarFiltrando() {
+        val decoracion = DividerItemDecoration(this, manager.orientation)
+
+        binding.recyclerEntradas.layoutManager = manager
+
+        entradaProvider = EntradaProvider()
+        entradasAdapter = EntradasAdapter(listaEntradas = entradaProvider.listaEntradas)
+
         myCollection
             .whereEqualTo("arma", binding.textoFiltroArma.text.toString())
             .get()
             .addOnSuccessListener {
                     resultado ->
-                binding.listaEntradas.setText("")
-                for (documento in resultado) {
-                    binding.listaEntradas.append(
-                        documento.get("numentrada").toString()+" --- "+
-                        documento.get("titulo").toString()+" --- "+
-                        documento.get("arma").toString()+"\n"
-                    )
-                }
+                entradaProvider.actualizarLista(resultado)
+                binding.recyclerEntradas.adapter = entradasAdapter
+                binding.recyclerEntradas.addItemDecoration(decoracion)
             }
     }
 }
