@@ -1,6 +1,7 @@
 package com.example.recycleview.adapter
 
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recycleview.Producto
@@ -11,7 +12,14 @@ class ProductosViewHolder (view: View): RecyclerView.ViewHolder (view) {
 
     // ANTES DE NADA, ME CREO LA CLASE PRODUCTO.
 
-    fun render (producto: Producto) {
+    // 02/11/2023
+    // El render ya no va a recibir solamente el producto, sino también
+    // una función (función lamba)
+    fun render (
+        producto: Producto,
+        deleteRegister: (Int) -> Unit //Lo del unit significa que no devuelve nada
+        // Me voy al binding del botón de borrado
+    ) {
         // Le vamos a dar los valores a cada uno de los
         // elementos de la pantalla.
         binding.textViewId.text = producto.id.toString()
@@ -34,5 +42,34 @@ class ProductosViewHolder (view: View): RecyclerView.ViewHolder (view) {
         // pasando información.
 
         // Tras eso, me voy a ProductosAdapter.
+
+
+
+        // 02/11/2023
+        binding.imageViewProducto.setOnClickListener {
+            Toast.makeText(
+                binding.imageViewProducto.context,
+                producto.nombre,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        // Ahora que sea, en lugar de pulsar en la foto, pulsar
+        // en cualquier parte del registro
+        itemView.setOnClickListener{
+            Toast.makeText(
+                binding.imageViewProducto.context,
+                producto.descripcion,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        binding.buttonEliminar.setOnClickListener {
+            deleteRegister(adapterPosition)
+        }
+        // Tras hacer ésto, me voy al productosAdapter.
     }
+
+    // Me voy a hacer una cosa para que haga algo al presionar en la imagen.
+    // Lo meto dentro el render.
 }

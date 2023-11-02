@@ -9,7 +9,10 @@ import com.example.recycleview.R
 class ProductosAdapter (
     // Es el encargado de dibujar toda la lista, por lo
     // que VA A TENER QUE RECIBIR una lista.
-    private val productosList: MutableList<Producto>): RecyclerView.Adapter<ProductosViewHolder>() {
+    private val productosList: MutableList<Producto>,
+    // 02/11/2023, paso el deleteRegister como parámetro
+    private val deleteRegister:(Int) -> Unit
+    ): RecyclerView.Adapter<ProductosViewHolder>() {
 
     // Le doy a que SÍ implemente los tres métodos que me
     // ofrece, por heredar de la clase de la que hereda.
@@ -38,7 +41,11 @@ class ProductosAdapter (
         val producto = productosList[position]
         // Coge el producto que ocupa una determinada posición
         // y llama al render para que lo muestre por pantalla
-        productosViewHolder.render(producto)
+
+        // 02/11/2023
+        // Ahora se reciben dos parámetros, el producto y la función
+        // a usar, que es el delete
+        productosViewHolder.render(producto, deleteRegister)
     }
 
 

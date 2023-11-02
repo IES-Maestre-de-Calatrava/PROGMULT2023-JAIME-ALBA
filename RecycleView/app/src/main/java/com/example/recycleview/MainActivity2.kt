@@ -1,4 +1,4 @@
-package com.break4learning.LisConRecyclerViewCloudFirestore
+package com.example.recycleview
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -33,11 +33,11 @@ class MainActivity2 : AppCompatActivity() {
 
         //Si se ha enviado el id del producto estamos ante una modificación y por tanto cargamos los datos
         //en pantalla
-        if (objetoIntent.hasExtra("IdProducto")) {
-            idProducto = objetoIntent.getStringExtra("IdProducto")!!
-            binding.editTextNombre.setText(objetoIntent.getStringExtra("NombreProducto"))
-            binding.editTextDesc.setText(objetoIntent.getStringExtra("DescProducto"))
-            binding.editTextEnlaceFoto.setText(objetoIntent.getStringExtra("FotoProducto"))
+        if (objetoIntent.hasExtra("id")) {
+            idProducto = objetoIntent.getStringExtra("id")!!
+            binding.editTextNombre.setText(objetoIntent.getStringExtra("nombre"))
+            binding.editTextDesc.setText(objetoIntent.getStringExtra("descripcion"))
+            binding.editTextEnlaceFoto.setText(objetoIntent.getStringExtra("foto"))
         }
 
         //Glide.with(binding.imageViewFoto.context)
@@ -78,9 +78,9 @@ class MainActivity2 : AppCompatActivity() {
             intent.putExtra("IdProducto", idProducto)
         }
 
-        intent.putExtra("NombreProducto", binding.editTextNombre.text.toString())
-        intent.putExtra("DescProducto", binding.editTextDesc.text.toString())
-        intent.putExtra("FotoProducto", binding.editTextEnlaceFoto.text.toString())
+        intent.putExtra("nombre", binding.editTextNombre.text.toString())
+        intent.putExtra("descripcion", binding.editTextDesc.text.toString())
+        intent.putExtra("foto", binding.editTextEnlaceFoto.text.toString())
 
         setResult(INSERTANDO_MODIFICANDO, intent)
         finish()

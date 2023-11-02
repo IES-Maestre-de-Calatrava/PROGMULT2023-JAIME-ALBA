@@ -33,4 +33,26 @@ class ProductoProvider {
 
     // TRAS ÉSTO.
     // Ir al MainActivity y enlazar todas estas clases.
+
+    // 02/11/2023
+    fun siguienteId(): Int {
+        var masGrande: Int = 0
+
+        for (producto in productosList) {
+            if (producto.id > masGrande) {
+                masGrande = producto.id
+            }
+        }
+
+        // Si no hay registros, puede dar problemas.
+        // Se le mete un if para el caso de que NO haya registros.
+
+        if ( productosList.size != 0) {
+            masGrande += 1
+        }
+        return masGrande
+
+    }
+    // Es una ñapa; mutable list ya tiene una forma, pero hay que implementar
+    // la interfaz comparable
 }
