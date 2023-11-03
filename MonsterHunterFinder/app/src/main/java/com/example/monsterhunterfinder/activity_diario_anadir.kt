@@ -14,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class activity_diario_anadir : AppCompatActivity() {
 
     private lateinit var binding: ActivityDiarioAnadirBinding
+    private lateinit var objetoIntent: Intent
 
 
     private val db = FirebaseFirestore.getInstance()
@@ -26,8 +27,9 @@ class activity_diario_anadir : AppCompatActivity() {
         setSupportActionBar(binding.toolbar.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        objetoIntent = intent
         binding.botonGuardar.setOnClickListener() {
-            guardarRegistro()
+            volverConDatos()
         }
     }
 
@@ -61,25 +63,12 @@ class activity_diario_anadir : AppCompatActivity() {
         startActivity(lanzarWeb)
     }
 
-    private fun guardarRegistro() {
-        myCollection.document(binding.textoNumEntradaAnadir.text.toString()).set(
-            hashMapOf(
-                "numentrada" to binding.textoNumEntradaAnadir.text.toString(),
-                "titulo" to binding.textoTituloEntradaAnadir.text.toString(),
-                "arma" to binding.textoArmaUtilizadaAnadir.text.toString(),
-                "resumen" to binding.textoResumenCazaAnadir.text.toString()
-            )
-        )
-        resultadoOperacion("Registro guardado correctamente")
+    fun volverConDatos() {
+        val intent = Intent()
+
     }
 
-    private fun resultadoOperacion(mensaje: String){
-        binding.textoNumEntradaAnadir.setText("")
-        binding.textoTituloEntradaAnadir.setText("")
-        binding.textoArmaUtilizadaAnadir.setText("")
-        binding.textoResumenCazaAnadir.setText("")
-        Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show()
-    }
+
 
 
 

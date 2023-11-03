@@ -13,6 +13,9 @@
         android:theme="@style/Theme.MonsterHunterFinder"
         tools:targetApi="31">
         <activity
+            android:name=".activity_editar_perfil"
+            android:exported="false" />
+        <activity
             android:name=".activity_diario_ver"
             android:exported="false" />
         <activity

@@ -9,6 +9,8 @@ import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +21,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 class activity_diario_vista : AppCompatActivity() {
 
     private lateinit var binding: ActivityDiarioVistaBinding
+    private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
+
 
     private val db = FirebaseFirestore.getInstance()
     private val myCollection = db.collection("cazas")
@@ -40,12 +44,35 @@ class activity_diario_vista : AppCompatActivity() {
 
         registerForContextMenu(binding.textoFiltroArma)
 
-        iniciarRecyclerView()
 
+        iniciarRecyclerView()
 
         binding.botonFiltrar.setOnClickListener {
             listarFiltrando()
         }
+
+
+
+        binding.botonAnadir.setOnClickListener {
+            lanzarActivityRegistro()
+        }
+
+        activityResultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                resultado ->
+                    if (resultado.data != null) {
+                        val datos: Intent = resultado.data!!
+                        val numEntrada: Int = entradaProvider.listaEntradas.size
+                        var entradaDiario = Entrada(
+                            numEntrada,
+                            datos.getStringExtra("titulo")!!,
+                            datos.getStringExtra("arma")!!,
+                            datos.getStringExtra("resumen")!!
+                        )
+
+                        insertarRegistro(entradaDiario)
+                    }
+            }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -192,11 +219,6 @@ class activity_diario_vista : AppCompatActivity() {
             .show()
     }
 
-    fun añadir(view: View) {
-        val abrirAñadir: Intent = Intent(this, activity_diario_anadir::class.java)
-        startActivity(abrirAñadir)
-    }
-
 
     private fun iniciarRecyclerView() {
         val decoracion = DividerItemDecoration(this, manager.orientation)
@@ -234,5 +256,23 @@ class activity_diario_vista : AppCompatActivity() {
                 binding.recyclerEntradas.adapter = entradasAdapter
                 binding.recyclerEntradas.addItemDecoration(decoracion)
             }
+    }
+
+    private fun lanzarActivityRegistro() {
+        val intent = Intent(this, activity_diario_anadir::class.java)
+        activityResultLauncher.launch(intent)
+    }
+
+    private fun insertarRegistro(entradaDiario: Entrada) {
+        myCollection
+            .document(entradaDiario.numEntrada.toString())
+            .set(
+                hashMapOf(
+                    "numentrada" to entradaDiario.numEntrada,
+                    "titulo" to entradaDiario.titulo,
+                    "arma" to entradaDiario.arma,
+                    "resumen" to entradaDiario.resumen
+                )
+            )
     }
 }

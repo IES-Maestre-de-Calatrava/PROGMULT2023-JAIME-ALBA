@@ -45,4 +45,7 @@
     <string name="borrar">DELETE</string>
     <string name="modificar">MODIFY</string>
     <string name="ver">>></string>
+    <string name="bio">User bio</string>
+    <string name="confirmar">CONFIRM CHANGES</string>
+    <string name="confirmarPregunta">Do you want to confirm the changes?</string>
 </resources>

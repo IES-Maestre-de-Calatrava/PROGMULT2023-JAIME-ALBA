@@ -26,7 +26,7 @@
         app:srcCompat="@drawable/icon3" />
 
     <TextView
-        android:id="@+id/userName"
+        android:id="@+id/textoNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/userName"
@@ -48,22 +48,48 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.google.android.material.carousel.MaskableFrameLayout
-        android:id="@+id/carousel_perfil"
-        android:layout_width="350dp"
-        android:layout_height="156dp"
-        android:layout_marginTop="20dp"
-        android:foreground="?attr/selectableItemBackground"
+    <TextView
+        android:id="@+id/textoBio"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:text="@string/bio"
+        android:textColor="@android:color/holo_orange_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userName"
-        app:shapeAppearance="?attr/shapeAppearanceCornerExtraLarge">
+        app:layout_constraintTop_toBottomOf="@+id/textoNombre" />
 
-        <ImageView
-            android:id="@+id/carousel_image_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
-    </com.google.android.material.carousel.MaskableFrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewReseñas"
+        android:layout_width="0dp"
+        android:layout_height="220dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewImagenes"
+        android:layout_width="0dp"
+        android:layout_height="193dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewReseñas"
+        app:layout_constraintEnd_toEndOf="@+id/recyclerViewReseñas"
+        app:layout_constraintStart_toStartOf="@+id/recyclerViewReseñas" />
+
+    <ImageView
+        android:id="@+id/imagenEditar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:tintMode="add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_edit"
+        app:tint="@android:color/system_neutral1_900" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

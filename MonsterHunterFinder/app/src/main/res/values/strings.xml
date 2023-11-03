@@ -44,4 +44,7 @@
     <string name="borrar">BORRAR</string>
     <string name="modificar">"MODIFICAR "</string>
     <string name="ver">>></string>
+    <string name="bio">Biografía</string>
+    <string name="confirmar">CONFIRMAR CAMBIOS</string>
+    <string name="confirmarPregunta">¿Quieres confirmar los cambios?</string>
 </resources>

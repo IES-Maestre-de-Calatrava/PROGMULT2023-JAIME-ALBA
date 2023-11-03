@@ -59,7 +59,7 @@
         app:layout_constraintTop_toBottomOf="@+id/cajaFiltroArma" />
 
     <Button
-        android:id="@+id/botonAñadir"
+        android:id="@+id/botonAnadir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
