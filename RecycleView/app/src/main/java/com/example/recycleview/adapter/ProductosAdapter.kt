@@ -11,7 +11,9 @@ class ProductosAdapter (
     // que VA A TENER QUE RECIBIR una lista.
     private val productosList: MutableList<Producto>,
     // 02/11/2023, paso el deleteRegister como parámetro
-    private val deleteRegister:(Int) -> Unit
+    private val deleteRegister:(Int) -> Unit,
+
+    private val updateRegister:(Producto) -> Unit
     ): RecyclerView.Adapter<ProductosViewHolder>() {
 
     // Le doy a que SÍ implemente los tres métodos que me
@@ -45,7 +47,7 @@ class ProductosAdapter (
         // 02/11/2023
         // Ahora se reciben dos parámetros, el producto y la función
         // a usar, que es el delete
-        productosViewHolder.render(producto, deleteRegister)
+        productosViewHolder.render(producto, deleteRegister, updateRegister)
     }
 
 

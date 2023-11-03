@@ -70,6 +70,9 @@ class MainActivity : AppCompatActivity() {
             openDetRegister()
         }
 
+
+
+
         activityResultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 result ->
@@ -92,7 +95,15 @@ class MainActivity : AppCompatActivity() {
                         // como un parámetro de función.
                         // En todo aquello en lo que haya metido el delete.
                         if (data.hasExtra("IdProducto")) {
-                            idProducto = data.getStringExtra()
+                            idProducto = data.getStringExtra("IdProducto")!!.toInt()
+                            var producto = Producto(
+                                idProducto,
+                                data.getStringExtra("nombre")!!,
+                                data.getStringExtra("descripcion")!!,
+                                data.getStringExtra("foto")!!
+                            )
+
+
                         } else {
                             // En lugar de trabajar con el método que devuelve IDs, trabajamos
                             // con el tamaño para no tengo ni idea de por qué.
@@ -154,7 +165,9 @@ class MainActivity : AppCompatActivity() {
         // 02/11/2023, al adapter le paso un segundo parámetro
         adapterProducto = ProductosAdapter(
             productosList = productoProvider.productosList,
-            deleteRegister = {deleteRegister(it)})
+            deleteRegister = {deleteRegister(it)},
+            updateRegister = {updateRegister(it)}
+        )
 
 
         // Me falta llamar a Firestore para recuperar la colección.

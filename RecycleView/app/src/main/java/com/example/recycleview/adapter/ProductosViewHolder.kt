@@ -1,9 +1,11 @@
 package com.example.recycleview.adapter
 
+import android.content.Intent
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.recycleview.MainActivity2
 import com.example.recycleview.Producto
 import com.example.recycleview.databinding.ItemProductoBinding
 
@@ -17,8 +19,9 @@ class ProductosViewHolder (view: View): RecyclerView.ViewHolder (view) {
     // una función (función lamba)
     fun render (
         producto: Producto,
-        deleteRegister: (Int) -> Unit //Lo del unit significa que no devuelve nada
+        deleteRegister: (Int) -> Unit, //Lo del unit significa que no devuelve nada
         // Me voy al binding del botón de borrado
+        updateRegister: (Producto) -> Unit
     ) {
         // Le vamos a dar los valores a cada uno de los
         // elementos de la pantalla.
@@ -68,8 +71,12 @@ class ProductosViewHolder (view: View): RecyclerView.ViewHolder (view) {
             deleteRegister(adapterPosition)
         }
         // Tras hacer ésto, me voy al productosAdapter.
-    }
 
+
+        binding.buttonEditar.setOnClickListener {
+            updateRegister(producto)
+        }
+    }
     // Me voy a hacer una cosa para que haga algo al presionar en la imagen.
     // Lo meto dentro el render.
 }

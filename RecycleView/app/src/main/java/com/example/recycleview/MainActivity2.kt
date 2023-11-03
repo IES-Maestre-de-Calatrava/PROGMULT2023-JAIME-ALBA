@@ -40,8 +40,8 @@ class MainActivity2 : AppCompatActivity() {
             binding.editTextEnlaceFoto.setText(objetoIntent.getStringExtra("foto"))
         }
 
-        //Glide.with(binding.imageViewFoto.context)
-        //    .load(binding.editTextEnlaceFoto.text.toString()).into(binding.imageViewFoto)
+        Glide.with(binding.imageViewFoto.context)
+            .load(binding.editTextEnlaceFoto.text.toString()).into(binding.imageViewFoto)
 
         binding.buttonCancelar.setOnClickListener {
             volver()
