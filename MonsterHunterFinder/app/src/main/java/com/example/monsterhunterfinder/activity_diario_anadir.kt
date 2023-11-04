@@ -15,6 +15,7 @@ class activity_diario_anadir : AppCompatActivity() {
 
     private lateinit var binding: ActivityDiarioAnadirBinding
     private lateinit var objetoIntent: Intent
+    private val INSERTADO_OK: Int = 1
 
 
     private val db = FirebaseFirestore.getInstance()
@@ -65,7 +66,11 @@ class activity_diario_anadir : AppCompatActivity() {
 
     fun volverConDatos() {
         val intent = Intent()
-
+        intent.putExtra("titulo", binding.textoTituloEntradaAnadir.text.toString())
+        intent.putExtra("arma", binding.textoArmaUtilizadaAnadir.text.toString())
+        intent.putExtra("resumen", binding.textoResumenCazaAnadir.text.toString())
+        setResult(INSERTADO_OK, intent)
+        finish()
     }
 
 

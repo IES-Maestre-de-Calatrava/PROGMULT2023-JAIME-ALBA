@@ -268,11 +268,15 @@ class activity_diario_vista : AppCompatActivity() {
             .document(entradaDiario.numEntrada.toString())
             .set(
                 hashMapOf(
-                    "numentrada" to entradaDiario.numEntrada,
                     "titulo" to entradaDiario.titulo,
                     "arma" to entradaDiario.arma,
                     "resumen" to entradaDiario.resumen
                 )
             )
+            .addOnSuccessListener {
+                entradaProvider.listaEntradas.add(entradaDiario.numEntrada, entradaDiario)
+                entradasAdapter.notifyItemInserted(entradaDiario.numEntrada)
+                manager.scrollToPositionWithOffset(entradaDiario.numEntrada, 35)
+            }
     }
 }
