@@ -17,9 +17,8 @@ class activity_diario_anadir : AppCompatActivity() {
     private lateinit var objetoIntent: Intent
     private val INSERTADO_OK: Int = 1
 
+    private lateinit var numEntrada: String
 
-    private val db = FirebaseFirestore.getInstance()
-    private val myCollection = db.collection("cazas")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +28,15 @@ class activity_diario_anadir : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         objetoIntent = intent
+
+        if (objetoIntent.hasExtra("id")) {
+            numEntrada = objetoIntent.getStringExtra("id")!!
+            binding.textoTituloEntradaAnadir.setText(objetoIntent.getStringExtra("titulo"))
+            binding.textoArmaUtilizadaAnadir.setText(objetoIntent.getStringExtra("arma"))
+            binding.textoResumenCazaAnadir.setText(objetoIntent.getStringExtra("resumen"))
+        }
+
+
         binding.botonGuardar.setOnClickListener() {
             volverConDatos()
         }
@@ -66,9 +74,16 @@ class activity_diario_anadir : AppCompatActivity() {
 
     fun volverConDatos() {
         val intent = Intent()
+
+
+        if (objetoIntent.hasExtra("id")) {
+            intent.putExtra("id", numEntrada)
+        }
+
         intent.putExtra("titulo", binding.textoTituloEntradaAnadir.text.toString())
         intent.putExtra("arma", binding.textoArmaUtilizadaAnadir.text.toString())
         intent.putExtra("resumen", binding.textoResumenCazaAnadir.text.toString())
+
         setResult(INSERTADO_OK, intent)
         finish()
     }

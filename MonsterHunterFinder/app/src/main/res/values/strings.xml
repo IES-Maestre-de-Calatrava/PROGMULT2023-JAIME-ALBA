@@ -38,7 +38,7 @@
     <string name="ballestaPesada">Ballesta pesada</string>
     <string name="arco">Arco</string>
     <string name="filtrarArma">FILTRAR POR ARMA</string>
-    <string name="añadir">AÑADIR</string>
+    <string name="añadir">+</string>
     <string name="tituloEntrada">Título de la entrada</string>
     <string name="guardarEntrada">GUARDAR ENTRADA</string>
     <string name="borrar">BORRAR</string>
@@ -47,4 +47,7 @@
     <string name="bio">Biografía</string>
     <string name="confirmar">CONFIRMAR CAMBIOS</string>
     <string name="confirmarPregunta">¿Quieres confirmar los cambios?</string>
+    <string name="eliminar">X</string>
+    <string name="editar">Ed</string>
+    <string name="seguroBorrado">¿Estás seguro de borrar este registro?</string>
 </resources>

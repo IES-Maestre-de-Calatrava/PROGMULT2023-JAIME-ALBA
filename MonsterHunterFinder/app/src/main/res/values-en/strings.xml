@@ -39,7 +39,7 @@
     <string name="ballestaPesada">Heavy bowgun</string>
     <string name="arco">Bow</string>
     <string name="filtrarArma">FILTER BY WEAPON</string>
-    <string name="añadir">NEW</string>
+    <string name="añadir">+</string>
     <string name="tituloEntrada">Entry title</string>
     <string name="guardarEntrada">SAVE ENTRY</string>
     <string name="borrar">DELETE</string>
@@ -48,4 +48,7 @@
     <string name="bio">User bio</string>
     <string name="confirmar">CONFIRM CHANGES</string>
     <string name="confirmarPregunta">Do you want to confirm the changes?</string>
+    <string name="eliminar">X</string>
+    <string name="editar">Ed</string>
+    <string name="seguroBorrado">Are you sure about deleting this register?</string>
 </resources>

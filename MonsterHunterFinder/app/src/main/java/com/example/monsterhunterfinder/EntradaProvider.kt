@@ -15,4 +15,18 @@ class EntradaProvider {
             listaEntradas.add(entrada)
         }
     }
+
+    fun getId(): Int {
+        var posicion = 0
+        if(!listaEntradas.isEmpty()) {
+            for (entrada in listaEntradas) {
+                if (entrada.numEntrada == posicion) {
+                    posicion = posicion + 1
+                }else{
+                    break
+                }
+            }
+        }
+        return posicion
+    }
 }

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -44,6 +45,8 @@ class activity_diario_ver : AppCompatActivity() {
                 }
         }
 
+
+
     }
 
     private fun crearObjetosDelXml() {
@@ -75,4 +78,5 @@ class activity_diario_ver : AppCompatActivity() {
         val lanzarWeb: Intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://mhrise.kiranico.com/es"))
         startActivity(lanzarWeb)
     }
+
 }

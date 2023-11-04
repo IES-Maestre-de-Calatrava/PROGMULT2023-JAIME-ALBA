@@ -33,6 +33,8 @@ class activity_diario_vista : AppCompatActivity() {
     private lateinit var entradasAdapter: EntradasAdapter
     val manager = LinearLayoutManager(this)
 
+    private var posicion: Int = 0
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,7 +64,16 @@ class activity_diario_vista : AppCompatActivity() {
                 resultado ->
                     if (resultado.data != null) {
                         val datos: Intent = resultado.data!!
-                        val numEntrada: Int = entradaProvider.listaEntradas.size
+                        val numEntrada: Int
+
+                        if (datos.hasExtra("id")) {
+                            numEntrada = datos.getStringExtra("id")!!.toInt()
+                        } else {
+                            numEntrada = entradaProvider.getId()
+                        }
+
+
+
                         var entradaDiario = Entrada(
                             numEntrada,
                             datos.getStringExtra("titulo")!!,
@@ -70,7 +81,14 @@ class activity_diario_vista : AppCompatActivity() {
                             datos.getStringExtra("resumen")!!
                         )
 
-                        insertarRegistro(entradaDiario)
+
+
+                        if (datos.hasExtra("id")) {
+                            actualizarRegistro(posicion, entradaDiario)
+                        } else {
+                            insertarRegistro(entradaDiario)
+                        }
+
                     }
             }
     }
@@ -226,7 +244,10 @@ class activity_diario_vista : AppCompatActivity() {
         binding.recyclerEntradas.layoutManager = manager
 
         entradaProvider = EntradaProvider()
-        entradasAdapter = EntradasAdapter(listaEntradas = entradaProvider.listaEntradas)
+        entradasAdapter = EntradasAdapter(
+            listaEntradas = entradaProvider.listaEntradas,
+            borrarRegistro = {borrarRegistro(it)},
+            lanzarActivityModificar = {posicion: Int, entradaDiario: Entrada -> lanzarActivityModificar(posicion, entradaDiario)})
 
         myCollection
             .get()
@@ -245,7 +266,10 @@ class activity_diario_vista : AppCompatActivity() {
         binding.recyclerEntradas.layoutManager = manager
 
         entradaProvider = EntradaProvider()
-        entradasAdapter = EntradasAdapter(listaEntradas = entradaProvider.listaEntradas)
+        entradasAdapter = EntradasAdapter(
+            listaEntradas = entradaProvider.listaEntradas,
+            borrarRegistro = {borrarRegistro(it)},
+            lanzarActivityModificar = {posicion: Int, entradaDiario: Entrada -> lanzarActivityModificar(posicion, entradaDiario)})
 
         myCollection
             .whereEqualTo("arma", binding.textoFiltroArma.text.toString())
@@ -257,6 +281,7 @@ class activity_diario_vista : AppCompatActivity() {
                 binding.recyclerEntradas.addItemDecoration(decoracion)
             }
     }
+
 
     private fun lanzarActivityRegistro() {
         val intent = Intent(this, activity_diario_anadir::class.java)
@@ -278,5 +303,45 @@ class activity_diario_vista : AppCompatActivity() {
                 entradasAdapter.notifyItemInserted(entradaDiario.numEntrada)
                 manager.scrollToPositionWithOffset(entradaDiario.numEntrada, 35)
             }
+    }
+
+    private fun borrarRegistro(posicion: Int) {
+        myCollection
+            .document(posicion.toString())
+            .delete()
+            .addOnSuccessListener {
+                entradaProvider.listaEntradas.removeAt(posicion)
+                entradasAdapter.notifyItemRemoved(posicion)
+            }
+    }
+
+    private fun actualizarRegistro(posicion: Int, entradaDiario: Entrada) {
+        myCollection
+            .document(entradaDiario.numEntrada.toString())
+            .set(
+                hashMapOf(
+                    "titulo" to entradaDiario.titulo,
+                    "arma" to entradaDiario.arma,
+                    "resumen" to entradaDiario.resumen
+                )
+            )
+            .addOnSuccessListener {
+                entradaProvider.listaEntradas.set(posicion, entradaDiario)
+                entradasAdapter.notifyItemChanged(posicion)
+                manager.scrollToPositionWithOffset(posicion, 35)
+            }
+    }
+
+    private fun lanzarActivityModificar(posicion: Int, entradaDiario: Entrada) {
+        val intent = Intent(this, activity_diario_anadir::class.java)
+
+        this.posicion = posicion
+
+        intent.putExtra("id", entradaDiario.numEntrada.toString())
+        intent.putExtra("titulo", entradaDiario.titulo)
+        intent.putExtra("arma", entradaDiario.arma)
+        intent.putExtra("resumen", entradaDiario.resumen)
+
+        activityResultLauncher.launch(intent)
     }
 }

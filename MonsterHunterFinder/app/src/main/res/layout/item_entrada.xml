@@ -31,13 +31,12 @@
         android:id="@+id/botonVer"
         android:layout_width="65dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
         android:backgroundTint="@android:color/system_neutral1_900"
         android:text="@string/ver"
         android:textColor="@android:color/holo_orange_dark"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/botonEliminar"
+        app:layout_constraintEnd_toStartOf="@+id/botonEditar"
+        app:layout_constraintTop_toTopOf="@+id/botonEliminar" />
 
     <TextView
         android:id="@+id/textoListaArma"
@@ -48,5 +47,28 @@
         android:text="TextView"
         android:textColor="@color/material_dynamic_neutral_variant70"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/botonEditar"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/system_neutral1_900"
+        android:text="@string/editar"
+        android:textColor="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toBottomOf="@+id/botonEliminar"
+        app:layout_constraintEnd_toStartOf="@+id/botonEliminar"
+        app:layout_constraintTop_toTopOf="@+id/botonEliminar" />
+
+    <Button
+        android:id="@+id/botonEliminar"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="7dp"
+        android:backgroundTint="@android:color/system_neutral1_900"
+        android:text="@string/eliminar"
+        android:textColor="@android:color/holo_orange_dark"
+        app:layout_constraintEnd_toEndOf="@+id/vistaInterna"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
