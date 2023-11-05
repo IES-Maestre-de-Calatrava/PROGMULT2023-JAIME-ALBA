@@ -14,4 +14,18 @@ class MultimediaProvider {
             multimediasList.add(multimedia)
         }
     }
+
+    fun getId(): Int {
+        var posicion = 0
+        if(!multimediasList.isEmpty()) {
+            for (multimedia in multimediasList) {
+                if (multimedia.id == posicion) {
+                    posicion = posicion + 1
+                }else{
+                    break
+                }
+            }
+        }
+        return posicion
+    }
 }

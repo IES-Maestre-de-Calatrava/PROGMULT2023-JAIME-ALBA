@@ -18,6 +18,7 @@ class activity_perfil : AppCompatActivity() {
 
     private lateinit var binding: ActivityPerfilBinding
     private lateinit var activityEditarPerfilResultLauncher: ActivityResultLauncher<Intent>
+    private lateinit var activityPerfilAnadirLauncher: ActivityResultLauncher<Intent>
 
 
     private val db = FirebaseFirestore.getInstance()
@@ -58,6 +59,25 @@ class activity_perfil : AppCompatActivity() {
 
         iniciarRecyclerViewMultimedia()
         iniciarRecyclerViewResenas()
+
+
+        binding.botonAnadirMultimedia.setOnClickListener{
+            lanzarActivityAnadir()
+        }
+
+        activityPerfilAnadirLauncher = registerForActivityResult(StartActivityForResult()) {
+            resultado ->
+                if (resultado.data != null) {
+                    val datos: Intent = resultado.data!!
+
+                    val idMultimedia: Int = multimediaProvider.getId()
+                    var multimedia = Multimedia(
+                        idMultimedia,
+                        datos.getStringExtra("enlace")!!)
+                    insertarMultimedia(multimedia)
+                }
+        }
+
     }
 
     private fun crearObjetosDelXml() {
@@ -104,6 +124,26 @@ class activity_perfil : AppCompatActivity() {
                     resenaProvider.actualizarLista(resultado)
                     binding.recyclerViewResenas.adapter = resenasAdapter
                 binding.recyclerViewMultimedia.addItemDecoration(decoration)
+            }
+    }
+
+    fun lanzarActivityAnadir() {
+        val intent = Intent(this, activity_perfil_anadir::class.java)
+        activityPerfilAnadirLauncher.launch(intent)
+    }
+
+    private fun insertarMultimedia(multimedia: Multimedia) {
+        coleccionMultimedia
+            .document(multimedia.id.toString())
+            .set(
+                hashMapOf(
+                    "enlace" to multimedia.enlace
+                )
+            )
+            .addOnSuccessListener {
+                multimediaProvider.multimediasList.add(multimedia.id, multimedia)
+                multimediasAdapter.notifyItemInserted(multimedia.id)
+                managerMultimedia.scrollToPositionWithOffset(multimedia.id, 35)
             }
     }
 }

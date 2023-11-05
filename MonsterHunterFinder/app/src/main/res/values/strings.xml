@@ -50,4 +50,5 @@
     <string name="eliminar">X</string>
     <string name="editar">Ed</string>
     <string name="seguroBorrado">¿Estás seguro de borrar esta entrada?</string>
+    <string name="enlaceFoto">¡Pega aquí el enlace de la foto!</string>
 </resources>

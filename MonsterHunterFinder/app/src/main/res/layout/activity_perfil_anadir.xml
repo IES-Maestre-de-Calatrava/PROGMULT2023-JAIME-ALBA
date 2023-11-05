@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/material_dynamic_neutral20"
-    tools:context=".activity_editar_perfil">
+    tools:context=".activity_perfil_anadir"
+    android:background="@color/material_dynamic_neutral20">
 
     <ImageView
-        android:id="@+id/headerPerfilEditar"
+        android:id="@+id/headerPerfilAnadir"
         android:layout_width="wrap_content"
         android:layout_height="180dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -17,16 +17,16 @@
         app:srcCompat="@drawable/header2" />
 
     <ImageView
-        android:id="@+id/iconPerfilEditar"
+        android:id="@+id/iconPerfilAnadir"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginEnd="44dp"
-        app:layout_constraintBottom_toBottomOf="@+id/headerPerfilEditar"
+        app:layout_constraintBottom_toBottomOf="@+id/headerPerfilAnadir"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/icon3" />
 
     <Button
-        android:id="@+id/botonVolverEditar"
+        android:id="@+id/botonVolverAnadir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -40,63 +40,38 @@
         tools:onClick="volver" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/cajaNombreEditar"
-        android:layout_width="250dp"
+        android:id="@+id/cajaEnlaceFoto"
+        android:layout_width="0dp"
         android:layout_height="65dp"
         android:layout_marginStart="35dp"
-        android:hint="@string/userName"
-        android:textColorHint="@color/material_dynamic_neutral70"
-        app:boxStrokeColor="@android:color/holo_orange_dark"
-        app:boxStrokeWidth="2dp"
-        app:hintTextColor="@android:color/holo_orange_dark"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headerPerfilEditar"
-        app:layout_constraintVertical_bias="0.13"
-        tools:hintTextColor="@color/material_dynamic_neutral60">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textoNombreEditar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/material_dynamic_neutral70" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/cajaBioEditar"
-        android:layout_width="0dp"
-        android:layout_height="260dp"
         android:layout_marginEnd="35dp"
-        android:hint="@string/bio"
+        android:hint="@string/enlaceFoto"
         android:textColorHint="@color/material_dynamic_neutral70"
         app:boxStrokeColor="@android:color/holo_orange_dark"
         app:boxStrokeWidth="2dp"
         app:hintTextColor="@android:color/holo_orange_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/cajaNombreEditar"
-        app:layout_constraintTop_toBottomOf="@+id/cajaNombreEditar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerPerfilAnadir"
         app:layout_constraintVertical_bias="0.13"
         tools:hintTextColor="@color/material_dynamic_neutral60">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textoBioEditar"
+            android:id="@+id/textoEnlaceFoto"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:textColor="@color/material_dynamic_neutral70" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/botonConfirmarEditar"
+        android:id="@+id/botonConfirmarAnadir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
         android:backgroundTint="@android:color/system_neutral1_900"
-        android:onClick="mostrarConfirmar"
         android:text="@string/confirmar"
         android:textColor="@android:color/holo_orange_dark"
         app:layout_constraintBottom_toBottomOf="parent"
