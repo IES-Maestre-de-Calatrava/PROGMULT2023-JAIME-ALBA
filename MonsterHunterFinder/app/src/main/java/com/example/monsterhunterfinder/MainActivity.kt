@@ -43,10 +43,10 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    /**fun abrirBuscador(view: View) {
-        val intent = Intent(this, activity_buscador_principal::class.java)
+    fun abrirBuscador(view: View) {
+        val intent = Intent(this, activity_buscador::class.java)
         startActivity(intent)
-    }*/
+    }
 
 
     fun compartir() {

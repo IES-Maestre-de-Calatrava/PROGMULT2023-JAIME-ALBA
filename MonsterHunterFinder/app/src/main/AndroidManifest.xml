@@ -13,6 +13,9 @@
         android:theme="@style/Theme.MonsterHunterFinder"
         tools:targetApi="31">
         <activity
+            android:name=".activity_buscador"
+            android:exported="false" />
+        <activity
             android:name=".activity_perfil_anadir"
             android:exported="false" />
         <activity
