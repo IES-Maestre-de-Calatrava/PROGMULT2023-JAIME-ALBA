@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/headerPerfil"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -35,18 +35,6 @@
         app:layout_constraintEnd_toEndOf="@+id/iconPerfil"
         app:layout_constraintTop_toBottomOf="@+id/iconPerfil" />
 
-    <Button
-        android:id="@+id/botonVolver"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginBottom="15dp"
-        android:backgroundTint="@android:color/system_neutral1_900"
-        android:onClick="volver"
-        android:text="@string/botonVolver"
-        android:textColor="@android:color/holo_orange_dark"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textoBio"
@@ -62,9 +50,9 @@
         app:layout_constraintTop_toBottomOf="@+id/textoNombre" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewReseñas"
+        android:id="@+id/recyclerViewResenas"
         android:layout_width="0dp"
-        android:layout_height="220dp"
+        android:layout_height="290dp"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -72,13 +60,14 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewImagenes"
+        android:id="@+id/recyclerViewMultimedia"
         android:layout_width="0dp"
-        android:layout_height="193dp"
+        android:layout_height="180dp"
         android:layout_marginBottom="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerViewReseñas"
-        app:layout_constraintEnd_toEndOf="@+id/recyclerViewReseñas"
-        app:layout_constraintStart_toStartOf="@+id/recyclerViewReseñas" />
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewResenas"
+        app:layout_constraintEnd_toEndOf="@+id/recyclerViewResenas"
+        app:layout_constraintStart_toStartOf="@+id/recyclerViewResenas" />
 
     <ImageView
         android:id="@+id/imagenEditar"
@@ -91,5 +80,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_edit"
         app:tint="@android:color/system_neutral1_900" />
+
+    <Button
+        android:id="@+id/botonVolver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="@android:color/system_neutral1_900"
+        android:onClick="volver"
+        android:text="@string/botonVolver"
+        android:textColor="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var productoProvider: ProductoProvider
     private lateinit var adapterProducto: ProductosAdapter
     // Le paso el manejador del layout: cómo quiero que pinte las celdas
-    val manager = LinearLayoutManager(this)
+    val manager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

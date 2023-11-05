@@ -49,5 +49,5 @@
     <string name="confirmarPregunta">¿Quieres confirmar los cambios?</string>
     <string name="eliminar">X</string>
     <string name="editar">Ed</string>
-    <string name="seguroBorrado">¿Estás seguro de borrar este registro?</string>
+    <string name="seguroBorrado">¿Estás seguro de borrar esta entrada?</string>
 </resources>

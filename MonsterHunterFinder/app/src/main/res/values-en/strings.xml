@@ -50,5 +50,5 @@
     <string name="confirmarPregunta">Do you want to confirm the changes?</string>
     <string name="eliminar">X</string>
     <string name="editar">Ed</string>
-    <string name="seguroBorrado">Are you sure about deleting this register?</string>
+    <string name="seguroBorrado">Are you sure about deleting this entry?</string>
 </resources>

@@ -8,6 +8,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerProductos"
+        android:orientation="horizontal"
         android:layout_width="415dp"
         android:layout_height="486dp"
         app:layout_constraintEnd_toEndOf="parent"
