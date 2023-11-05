@@ -246,7 +246,7 @@ class activity_diario_vista : AppCompatActivity() {
         entradaProvider = EntradaProvider()
         entradasAdapter = EntradasAdapter(
             listaEntradas = entradaProvider.listaEntradas,
-            borrarRegistro = {borrarRegistro(it)},
+            borrarRegistro = {posicion: Int, id: Int -> borrarRegistro(posicion, id)},
             lanzarActivityModificar = {posicion: Int, entradaDiario: Entrada -> lanzarActivityModificar(posicion, entradaDiario)})
 
         myCollection
@@ -268,7 +268,7 @@ class activity_diario_vista : AppCompatActivity() {
         entradaProvider = EntradaProvider()
         entradasAdapter = EntradasAdapter(
             listaEntradas = entradaProvider.listaEntradas,
-            borrarRegistro = {borrarRegistro(it)},
+            borrarRegistro = {posicion: Int, id: Int -> borrarRegistro(posicion, id)},
             lanzarActivityModificar = {posicion: Int, entradaDiario: Entrada -> lanzarActivityModificar(posicion, entradaDiario)})
 
         myCollection
@@ -305,9 +305,9 @@ class activity_diario_vista : AppCompatActivity() {
             }
     }
 
-    private fun borrarRegistro(posicion: Int) {
+    private fun borrarRegistro(posicion: Int, id: Int) {
         myCollection
-            .document(posicion.toString())
+            .document(id.toString())
             .delete()
             .addOnSuccessListener {
                 entradaProvider.listaEntradas.removeAt(posicion)

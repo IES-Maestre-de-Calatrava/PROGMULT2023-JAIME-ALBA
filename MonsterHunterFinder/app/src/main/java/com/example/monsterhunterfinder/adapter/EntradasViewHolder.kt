@@ -20,7 +20,7 @@ class EntradasViewHolder (view: View): RecyclerView.ViewHolder (view) {
 
 
     fun render(entradaDiario: Entrada,
-               borrarRegistro:(Int) -> Unit,
+               borrarRegistro:(Int, Int) -> Unit,
                lanzarActivityModificar:(Int, Entrada) -> Unit) {
         binding.textoListaArma.text = entradaDiario.arma
         binding.textoListaTitulo.text = entradaDiario.titulo
@@ -47,7 +47,7 @@ class EntradasViewHolder (view: View): RecyclerView.ViewHolder (view) {
                 .setPositiveButton(
                     R.string.vaciarFiltroSi,
                     DialogInterface.OnClickListener{
-                            dialog, id -> borrarRegistro(adapterPosition)
+                            dialog, id -> borrarRegistro(adapterPosition, entradaDiario.numEntrada)
                     }
                 )
                 .setNegativeButton(

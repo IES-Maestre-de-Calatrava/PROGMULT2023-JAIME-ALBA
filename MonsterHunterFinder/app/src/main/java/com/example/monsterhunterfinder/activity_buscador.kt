@@ -7,9 +7,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.SearchView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.monsterhunterfinder.adapter.CazadoresAdapter
+import com.example.monsterhunterfinder.adapter.EntradasAdapter
 import com.example.monsterhunterfinder.databinding.ActivityBuscadorBinding
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -32,6 +34,28 @@ class activity_buscador : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         iniciarRecycleViewCazadores()
+
+        binding.barraBusqueda.setOnQueryTextListener( object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                binding.barraBusqueda.clearFocus()
+                if (query==""){
+                    iniciarRecycleViewCazadores()
+                }else{
+                    listarCazadoresFiltrando(query)
+                }
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText==""){
+                    iniciarRecycleViewCazadores()
+                }else{
+                    listarCazadoresFiltrando(newText)
+                }
+                return false
+            }
+
+        })
     }
 
     private fun crearObjetosDelXml() {
@@ -79,4 +103,27 @@ class activity_buscador : AppCompatActivity() {
                     binding.recyclerViewCazadores.addItemDecoration(decoration)
             }
     }
+
+    private fun listarCazadoresFiltrando(palabrasBuscar: String?) {
+        val decoracion = DividerItemDecoration(this, managerCazadores.orientation)
+
+        binding.recyclerViewCazadores.layoutManager = managerCazadores
+
+        cazadorProvider = CazadorProvider()
+        cazadoresAdapter = CazadoresAdapter(
+            cazadoresList = cazadorProvider.cazadoresList
+        )
+
+        coleccionCazadores
+            .whereEqualTo("bio", palabrasBuscar)
+            .get()
+            .addOnSuccessListener {
+                    resultado ->
+                        cazadorProvider.actualizarLista(resultado)
+                        binding.recyclerViewCazadores.adapter = cazadoresAdapter
+                        binding.recyclerViewCazadores.addItemDecoration(decoracion)
+            }
+    }
+
+
 }

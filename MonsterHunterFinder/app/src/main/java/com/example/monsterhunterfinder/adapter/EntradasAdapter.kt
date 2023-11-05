@@ -8,7 +8,7 @@ import com.example.monsterhunterfinder.R
 
 class EntradasAdapter (
     private val listaEntradas: MutableList<Entrada>,
-    private val borrarRegistro:(Int) -> Unit,
+    private val borrarRegistro:(Int, Int) -> Unit,
     private val lanzarActivityModificar:(Int, Entrada) -> Unit
 ): RecyclerView.Adapter<EntradasViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntradasViewHolder {
