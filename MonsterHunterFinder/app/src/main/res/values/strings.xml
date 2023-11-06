@@ -51,4 +51,5 @@
     <string name="editar">Ed</string>
     <string name="seguroBorrado">¿Estás seguro de borrar esta entrada?</string>
     <string name="enlaceFoto">¡Pega aquí el enlace de la foto!</string>
+    <string name="hintBuscar">¡Haz una pulsación larga!</string>
 </resources>

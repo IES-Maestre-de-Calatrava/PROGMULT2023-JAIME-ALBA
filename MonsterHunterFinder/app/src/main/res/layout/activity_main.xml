@@ -14,15 +14,16 @@
         android:id="@+id/botonPerfil"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
         android:backgroundTint="@android:color/system_neutral1_900"
         android:onClick="abrirPerfil"
         android:text="@string/botonPerfil"
         android:textColor="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.26" />
 
     <ImageView
         android:id="@+id/iconoPerfil"
@@ -39,14 +40,15 @@
         android:id="@+id/botonDiario"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
         android:backgroundTint="@android:color/system_neutral1_900"
         android:onClick="abrirDiario"
         android:text="@string/diarioCaza"
         android:textColor="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/botonPerfil"
         app:layout_constraintStart_toStartOf="@+id/botonPerfil"
-        app:layout_constraintTop_toBottomOf="@+id/botonPerfil" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.54" />
 
     <ImageView
         android:id="@+id/iconoDiario"
@@ -63,14 +65,15 @@
         android:id="@+id/botonBuscador"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
         android:backgroundTint="@android:color/system_neutral1_900"
         android:onClick="abrirBuscador"
         android:text="@string/botonBuscar"
         android:textColor="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/botonDiario"
         app:layout_constraintStart_toStartOf="@+id/botonDiario"
-        app:layout_constraintTop_toBottomOf="@+id/botonDiario" />
+        app:layout_constraintTop_toTopOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.84000003" />
 
     <ImageView
         android:id="@+id/iconoBuscador"

@@ -7,6 +7,24 @@
     tools:context=".activity_buscador"
     android:background="@color/material_dynamic_neutral20">
 
+    <SearchView
+        android:id="@+id/barraBusqueda"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+
+        android:background="@drawable/searchbar_estilo"
+        android:iconifiedByDefault="false"
+        android:outlineSpotShadowColor="@android:color/holo_orange_dark"
+        android:queryBackground="@android:color/holo_orange_dark"
+        android:queryHint="@string/hintBuscar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.02" />
+
     <include android:id="@+id/toolbar"
         layout="@layout/toolbar"/>
 
@@ -14,13 +32,15 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewCazadores"
         android:layout_width="0dp"
-        android:layout_height="535dp"
+        android:layout_height="0dp"
         android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barraBusqueda" />
 
     <Button
         android:id="@+id/botonVolverBuscador"
@@ -35,18 +55,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <SearchView
-        android:id="@+id/barraBusqueda"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:background="@drawable/searchview_estilo"
-        android:outlineSpotShadowColor="@android:color/holo_orange_dark"
-        android:queryBackground="@android:color/transparent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

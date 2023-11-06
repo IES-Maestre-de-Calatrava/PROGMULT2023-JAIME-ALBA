@@ -10,19 +10,25 @@
     <ImageView
         android:id="@+id/headerPerfilEditar"
         android:layout_width="wrap_content"
-        android:layout_height="180dp"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/header2" />
 
     <ImageView
         android:id="@+id/iconPerfilEditar"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginEnd="44dp"
+        android:layout_marginEnd="42dp"
         app:layout_constraintBottom_toBottomOf="@+id/headerPerfilEditar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/headerPerfilEditar"
+        app:layout_constraintTop_toTopOf="@+id/headerPerfilEditar"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/icon3" />
 
     <Button
@@ -36,7 +42,11 @@
         android:text="@string/botonVolver"
         android:textColor="@android:color/holo_orange_dark"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/headerPerfilEditar"
+        app:layout_constraintVertical_bias="1.0"
         tools:onClick="volver" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -50,6 +60,8 @@
         app:boxStrokeWidth="2dp"
         app:hintTextColor="@android:color/holo_orange_dark"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headerPerfilEditar"
         app:layout_constraintVertical_bias="0.13"
@@ -100,6 +112,10 @@
         android:text="@string/confirmar"
         android:textColor="@android:color/holo_orange_dark"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/headerPerfilEditar"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

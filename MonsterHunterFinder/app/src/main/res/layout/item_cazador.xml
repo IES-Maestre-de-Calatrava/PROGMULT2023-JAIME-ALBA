@@ -42,8 +42,12 @@
         android:layout_marginTop="15dp"
         android:text="TextView"
         android:textColor="@color/material_dynamic_neutral_variant70"
+        app:layout_constraintBottom_toBottomOf="@+id/vistaInterna1"
+        app:layout_constraintEnd_toEndOf="@+id/vistaInterna3"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/vistaInterna1"
-        app:layout_constraintTop_toTopOf="@+id/vistaInterna1" />
+        app:layout_constraintTop_toTopOf="@+id/vistaInterna1"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textoBioCazador"
@@ -57,6 +61,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/vistaInterna1"
         app:layout_constraintEnd_toEndOf="@+id/vistaInterna1"
         app:layout_constraintStart_toStartOf="@+id/textoNombreCazador"
-        app:layout_constraintTop_toBottomOf="@+id/textoNombreCazador" />
+        app:layout_constraintTop_toBottomOf="@+id/textoNombreCazador"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

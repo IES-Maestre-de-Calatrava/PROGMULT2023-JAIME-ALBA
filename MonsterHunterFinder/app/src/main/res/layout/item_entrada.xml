@@ -24,8 +24,12 @@
         android:layout_marginTop="15dp"
         android:text="TextView"
         android:textColor="@color/material_dynamic_neutral_variant70"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textoListaArma"
-        app:layout_constraintTop_toBottomOf="@+id/textoListaArma" />
+        app:layout_constraintTop_toBottomOf="@+id/textoListaArma"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/botonVer"
@@ -36,6 +40,8 @@
         android:textColor="@android:color/holo_orange_dark"
         app:layout_constraintBottom_toBottomOf="@+id/botonEliminar"
         app:layout_constraintEnd_toStartOf="@+id/botonEditar"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/vistaInterna"
         app:layout_constraintTop_toTopOf="@+id/botonEliminar" />
 
     <TextView
@@ -43,11 +49,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="21dp"
         android:text="TextView"
         android:textColor="@color/material_dynamic_neutral_variant70"
+        app:layout_constraintBottom_toBottomOf="@+id/vistaInterna"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/botonEditar"
@@ -58,6 +68,8 @@
         android:textColor="@android:color/holo_orange_dark"
         app:layout_constraintBottom_toBottomOf="@+id/botonEliminar"
         app:layout_constraintEnd_toStartOf="@+id/botonEliminar"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/vistaInterna"
         app:layout_constraintTop_toTopOf="@+id/botonEliminar" />
 
     <Button
@@ -69,6 +81,10 @@
         android:backgroundTint="@android:color/system_neutral1_900"
         android:text="@string/eliminar"
         android:textColor="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/vistaInterna"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/vistaInterna"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
