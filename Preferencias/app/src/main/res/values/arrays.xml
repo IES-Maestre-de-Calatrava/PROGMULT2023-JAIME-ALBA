@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Creo un primer array, el Reply Preference-->
+    <string-array name="reply_entries">
+        <item>Euros</item>
+        <item>Dólares</item>
+    </string-array>
+    <!-- A los names puedo asignar values, para que el usuario elija strings pero yo de fondo trabajar con números-->
+    <string-array name="reply_values">
+        <!-- El primero de arriba se corresponde con el primero de abajo, y así con todos-->
+        <item>euros</item>
+        <item>dolares</item>
+        <!-- Tras ponerlo aquí, me vuelvo a ir a root_preferences-->
+    </string-array>
+</resources>

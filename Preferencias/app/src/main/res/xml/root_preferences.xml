@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Lo primero, pongo categorías.-->
+<!-- Tengo que indicarle los valores que quiero que aparezcan en mi lista, necesito un XML con esos valores-->
+<!-- Me voy a Values, declaro un XML nuevo llamado arrays-->
+
+<!-- Cuando vuelva aquí de arrays.xml, tengo que tocar los atributos de la listPreference-->
+<!-- En teoría ya puede probarse a ver si fufa-->
+
+<!-- No fufa. Para arreglarlo: las dos últimas líneas, las de key y useSimpleSummary-->
+
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Preference category">
+
+        <ListPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="1"
+            android:title="List preference"
+            app:entries="@array/reply_entries"
+            app:entryValues="@array/reply_values"
+
+            app:key="moneda"
+            app:useSimpleSummaryProvider="true"/>
+        <!-- "Moneda" es la key por la que lo va a buscar.-->
+    </PreferenceCategory>
+</PreferenceScreen>
