@@ -65,4 +65,8 @@
     <string name="buscarArma">Search by fav weapon</string>
     <string name="buscarJuego">Search by fav game</string>
     <string name="buscarDias">Search by gaming frequency</string>
+    <string name="diarioCazaNotificaciones">Hunting diary</string>
+    <string name="entradaAnadidaNotif">A new entry has been added to the hunting diary!</string>
+    <string name="entradaModificadaNotif">An entry from the hunting diary has been modified!</string>
+    <string name="darPermisos">Give me permissions if you want to receive notifications!</string>
 </resources>

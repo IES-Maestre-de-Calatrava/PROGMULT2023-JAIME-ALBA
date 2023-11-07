@@ -1,17 +1,28 @@
 package com.example.monsterhunterfinder
 
+import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.monsterhunterfinder.adapter.EntradasAdapter
@@ -21,6 +32,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 class activity_diario_vista : AppCompatActivity() {
 
     private lateinit var binding: ActivityDiarioVistaBinding
+
+    private val ID_CANAL: String = "MHFD"
+    private var PETICION_PERMISOS: Int = 111
+
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
 
 
@@ -40,6 +55,7 @@ class activity_diario_vista : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         crearObjetosDelXml()
+        crearCanalNotificaciones()
 
         setSupportActionBar(binding.toolbar.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -85,8 +101,10 @@ class activity_diario_vista : AppCompatActivity() {
 
                         if (datos.hasExtra("id")) {
                             actualizarRegistro(posicion, entradaDiario)
+                            lanzarNotifModificar()
                         } else {
                             insertarRegistro(entradaDiario)
+                            lanzarNotifAnadir()
                         }
 
                     }
@@ -101,6 +119,99 @@ class activity_diario_vista : AppCompatActivity() {
     private fun crearObjetosDelXml() {
         binding=ActivityDiarioVistaBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
+
+    private fun crearCanalNotificaciones() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val nombre = "Monster Hunter Finder diario"
+            val textoDescripcion = "Canal para las notificaciones del diario de Monster Hunter Finder"
+            val importancia = NotificationManager.IMPORTANCE_DEFAULT
+
+            val canal = NotificationChannel(ID_CANAL, nombre, importancia).apply{
+                description = textoDescripcion
+            }
+
+            val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(canal)
+        }
+
+    }
+
+    fun lanzarNotifAnadir() {
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.POST_NOTIFICATIONS)) {
+            Toast.makeText(this, R.string.darPermisos.toString(), Toast.LENGTH_LONG).show()
+        } else {
+            if (ActivityCompat.checkSelfPermission(
+                this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(
+                        Manifest.permission.POST_NOTIFICATIONS
+                    ), PETICION_PERMISOS
+                )
+            }
+        }
+
+        val contenidoIntent = PendingIntent.getActivity(
+            this,
+            0,
+            Intent(this, activity_diario_vista::class.java), PendingIntent.FLAG_IMMUTABLE
+        )
+
+        var notificationBuilder = NotificationCompat.Builder(this, ID_CANAL)
+            .setSmallIcon(android.R.drawable.ic_input_get)
+            .setContentTitle(getString(R.string.diarioCazaNotificaciones))
+            .setContentText(getString(R.string.entradaAnadidaNotif))
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(contenidoIntent)
+
+        with(NotificationManagerCompat.from(this)){
+            notify(1, notificationBuilder.build())
+        }
+    }
+
+    fun lanzarNotifModificar() {
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.POST_NOTIFICATIONS)) {
+            Toast.makeText(this, R.string.darPermisos.toString(), Toast.LENGTH_LONG).show()
+        } else {
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(
+                        Manifest.permission.POST_NOTIFICATIONS
+                    ), PETICION_PERMISOS
+                )
+            }
+        }
+
+        val contenidoIntent = PendingIntent.getActivity(
+            this,
+            0,
+            Intent(this, activity_diario_vista::class.java), PendingIntent.FLAG_IMMUTABLE
+        )
+
+        var notificationBuilder = NotificationCompat.Builder(this, ID_CANAL)
+            .setSmallIcon(android.R.drawable.ic_menu_sort_by_size)
+            .setContentTitle(getString(R.string.diarioCazaNotificaciones))
+            .setContentText(getString(R.string.entradaModificadaNotif))
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(contenidoIntent)
+
+        with(NotificationManagerCompat.from(this)){
+            notify(1, notificationBuilder.build())
+        }
+
+
     }
 
     fun volver(view: View) {

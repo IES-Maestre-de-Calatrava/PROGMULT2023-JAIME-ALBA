@@ -64,4 +64,8 @@
     <string name="buscarArma">Buscar por arma favorita</string>
     <string name="buscarJuego">Buscar por juego favorito</string>
     <string name="buscarDias">Buscar por frecuencia de juego</string>
+    <string name="diarioCazaNotificaciones">Diario de caza</string>
+    <string name="entradaAnadidaNotif">¡Se ha añadido una nueva entrada al diario de caza!</string>
+    <string name="entradaModificadaNotif">¡Se ha modificado una entrada del diario de caza!</string>
+    <string name="darPermisos">¡Dame permisos si quieres recibir notificaciones!</string>
 </resources>
