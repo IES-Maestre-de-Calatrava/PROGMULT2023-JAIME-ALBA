@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -105,6 +106,7 @@ class MainActivity : AppCompatActivity() {
         // Intent especial; distinto, con más parámetros, como el asunto o el
         // contenido del correo
         // Para ésta, el ACTION_SEND va a tratar de abrir un sistema de mensajería
+        Log.d(":::TAG", "SI LO HACE")
         startActivity(
             Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
@@ -113,7 +115,7 @@ class MainActivity : AppCompatActivity() {
                 // El EXTRA_TEXT es el contenido del correo
                 putExtra(Intent.EXTRA_TEXT, "Hola, ésto es un mensaje de prueba para la asignatura de ProgMult")
                 // Declaramos un array en el que podemos meter varias direcciones
-                putExtra(Intent.EXTRA_EMAIL, arrayOf("jaimealbaruiz@gmail.com"))
+                putExtra(Intent.EXTRA_EMAIL, arrayOf("hajimefffuuuu@gmail.com"))
             }
         )
     }

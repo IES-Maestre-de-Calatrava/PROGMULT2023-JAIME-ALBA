@@ -1,9 +1,12 @@
 package com.example.monsterhunterfinder
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -26,6 +29,9 @@ class activity_buscador : AppCompatActivity() {
     private lateinit var cazadoresAdapter: CazadoresAdapter
     val managerCazadores = LinearLayoutManager(this)
 
+    var opcionBusqueda: Int = 0
+    private lateinit var misPreferencias: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         crearObjetosDelXml()
@@ -35,13 +41,21 @@ class activity_buscador : AppCompatActivity() {
 
         iniciarRecycleViewCazadores()
 
+        misPreferencias = getSharedPreferences(packageName + "_preferences", Context.MODE_PRIVATE)
+        registerForContextMenu(binding.barraBusqueda)
+
         binding.barraBusqueda.setOnQueryTextListener( object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 binding.barraBusqueda.clearFocus()
                 if (query==""){
                     iniciarRecycleViewCazadores()
                 }else{
-                    listarCazadoresFiltrando(query)
+                    when (opcionBusqueda) {
+                        1 -> listarCazadoresFiltrandoArma(query)
+                        2 -> listarCazadoresFiltrandoJuegofav(query)
+                        3 -> listarCazadoresFiltrandoDias(query)
+                        else -> listarCazadoresFiltrando(query)
+                    }
                 }
                 return false
             }
@@ -50,7 +64,12 @@ class activity_buscador : AppCompatActivity() {
                 if (newText==""){
                     iniciarRecycleViewCazadores()
                 }else{
-                    listarCazadoresFiltrando(newText)
+                    when (opcionBusqueda) {
+                        1 -> listarCazadoresFiltrandoArma(newText)
+                        2 -> listarCazadoresFiltrandoJuegofav(newText)
+                        3 -> listarCazadoresFiltrandoDias(newText)
+                        else -> listarCazadoresFiltrando(newText)
+                    }
                 }
                 return false
             }
@@ -61,6 +80,37 @@ class activity_buscador : AppCompatActivity() {
     private fun crearObjetosDelXml() {
         binding=ActivityBuscadorBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
+
+    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        when (v){
+            binding.barraBusqueda -> menuInflater.inflate(R.menu.menu_buscar_favoritos, menu)
+        }
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.BuscarArmaFavorita -> {
+                opcionBusqueda=1
+                binding.barraBusqueda.setQuery(misPreferencias.getString("arma", "Gran espada"), false)
+                true
+            }
+
+            R.id.BuscarJuegoFavorito -> {
+                opcionBusqueda=2
+                binding.barraBusqueda.setQuery(misPreferencias.getString("juego", "MHWorld"), false)
+                true
+            }
+
+            R.id.BuscarFrecuenciaJuego -> {
+                opcionBusqueda=3
+                binding.barraBusqueda.setQuery(misPreferencias.getString("dias", "Findes"), false)
+                true
+            }
+
+            else -> super.onContextItemSelected(item)
+        }
     }
 
     fun volver(view: View) {
@@ -89,7 +139,6 @@ class activity_buscador : AppCompatActivity() {
     }
 
     private fun iniciarRecycleViewCazadores() {
-        val decoration = DividerItemDecoration(this, managerCazadores.orientation)
         binding.recyclerViewCazadores.layoutManager = managerCazadores
         cazadorProvider = CazadorProvider()
         cazadoresAdapter = CazadoresAdapter(cazadoresList = cazadorProvider.cazadoresList)
@@ -100,12 +149,10 @@ class activity_buscador : AppCompatActivity() {
                 resultado ->
                     cazadorProvider.actualizarLista(resultado)
                     binding.recyclerViewCazadores.adapter = cazadoresAdapter
-                    binding.recyclerViewCazadores.addItemDecoration(decoration)
             }
     }
 
     private fun listarCazadoresFiltrando(palabrasBuscar: String?) {
-        val decoracion = DividerItemDecoration(this, managerCazadores.orientation)
 
         binding.recyclerViewCazadores.layoutManager = managerCazadores
 
@@ -121,7 +168,66 @@ class activity_buscador : AppCompatActivity() {
                     resultado ->
                         cazadorProvider.actualizarLista(resultado)
                         binding.recyclerViewCazadores.adapter = cazadoresAdapter
-                        binding.recyclerViewCazadores.addItemDecoration(decoracion)
+            }
+    }
+
+
+    private fun listarCazadoresFiltrandoArma(palabrasBuscar: String?) {
+
+        binding.recyclerViewCazadores.layoutManager = managerCazadores
+
+        cazadorProvider = CazadorProvider()
+        cazadoresAdapter = CazadoresAdapter(
+            cazadoresList = cazadorProvider.cazadoresList
+        )
+
+        coleccionCazadores
+            .whereEqualTo("arma", palabrasBuscar)
+            .get()
+            .addOnSuccessListener {
+                    resultado ->
+                cazadorProvider.actualizarLista(resultado)
+                binding.recyclerViewCazadores.adapter = cazadoresAdapter
+            }
+    }
+
+
+    private fun listarCazadoresFiltrandoJuegofav(palabrasBuscar: String?) {
+
+        binding.recyclerViewCazadores.layoutManager = managerCazadores
+
+        cazadorProvider = CazadorProvider()
+        cazadoresAdapter = CazadoresAdapter(
+            cazadoresList = cazadorProvider.cazadoresList
+        )
+
+        coleccionCazadores
+            .whereEqualTo("juegofav", palabrasBuscar)
+            .get()
+            .addOnSuccessListener {
+                    resultado ->
+                cazadorProvider.actualizarLista(resultado)
+                binding.recyclerViewCazadores.adapter = cazadoresAdapter
+            }
+    }
+
+
+    private fun listarCazadoresFiltrandoDias(palabrasBuscar: String?) {
+
+        binding.recyclerViewCazadores.layoutManager = managerCazadores
+
+        cazadorProvider = CazadorProvider()
+        cazadoresAdapter = CazadoresAdapter(
+            cazadoresList = cazadorProvider.cazadoresList
+        )
+
+        coleccionCazadores
+            .whereEqualTo("dias", palabrasBuscar)
+            .get()
+            .addOnSuccessListener {
+                    resultado ->
+                cazadorProvider.actualizarLista(resultado)
+                binding.recyclerViewCazadores.adapter = cazadoresAdapter
             }
     }
 

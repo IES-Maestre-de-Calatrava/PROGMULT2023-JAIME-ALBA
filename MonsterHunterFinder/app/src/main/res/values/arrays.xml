@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="reply_entries_armas">
+        <item>Gran espada</item>
+        <item>Espada larga</item>
+        <item>Espada y escudo</item>
+        <item>Espadas dobles</item>
+        <item>Lanza</item>
+        <item>Lanza pistola</item>
+        <item>Martillo</item>
+        <item>Cornamusa</item>
+        <item>Hacha espada</item>
+        <item>Hacha cargada</item>
+        <item>Glaive insecto</item>
+        <item>Ballesta ligera</item>
+        <item>Ballesta pesada</item>
+        <item>Arco</item>
+        <item>Todas</item>
+    </string-array>
+
+    <string-array name="reply_values_armas">
+        <item>Gran espada</item>
+        <item>Espada larga</item>
+        <item>Espada y escudo</item>
+        <item>Espadas dobles</item>
+        <item>Lanza</item>
+        <item>Lanza pistola</item>
+        <item>Martillo</item>
+        <item>Cornamusa</item>
+        <item>Hacha espada</item>
+        <item>Hacha cargada</item>
+        <item>Glaive insecto</item>
+        <item>Ballesta ligera</item>
+        <item>Ballesta pesada</item>
+        <item>Arco</item>
+        <item>Todas</item>
+    </string-array>
+
+    <string-array name="reply_entries_juegos">
+        <item>MHFU</item>
+        <item>MH3U</item>
+        <item>MH4U</item>
+        <item>MHGenU</item>
+        <item>MHWorld</item>
+        <item>MHRise</item>
+    </string-array>
+
+    <string-array name="reply_values_juegos">
+        <item>MHFU</item>
+        <item>MH3U</item>
+        <item>MH4U</item>
+        <item>MHGenU</item>
+        <item>MHWorld</item>
+        <item>MHRise</item>
+    </string-array>
+
+    <string-array name="reply_entries_dias">
+        <item>Diario</item>
+        <item>Findes</item>
+        <item>Entre semana</item>
+    </string-array>
+
+    <string-array name="reply_values_dias">
+        <item>Diario</item>
+        <item>Findes</item>
+        <item>Entre semana</item>
+    </string-array>
+</resources>

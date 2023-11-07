@@ -52,4 +52,16 @@
     <string name="seguroBorrado">¿Estás seguro de borrar esta entrada?</string>
     <string name="enlaceFoto">¡Pega aquí el enlace de la foto!</string>
     <string name="hintBuscar">¡Haz una pulsación larga!</string>
+    <string name="asunto">¡Nueva app de Monster Hunter!</string>
+    <string name="contenido">¿Aburrido de cazar en solitario? ¡Descarga ya Monster Hunter Finder!</string>
+    <string name="prererencias">Preferencias</string>
+    <string name="armaFavorita">¡Elige tu arma favorita!</string>
+    <string name="juegoFavorito">¿Juego favorito de la saga?</string>
+    <string name="frecuenciaJuego">¿Qué tan seguido juegas?</string>
+    <string name="armaFavoritaSi">Arma favorita</string>
+    <string name="juegoFavoritoSi">Juego favorito</string>
+    <string name="frecuenciaJuegoSi">Frecuencia de juego</string>
+    <string name="buscarArma">Buscar por arma favorita</string>
+    <string name="buscarJuego">Buscar por juego favorito</string>
+    <string name="buscarDias">Buscar por frecuencia de juego</string>
 </resources>

@@ -53,4 +53,16 @@
     <string name="seguroBorrado">Are you sure about deleting this entry?</string>
     <string name="enlaceFoto">Paste here the link of the pic!</string>
     <string name="hintBuscar">Long press!</string>
+    <string name="asunto">New app about Monster Hunter!</string>
+    <string name="contenido">Enough of hunting alone? Download Monster Hunter Finder now!</string>
+    <string name="prererencias">Preferences</string>
+    <string name="armaFavorita">Choose your favorite weapon!</string>
+    <string name="juegoFavorito">Favorite game in the series?</string>
+    <string name="frecuenciaJuego">How often do you play?</string>
+    <string name="armaFavoritaSi">Favorite weapon</string>
+    <string name="juegoFavoritoSi">Favorite game</string>
+    <string name="frecuenciaJuegoSi">Gaming frequency</string>
+    <string name="buscarArma">Search by fav weapon</string>
+    <string name="buscarJuego">Search by fav game</string>
+    <string name="buscarDias">Search by gaming frequency</string>
 </resources>

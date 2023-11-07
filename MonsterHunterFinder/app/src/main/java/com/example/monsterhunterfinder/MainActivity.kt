@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -53,7 +54,9 @@ class MainActivity : AppCompatActivity() {
         startActivity(
             Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
-                putExtra(Intent.EXTRA_TEXT, "¿Aburrido de cazar en solitario? ¡Descarga ya Monster Hunter Finder!")
+                putExtra(Intent.EXTRA_SUBJECT, getString(R.string.asunto))
+                putExtra(Intent.EXTRA_TEXT, getString(R.string.contenido))
+                putExtra(Intent.EXTRA_EMAIL, arrayOf("jaimealbaruiz@gmail.com"))
             }
         )
     }
@@ -65,6 +68,11 @@ class MainActivity : AppCompatActivity() {
     fun abrirWeb() {
         val lanzarWeb: Intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://mhrise.kiranico.com/es"))
         startActivity(lanzarWeb)
+    }
+
+    fun abrirPreferencias() {
+        val abrirPref: Intent = Intent(this, activity_settings::class.java)
+        startActivity(abrirPref)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -81,6 +89,11 @@ class MainActivity : AppCompatActivity() {
 
             R.id.CompartirApp -> {
                 compartir()
+                true
+            }
+
+            R.id.Preferencias -> {
+                abrirPreferencias()
                 true
             }
 
