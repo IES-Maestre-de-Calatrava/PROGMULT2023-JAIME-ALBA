@@ -18,6 +18,12 @@ import com.example.monsterhunterfinder.adapter.EntradasAdapter
 import com.example.monsterhunterfinder.databinding.ActivityBuscadorBinding
 import com.google.firebase.firestore.FirebaseFirestore
 
+/**
+ * Activity dedicada al buscador, en la que el usuario puede
+ * realizar búsquedas de otros usuarios filtrando de distintas
+ * formas.
+ * @author Jaime
+ */
 class activity_buscador : AppCompatActivity() {
 
     private lateinit var binding: ActivityBuscadorBinding
@@ -42,6 +48,11 @@ class activity_buscador : AppCompatActivity() {
         iniciarRecycleViewCazadores()
 
         misPreferencias = getSharedPreferences(packageName + "_preferences", Context.MODE_PRIVATE)
+        misPreferencias.edit().putString("arma", "Gran espada").apply()
+        misPreferencias.edit().putString("juego", "MHWorld").apply()
+        misPreferencias.edit().putString("dias", "Findes").apply()
+
+
         registerForContextMenu(binding.barraBusqueda)
 
         binding.barraBusqueda.setOnQueryTextListener( object: SearchView.OnQueryTextListener{
@@ -77,6 +88,10 @@ class activity_buscador : AppCompatActivity() {
         })
     }
 
+    /**
+     * Función que toma el archivo xml del layout asociado
+     * a la activity y lo infla, creando objetos con él.
+     */
     private fun crearObjetosDelXml() {
         binding=ActivityBuscadorBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -113,6 +128,13 @@ class activity_buscador : AppCompatActivity() {
         }
     }
 
+    /**
+     * Función que finaliza la activity actual, devolviendo
+     * al usuario a aquella activity desde la que hubiera
+     * accedido.
+     * @param view: vista (botón en este caso) cuya activación
+     * inicia la función
+     */
     fun volver(view: View) {
         finish()
     }
@@ -133,11 +155,22 @@ class activity_buscador : AppCompatActivity() {
         }
     }
 
+
+    /**
+     * Función que lanza un intent para abrir una
+     * activity con la página web contenida en la
+     * String que se le indique al parser.
+     */
     fun abrirWeb() {
         val lanzarWeb: Intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://mhrise.kiranico.com/es"))
         startActivity(lanzarWeb)
     }
 
+
+    /**
+     * Método que inicializa la RecyclerView con el contenido de la
+     * colección cuya variable hayamos inicializado anteriormente.
+     */
     private fun iniciarRecycleViewCazadores() {
         binding.recyclerViewCazadores.layoutManager = managerCazadores
         cazadorProvider = CazadorProvider()
@@ -152,6 +185,16 @@ class activity_buscador : AppCompatActivity() {
             }
     }
 
+
+    /**
+     * Método que realiza una función similar a la de inicializar una
+     * RecyclerView, con la salvedad de que sólo muestra aquellos registros
+     * que coincidan con el filtro que establece el método.
+     * Filtra según el campo "bio" de la Firestore.
+     * @param palabrasBuscar: String que contiene aquel texto con el que
+     * se van a buscar coincidencias en el campo "bio" de los registros
+     * de la Firestore.
+     */
     private fun listarCazadoresFiltrando(palabrasBuscar: String?) {
 
         binding.recyclerViewCazadores.layoutManager = managerCazadores
@@ -172,6 +215,15 @@ class activity_buscador : AppCompatActivity() {
     }
 
 
+    /**
+     * Método que realiza una función similar a la de inicializar una
+     * RecyclerView, con la salvedad de que sólo muestra aquellos registros
+     * que coincidan con el filtro que establece el método.
+     * Filtra según el campo "arma" de la Firestore.
+     * @param palabrasBuscar: String que contiene aquel texto con el que
+     * se van a buscar coincidencias en el campo "arma" de los registros
+     * de la Firestore.
+     */
     private fun listarCazadoresFiltrandoArma(palabrasBuscar: String?) {
 
         binding.recyclerViewCazadores.layoutManager = managerCazadores
@@ -192,6 +244,15 @@ class activity_buscador : AppCompatActivity() {
     }
 
 
+    /**
+     * Método que realiza una función similar a la de inicializar una
+     * RecyclerView, con la salvedad de que sólo muestra aquellos registros
+     * que coincidan con el filtro que establece el método.
+     * Filtra según el campo "juegofav" de la Firestore.
+     * @param palabrasBuscar: String que contiene aquel texto con el que
+     * se van a buscar coincidencias en el campo "juegofav" de los registros
+     * de la Firestore.
+     */
     private fun listarCazadoresFiltrandoJuegofav(palabrasBuscar: String?) {
 
         binding.recyclerViewCazadores.layoutManager = managerCazadores
@@ -212,6 +273,15 @@ class activity_buscador : AppCompatActivity() {
     }
 
 
+    /**
+     * Método que realiza una función similar a la de inicializar una
+     * RecyclerView, con la salvedad de que sólo muestra aquellos registros
+     * que coincidan con el filtro que establece el método.
+     * Filtra según el campo "dias" de la Firestore.
+     * @param palabrasBuscar: String que contiene aquel texto con el que
+     * se van a buscar coincidencias en el campo "dias" de los registros
+     * de la Firestore.
+     */
     private fun listarCazadoresFiltrandoDias(palabrasBuscar: String?) {
 
         binding.recyclerViewCazadores.layoutManager = managerCazadores

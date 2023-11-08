@@ -11,6 +11,12 @@ import android.view.View
 import com.example.monsterhunterfinder.databinding.ActivityDiarioVerBinding
 import com.google.firebase.firestore.FirebaseFirestore
 
+/**
+ * Activity mediante la que el usuario puede visualizar
+ * versiones completas de entradas que haya añadido a su
+ * diario de caza.
+ * @author Jaime
+ */
 class activity_diario_ver : AppCompatActivity() {
 
     private lateinit var binding: ActivityDiarioVerBinding
@@ -49,6 +55,10 @@ class activity_diario_ver : AppCompatActivity() {
 
     }
 
+    /**
+     * Función que toma el archivo xml del layout asociado
+     * a la activity y lo infla, creando objetos con él.
+     */
     private fun crearObjetosDelXml() {
         binding=ActivityDiarioVerBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -59,6 +69,13 @@ class activity_diario_ver : AppCompatActivity() {
         return true
     }
 
+    /**
+     * Función que finaliza la activity actual, devolviendo
+     * al usuario a aquella activity desde la que hubiera
+     * accedido.
+     * @param view: vista (botón en este caso) cuya activación
+     * inicia la función
+     */
     fun volver(view: View) {
         finish()
     }
@@ -74,6 +91,11 @@ class activity_diario_ver : AppCompatActivity() {
         }
     }
 
+    /**
+     * Función que lanza un intent para abrir una
+     * activity con la página web contenida en la
+     * String que se le indique al parser.
+     */
     fun abrirWeb() {
         val lanzarWeb: Intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://mhrise.kiranico.com/es"))
         startActivity(lanzarWeb)

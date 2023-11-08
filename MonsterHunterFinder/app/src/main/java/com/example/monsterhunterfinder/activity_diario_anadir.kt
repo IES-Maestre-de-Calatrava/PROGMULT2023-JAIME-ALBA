@@ -11,6 +11,11 @@ import android.widget.Toast
 import com.example.monsterhunterfinder.databinding.ActivityDiarioAnadirBinding
 import com.google.firebase.firestore.FirebaseFirestore
 
+/**
+ * Activity en la que el usuario puede añadir
+ * o modificar registros del diario de caza.
+ * @author Jaime
+ */
 class activity_diario_anadir : AppCompatActivity() {
 
     private lateinit var binding: ActivityDiarioAnadirBinding
@@ -42,6 +47,10 @@ class activity_diario_anadir : AppCompatActivity() {
         }
     }
 
+    /**
+     * Función que toma el archivo xml del layout asociado
+     * a la activity y lo infla, creando objetos con él.
+     */
     private fun crearObjetosDelXml() {
         binding=ActivityDiarioAnadirBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -52,6 +61,13 @@ class activity_diario_anadir : AppCompatActivity() {
         return true
     }
 
+    /**
+     * Función que finaliza la activity actual, devolviendo
+     * al usuario a aquella activity desde la que hubiera
+     * accedido.
+     * @param view: vista (botón en este caso) cuya activación
+     * inicia la función
+     */
     fun volver(view: View) {
         finish()
     }
@@ -67,11 +83,23 @@ class activity_diario_anadir : AppCompatActivity() {
         }
     }
 
+    /**
+     * Función que lanza un intent para abrir una
+     * activity con la página web contenida en la
+     * String que se le indique al parser.
+     */
     fun abrirWeb() {
         val lanzarWeb: Intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://mhrise.kiranico.com/es"))
         startActivity(lanzarWeb)
     }
 
+    /**
+     * Función que vuelve a la activity que ha llamado a la presente
+     * con un intent que incluye datos recogidos de las cajas de
+     * texto presentes en el layout de esta activity.
+     * Para recoger dichos datos, será necesario un activityResultLauncher
+     * en la activity que ha llamado a la presente.
+     */
     fun volverConDatos() {
         val intent = Intent()
 

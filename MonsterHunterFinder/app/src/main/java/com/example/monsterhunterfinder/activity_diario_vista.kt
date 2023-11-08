@@ -29,6 +29,15 @@ import com.example.monsterhunterfinder.adapter.EntradasAdapter
 import com.example.monsterhunterfinder.databinding.ActivityDiarioVistaBinding
 import com.google.firebase.firestore.FirebaseFirestore
 
+/**
+ * Activity dedicada a la vista principal del diario de caza,
+ * desde la cual el usuario puede hacer scroll por el registro
+ * de todas sus entradas del diario, visualizar una versión más
+ * completa de las mismas, editarlas, eliminarlas, añadir nuevas
+ * entradas, filtrar las entradas que aparecen en la lista según
+ * el arma que se haya utilizado y limpiar el filtro.
+ * @author Jaime
+ */
 class activity_diario_vista : AppCompatActivity() {
 
     private lateinit var binding: ActivityDiarioVistaBinding
@@ -116,11 +125,20 @@ class activity_diario_vista : AppCompatActivity() {
         return true
     }
 
+    /**
+     * Función que toma el archivo xml del layout asociado
+     * a la activity y lo infla, creando objetos con él.
+     */
     private fun crearObjetosDelXml() {
         binding=ActivityDiarioVistaBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 
+    /**
+     * Función que crea el canal de notificaciones desde el cual
+     * se enviarán al usuario las notificaciones relativas a las
+     * interacciones con las entradas del diario de caza.
+     */
     private fun crearCanalNotificaciones() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -138,6 +156,13 @@ class activity_diario_vista : AppCompatActivity() {
 
     }
 
+    /**
+     * Función que, a través de un canal de notificaciones que debe haberse
+     * creado con anterioridad, lanza una notificación cuando se añade una
+     * entrada al diario de caza.
+     * Únicamente en el caso de que el usuario le haya concedido permisos de
+     * notificaciones a la aplicación.
+     */
     fun lanzarNotifAnadir() {
 
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.POST_NOTIFICATIONS)) {
@@ -175,6 +200,14 @@ class activity_diario_vista : AppCompatActivity() {
         }
     }
 
+
+    /**
+     * Función que, a través de un canal de notificaciones que debe haberse
+     * creado con anterioridad, lanza una notificación cuando se modifica una
+     * entrada del diario de caza.
+     * Únicamente en el caso de que el usuario le haya concedido permisos de
+     * notificaciones a la aplicación.
+     */
     fun lanzarNotifModificar() {
 
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.POST_NOTIFICATIONS)) {
@@ -214,6 +247,13 @@ class activity_diario_vista : AppCompatActivity() {
 
     }
 
+    /**
+     * Función que finaliza la activity actual, devolviendo
+     * al usuario a aquella activity desde la que hubiera
+     * accedido.
+     * @param view: vista (botón en este caso) cuya activación
+     * inicia la función
+     */
     fun volver(view: View) {
         finish()
     }
@@ -229,6 +269,11 @@ class activity_diario_vista : AppCompatActivity() {
         }
     }
 
+    /**
+     * Función que lanza un intent para abrir una
+     * activity con la página web contenida en la
+     * String que se le indique al parser.
+     */
     fun abrirWeb() {
         val lanzarWeb: Intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://mhrise.kiranico.com/es"))
         startActivity(lanzarWeb)
@@ -322,11 +367,22 @@ class activity_diario_vista : AppCompatActivity() {
         }
     }
 
+    /**
+     * Función que vacía el contenido del campo dedicado al
+     * filtro para armas y reinicia la RecyclerView.
+     */
     fun vaciarCampos() {
         binding.textoFiltroArma.setText("")
         iniciarRecyclerView()
     }
 
+    /**
+     * Función que crea un cuadro de diálogo al presionarse
+     * la view a la que va asociada, procurando que el usuario
+     * se asegure de la acción que desea ejecutar.
+     * @param view: vista (botón en este caso) cuya activación
+     * inicia la función
+     */
     fun mostrarOpciones(view: View) {
         val builder = AlertDialog.Builder(this)
 
