@@ -405,6 +405,10 @@ class activity_diario_vista : AppCompatActivity() {
     }
 
 
+    /**
+     * Método que inicializa la RecyclerView con el contenido de la
+     * colección cuya variable hayamos inicializado anteriormente.
+     */
     private fun iniciarRecyclerView() {
         val decoracion = DividerItemDecoration(this, manager.orientation)
 
@@ -427,6 +431,15 @@ class activity_diario_vista : AppCompatActivity() {
     }
 
 
+    /**
+     * Método que realiza una función similar a la de inicializar una
+     * RecyclerView, con la salvedad de que sólo muestra aquellos registros
+     * que coincidan con el filtro que establece el método.
+     * Filtra registros según el campo "arma" de la Firestore.
+     * @param palabrasBuscar: String que contiene aquel texto con el que
+     * se van a buscar coincidencias en el campo "arma" de los registros
+     * de la Firestore.
+     */
     private fun listarFiltrando() {
         val decoracion = DividerItemDecoration(this, manager.orientation)
 
@@ -450,11 +463,25 @@ class activity_diario_vista : AppCompatActivity() {
     }
 
 
+    /**
+     * Función que llama a un activityResultLauncher que lanza un intent para
+     * abrir la activity necesaria para añadir un registro al diario
+     * de caza, de la cual se recogerán datos que vendrán contenidos en
+     * el activityResultLauncher llamado.
+     */
     private fun lanzarActivityRegistro() {
         val intent = Intent(this, activity_diario_anadir::class.java)
         activityResultLauncher.launch(intent)
     }
 
+    /**
+     * Función que llama a la variable asociada a la colección del diario de
+     * caza y le inserta un registro, utilizando para generar los campos del
+     * mismo los datos contenidos por una data class de tipo Entrada que se
+     * le pase por parámetro.
+     * @param entradaDiario: objeto data class de tipo Entrada cuyos datos
+     * se utilizan para generar los campos del registro.
+     */
     private fun insertarRegistro(entradaDiario: Entrada) {
         myCollection
             .document(entradaDiario.numEntrada.toString())
@@ -472,6 +499,15 @@ class activity_diario_vista : AppCompatActivity() {
             }
     }
 
+    /**
+     * Función que llama a la variable asociada a la colección del diario de
+     * caza y elimina un registro de la misma, usando la posición y la id
+     * del registro a eliminar para identificarlo.
+     * La id se emplea con respecto a la colección, y la posición se usa
+     * para tratar datos en el provider y en el adapter.
+     * @param posicion: posición del registro a eliminar
+     * @param id: id del registro a eliminar
+     */
     private fun borrarRegistro(posicion: Int, id: Int) {
         myCollection
             .document(id.toString())
@@ -482,6 +518,15 @@ class activity_diario_vista : AppCompatActivity() {
             }
     }
 
+    /**
+     * Función que llama a la variable asociada a la colección del diario de
+     * caza y modifica (sobreescribe) un registro de la misma, usando la
+     * posición y la id del registro a actualizar para identificarlo.
+     * La id se emplea con respecto a la colección, y la posición se usa
+     * para tratar datos en el provider y en el adapter.
+     * @param posicion: posición del registro a eliminar
+     * @param id: id del registro a eliminar
+     */
     private fun actualizarRegistro(posicion: Int, entradaDiario: Entrada) {
         myCollection
             .document(entradaDiario.numEntrada.toString())
@@ -499,6 +544,24 @@ class activity_diario_vista : AppCompatActivity() {
             }
     }
 
+    /**
+     * Función que llama a un activityResultLauncher que lanza un intent para
+     * abrir la activity necesaria para modificar un registro del diario
+     * de caza, de la cual se recogerán datos que vendrán contenidos en
+     * el activityResultLauncher llamado.
+     *
+     * Se diferencia de lanzarActivityRegistro en que se usa un intent con
+     * varios putExtra, con datos extraídos de la colección del diario de
+     * caza, de manera que la activity a la que se llama mediante esta función
+     * recoge dichos datos y los muestra en sus views.
+     *
+     * La activity utilizada para modificar registros es un reciclaje de la
+     * activity utilizada para añadir registros.
+     *
+     * @param posicion: posición en la colección del registro a modificar
+     * @param entradaDiario: objeto Entrada cuyos datos se envían a la activity
+     * necesaria para modificar datos, para que los muestre en sus views
+     */
     private fun lanzarActivityModificar(posicion: Int, entradaDiario: Entrada) {
         val intent = Intent(this, activity_diario_anadir::class.java)
 
