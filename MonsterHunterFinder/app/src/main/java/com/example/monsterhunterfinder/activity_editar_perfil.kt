@@ -16,15 +16,32 @@ class activity_editar_perfil : AppCompatActivity() {
         crearObjetosDelXml()
     }
 
+    /**
+     * Función que toma el archivo xml del layout asociado
+     * a la activity y lo infla, creando objetos con él.
+     */
     private fun crearObjetosDelXml() {
         binding=ActivityEditarPerfilBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 
+    /**
+     * Función que finaliza la activity actual, devolviendo
+     * al usuario a aquella activity desde la que hubiera
+     * accedido.
+     * @param view: vista (botón en este caso) cuya activación
+     * inicia la función
+     */
     fun volver(view: View) {
         finish()
     }
 
+    /**
+     * Función que crea y envía un intent con varios putExtra, los
+     * cuales recogen el contenido de los campos de texto (las
+     * views editText) de la activity, para que sea recogido y
+     * tratado en la activity del perfil de usuario.
+     */
     fun confirmarCambios() {
         val intent = Intent()
         intent.putExtra("Nombre", binding.textoNombreEditar.text.toString())
@@ -33,6 +50,13 @@ class activity_editar_perfil : AppCompatActivity() {
         finish()
     }
 
+    /**
+     * Función que crea un cuadro de diálogo al presionarse
+     * la view a la que va asociada, procurando que el usuario
+     * se asegure de la acción que desea ejecutar.
+     * @param view: vista (botón en este caso) cuya activación
+     * inicia la función
+     */
     fun mostrarConfirmar(view: View) {
         val builder = AlertDialog.Builder(this)
 
