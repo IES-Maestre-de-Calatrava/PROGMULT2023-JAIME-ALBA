@@ -1,15 +1,18 @@
 package com.example.monsterhunterfinder
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.monsterhunterfinder.databinding.ActivityMainBinding
+import com.google.firebase.firestore.FirebaseFirestore
+
 
 /**
  * Activity Main, en la que se da acceso al usuario a
@@ -20,13 +23,20 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    private val db = FirebaseFirestore.getInstance()
+    private val coleccionInic = db.collection("primeraIniciacion")
+    private lateinit var misPreferencias: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         crearObjetosDelXml()
 
+        misPreferencias = getSharedPreferences(packageName + "_preferences", Context.MODE_PRIVATE)
+
         setSupportActionBar(binding.toolbar.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
     }
+
 
 
     /**
@@ -96,7 +106,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun lanzarAcercaDe() {
-        Toast.makeText(this, "¡Sígueme en Twitter! @HajiTheHunter", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, R.string.contacto, Toast.LENGTH_LONG).show()
     }
 
     /**

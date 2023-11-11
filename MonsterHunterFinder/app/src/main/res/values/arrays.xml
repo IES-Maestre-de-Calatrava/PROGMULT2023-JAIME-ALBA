@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="reply_entries_armas">
-        <item>Gran espada</item>
-        <item>Espada larga</item>
-        <item>Espada y escudo</item>
-        <item>Espadas dobles</item>
-        <item>Lanza</item>
-        <item>Lanza pistola</item>
-        <item>Martillo</item>
-        <item>Cornamusa</item>
-        <item>Hacha espada</item>
-        <item>Hacha cargada</item>
-        <item>Glaive insecto</item>
-        <item>Ballesta ligera</item>
-        <item>Ballesta pesada</item>
-        <item>Arco</item>
-        <item>Todas</item>
+        <item>@string/granEspada</item>
+        <item>@string/espadaLarga</item>
+        <item>@string/espadaYEscudo</item>
+        <item>@string/espadasDobles</item>
+        <item>@string/lanza</item>
+        <item>@string/lanzaPistola</item>
+        <item>@string/martillo</item>
+        <item>@string/cornamusa</item>
+        <item>@string/hachaEspada</item>
+        <item>@string/hachaCargada</item>
+        <item>@string/glaiveInsecto</item>
+        <item>@string/ballestaLigera</item>
+        <item>@string/ballestaPesada</item>
+        <item>@string/arco</item>
+        <item>@string/todas</item>
     </string-array>
 
     <string-array name="reply_values_armas">
-        <item>Gran espada</item>
-        <item>Espada larga</item>
-        <item>Espada y escudo</item>
-        <item>Espadas dobles</item>
-        <item>Lanza</item>
-        <item>Lanza pistola</item>
-        <item>Martillo</item>
-        <item>Cornamusa</item>
-        <item>Hacha espada</item>
-        <item>Hacha cargada</item>
-        <item>Glaive insecto</item>
-        <item>Ballesta ligera</item>
-        <item>Ballesta pesada</item>
-        <item>Arco</item>
-        <item>Todas</item>
+        <item>@string/granEspada</item>
+        <item>@string/espadaLarga</item>
+        <item>@string/espadaYEscudo</item>
+        <item>@string/espadasDobles</item>
+        <item>@string/lanza</item>
+        <item>@string/lanzaPistola</item>
+        <item>@string/martillo</item>
+        <item>@string/cornamusa</item>
+        <item>@string/hachaEspada</item>
+        <item>@string/hachaCargada</item>
+        <item>@string/glaiveInsecto</item>
+        <item>@string/ballestaLigera</item>
+        <item>@string/ballestaPesada</item>
+        <item>@string/arco</item>
+        <item>@string/todas</item>
     </string-array>
 
     <string-array name="reply_entries_juegos">
@@ -55,14 +55,14 @@
     </string-array>
 
     <string-array name="reply_entries_dias">
-        <item>Diario</item>
-        <item>Findes</item>
-        <item>Entre semana</item>
+        <item>@string/diario</item>
+        <item>@string/findes</item>
+        <item>@string/entreSemana</item>
     </string-array>
 
     <string-array name="reply_values_dias">
-        <item>Diario</item>
-        <item>Findes</item>
-        <item>Entre semana</item>
+        <item>@string/diario</item>
+        <item>@string/findes</item>
+        <item>@string/entreSemana</item>
     </string-array>
 </resources>

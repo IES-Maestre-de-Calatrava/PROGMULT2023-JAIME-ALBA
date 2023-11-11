@@ -52,7 +52,7 @@
     <string name="editar">Ed</string>
     <string name="seguroBorrado">Are you sure about deleting this entry?</string>
     <string name="enlaceFoto">Paste here the link of the pic!</string>
-    <string name="hintBuscar">Long press!</string>
+    <string name="hintBuscar">Long press to search by favs!</string>
     <string name="asunto">New app about Monster Hunter!</string>
     <string name="contenido">Enough of hunting alone? Download Monster Hunter Finder now!</string>
     <string name="prererencias">Preferences</string>
@@ -69,4 +69,9 @@
     <string name="entradaAnadidaNotif">A new entry has been added to the hunting diary!</string>
     <string name="entradaModificadaNotif">An entry from the hunting diary has been modified!</string>
     <string name="darPermisos">Give me permissions if you want to receive notifications!</string>
+    <string name="contacto">Contact me here if you need it! jaimealba@outlook.es</string>
+    <string name="todas">All weapons</string>
+    <string name="diario">Daily</string>
+    <string name="findes">On weekends</string>
+    <string name="entreSemana">On weekdays</string>
 </resources>

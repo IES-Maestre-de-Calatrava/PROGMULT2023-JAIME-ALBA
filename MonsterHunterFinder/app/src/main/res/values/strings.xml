@@ -51,7 +51,7 @@
     <string name="editar">Ed</string>
     <string name="seguroBorrado">¿Estás seguro de borrar esta entrada?</string>
     <string name="enlaceFoto">¡Pega aquí el enlace de la foto!</string>
-    <string name="hintBuscar">¡Haz una pulsación larga!</string>
+    <string name="hintBuscar">¡Pulsa largo para buscar por favoritos!</string>
     <string name="asunto">¡Nueva app de Monster Hunter!</string>
     <string name="contenido">¿Aburrido de cazar en solitario? ¡Descarga ya Monster Hunter Finder!</string>
     <string name="prererencias">Preferencias</string>
@@ -68,4 +68,9 @@
     <string name="entradaAnadidaNotif">¡Se ha añadido una nueva entrada al diario de caza!</string>
     <string name="entradaModificadaNotif">¡Se ha modificado una entrada del diario de caza!</string>
     <string name="darPermisos">¡Dame permisos si quieres recibir notificaciones!</string>
+    <string name="contacto">¡Contáctame aquí si lo necesitas! jaimealba@outlook.es</string>
+    <string name="todas">Todas las armas</string>
+    <string name="diario">Diario</string>
+    <string name="findes">Findes</string>
+    <string name="entreSemana">Entre semana</string>
 </resources>

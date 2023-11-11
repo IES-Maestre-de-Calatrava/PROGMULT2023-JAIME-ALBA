@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/header2" />
+        app:srcCompat="@drawable/wallpaper_deviljho" />
 
     <ImageView
         android:id="@+id/iconPerfilEditar"
@@ -29,7 +29,7 @@
         app:layout_constraintStart_toStartOf="@+id/headerPerfilEditar"
         app:layout_constraintTop_toTopOf="@+id/headerPerfilEditar"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/icon3" />
+        app:srcCompat="@drawable/icon" />
 
     <Button
         android:id="@+id/botonVolverEditar"

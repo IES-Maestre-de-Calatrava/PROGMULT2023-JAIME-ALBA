@@ -10,7 +10,6 @@
         <ListPreference
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:defaultValue="1"
             android:title="@string/armaFavoritaSi"
             app:entries="@array/reply_entries_armas"
             app:entryValues="@array/reply_values_armas"
@@ -25,7 +24,6 @@
         <ListPreference
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:defaultValue="1"
             android:title="@string/juegoFavoritoSi"
             app:entries="@array/reply_entries_juegos"
             app:entryValues="@array/reply_values_juegos"
@@ -40,7 +38,6 @@
         <ListPreference
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:defaultValue="1"
             android:title="@string/frecuenciaJuegoSi"
             app:entries="@array/reply_entries_dias"
             app:entryValues="@array/reply_values_dias"

@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/header2" />
+        app:srcCompat="@drawable/wallpaper_deviljho" />
 
     <ImageView
         android:id="@+id/iconPerfilAnadir"
@@ -27,7 +27,7 @@
         app:layout_constraintStart_toStartOf="@+id/headerPerfilAnadir"
         app:layout_constraintTop_toTopOf="@+id/headerPerfilAnadir"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/icon3" />
+        app:srcCompat="@drawable/icon" />
 
     <Button
         android:id="@+id/botonVolverAnadir"

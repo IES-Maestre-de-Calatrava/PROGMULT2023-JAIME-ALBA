@@ -36,7 +36,9 @@ class activity_buscador : AppCompatActivity() {
     val managerCazadores = LinearLayoutManager(this)
 
     var opcionBusqueda: Int = 0
+
     private lateinit var misPreferencias: SharedPreferences
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,13 +50,7 @@ class activity_buscador : AppCompatActivity() {
         iniciarRecycleViewCazadores()
 
         misPreferencias = getSharedPreferences(packageName + "_preferences", Context.MODE_PRIVATE)
-        misPreferencias.edit().putString("arma", "Gran espada").apply()
-        misPreferencias.edit().putString("juego", "MHWorld").apply()
-        misPreferencias.edit().putString("dias", "Findes").apply()
-
-
         registerForContextMenu(binding.barraBusqueda)
-
         binding.barraBusqueda.setOnQueryTextListener( object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 binding.barraBusqueda.clearFocus()
@@ -105,10 +101,12 @@ class activity_buscador : AppCompatActivity() {
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
+
+
         return when (item.itemId) {
             R.id.BuscarArmaFavorita -> {
                 opcionBusqueda=1
-                binding.barraBusqueda.setQuery(misPreferencias.getString("arma", "Gran espada"), false)
+                binding.barraBusqueda.setQuery(misPreferencias.getString("arma", getString(R.string.granEspada)), false)
                 true
             }
 
@@ -120,7 +118,7 @@ class activity_buscador : AppCompatActivity() {
 
             R.id.BuscarFrecuenciaJuego -> {
                 opcionBusqueda=3
-                binding.barraBusqueda.setQuery(misPreferencias.getString("dias", "Findes"), false)
+                binding.barraBusqueda.setQuery(misPreferencias.getString("dias", getString(R.string.findes)), false)
                 true
             }
 
@@ -196,7 +194,6 @@ class activity_buscador : AppCompatActivity() {
      * de la Firestore.
      */
     private fun listarCazadoresFiltrando(palabrasBuscar: String?) {
-
         binding.recyclerViewCazadores.layoutManager = managerCazadores
 
         cazadorProvider = CazadorProvider()
