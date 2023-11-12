@@ -70,6 +70,8 @@ class activity_buscador : AppCompatActivity() {
         // contextual, se filtra de una forma distinta. Por filtrar entiéndase iniciar
         // una RecyclerView que contiene únicamente registros con los que se encuentran
         // coincidencias, dependiendo del campo buscado.
+
+        // Méritos del descubrimiento a Yara Vellón Valverde.
         binding.barraBusqueda.setOnQueryTextListener( object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 binding.barraBusqueda.clearFocus()
