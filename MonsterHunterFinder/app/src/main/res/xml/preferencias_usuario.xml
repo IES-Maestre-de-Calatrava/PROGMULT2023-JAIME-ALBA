@@ -27,8 +27,8 @@
             android:title="@string/juegoFavoritoSi"
             app:entries="@array/reply_entries_juegos"
             app:entryValues="@array/reply_values_juegos"
-            app:key="juego"
-            app:useSimpleSummaryProvider="true"/>
+            app:key="juegofav"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
     <PreferenceCategory
         android:layout_width="wrap_content"

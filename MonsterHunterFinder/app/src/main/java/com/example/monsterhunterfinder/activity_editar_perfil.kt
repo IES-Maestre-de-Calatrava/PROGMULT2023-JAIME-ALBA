@@ -8,6 +8,15 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.example.monsterhunterfinder.databinding.ActivityEditarPerfilBinding
 
+/**
+ * Activity dedicada a la edición del perfil del usuario.
+ * Por ahora, solamente pueden editarse el nombre y la bio
+ * del usuario.
+ * Al no existir aún una base de datos de usuarios, esta
+ * edición es de sólo muestreo; si se sale de la activity
+ * dedicada al perfil, los datos editados vuelven a sus
+ * valores por defecto.
+ */
 class activity_editar_perfil : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditarPerfilBinding

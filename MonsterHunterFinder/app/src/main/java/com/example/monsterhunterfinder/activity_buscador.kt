@@ -28,15 +28,19 @@ class activity_buscador : AppCompatActivity() {
 
     private lateinit var binding: ActivityBuscadorBinding
 
+    // Se recupera la colección "cazadores" de la firestore;
+    // se trata de una lista de usuarios ficticia
     private val db = FirebaseFirestore.getInstance()
     private val coleccionCazadores = db.collection("cazadores")
 
+    // Elementos necesarios para la RecyclerView
     private lateinit var cazadorProvider: CazadorProvider
     private lateinit var cazadoresAdapter: CazadoresAdapter
     val managerCazadores = LinearLayoutManager(this)
 
     var opcionBusqueda: Int = 0
 
+    // Necesario para recuperar las preferencias
     private lateinit var misPreferencias: SharedPreferences
 
 
@@ -44,13 +48,28 @@ class activity_buscador : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         crearObjetosDelXml()
 
+        // Se establece como toolbar la que nos hemos creado
+        // y se le indica que no muestre el título
         setSupportActionBar(binding.toolbar.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         iniciarRecycleViewCazadores()
 
         misPreferencias = getSharedPreferences(packageName + "_preferences", Context.MODE_PRIVATE)
+        // Se establece la barra de búsqueda para que de ella surja un menú contextual
         registerForContextMenu(binding.barraBusqueda)
+
+
+        // Dentro de este tramo de código se establece un listener para la consulta
+        // que lance la SearchView a la Firestore; una función para el caso de que
+        // se envíe la consulta a hacer y otra para auto-lanzar como consultas cambios
+        // que haya en el texto contenido en la SearchView.
+
+        // Si dicho texto está vacío, se usa la Recycler View completa. Si no, dependiendo
+        // de la opción de filtrado que haya seleccionado el usuario en el menú
+        // contextual, se filtra de una forma distinta. Por filtrar entiéndase iniciar
+        // una RecyclerView que contiene únicamente registros con los que se encuentran
+        // coincidencias, dependiendo del campo buscado.
         binding.barraBusqueda.setOnQueryTextListener( object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 binding.barraBusqueda.clearFocus()
@@ -96,13 +115,21 @@ class activity_buscador : AppCompatActivity() {
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
         when (v){
+            // En la SearchView se infla como menú contextual el menú xml indicado
             binding.barraBusqueda -> menuInflater.inflate(R.menu.menu_buscar_favoritos, menu)
         }
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
 
-
+        // La variable opcionBusqueda tendrá como valor 1, 2 o 3
+        // dependiendo de lo que seleccione el usuario en el menú
+        // contextual.
+        // Al elegir una opción del menú contextual, aparte de variarse
+        // el valor de opcionBusqueda, en la SearchView se establece un
+        // texto.
+        // Este texto será la preferencia del usuario correspondiente según
+        // la opción elegida: arma favorita, juego favorito o frecuencia de juego.
         return when (item.itemId) {
             R.id.BuscarArmaFavorita -> {
                 opcionBusqueda=1
@@ -112,7 +139,7 @@ class activity_buscador : AppCompatActivity() {
 
             R.id.BuscarJuegoFavorito -> {
                 opcionBusqueda=2
-                binding.barraBusqueda.setQuery(misPreferencias.getString("juego", "MHWorld"), false)
+                binding.barraBusqueda.setQuery(misPreferencias.getString("juegofav", "MHWorld"), false)
                 true
             }
 
@@ -138,11 +165,14 @@ class activity_buscador : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // Aquí se inflan los objetos xml de la toolbar que se use
         menuInflater.inflate(R.menu.toolbar_otras_activities, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // En este caso, la única acción que se puede iniciar
+        // seleccionando items de la toolbar es la de abrir web
         return when (item.itemId) {
             R.id.Web -> {
                 abrirWeb()
@@ -201,6 +231,8 @@ class activity_buscador : AppCompatActivity() {
             cazadoresList = cazadorProvider.cazadoresList
         )
 
+        // El filtrado (iniciado de RecyclerView con sólo determinados registros)
+        // por defecto utiliza el campo "bio", la biografía del usuario
         coleccionCazadores
             .whereEqualTo("bio", palabrasBuscar)
             .get()
@@ -231,6 +263,7 @@ class activity_buscador : AppCompatActivity() {
         )
 
         coleccionCazadores
+            // Filtrado según campo del arma
             .whereEqualTo("arma", palabrasBuscar)
             .get()
             .addOnSuccessListener {
@@ -260,6 +293,7 @@ class activity_buscador : AppCompatActivity() {
         )
 
         coleccionCazadores
+            // Filtrado según campo del juego favorito
             .whereEqualTo("juegofav", palabrasBuscar)
             .get()
             .addOnSuccessListener {
@@ -289,6 +323,7 @@ class activity_buscador : AppCompatActivity() {
         )
 
         coleccionCazadores
+            // Filtrado según campo de días, la frecuencia de juego
             .whereEqualTo("dias", palabrasBuscar)
             .get()
             .addOnSuccessListener {

@@ -19,6 +19,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 class activity_diario_anadir : AppCompatActivity() {
 
     private lateinit var binding: ActivityDiarioAnadirBinding
+    // Intent con el que se recuperan datos, para el caso
+    // de editar registros
     private lateinit var objetoIntent: Intent
     private val INSERTADO_OK: Int = 1
 
@@ -29,11 +31,18 @@ class activity_diario_anadir : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         crearObjetosDelXml()
 
+        // Se establece como toolbar la que nos hemos creado
+        // y se le indica que no muestre el título
         setSupportActionBar(binding.toolbar.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         objetoIntent = intent
-
+        // En el caso de que el intent recuperado tenga como putExtra un id,
+        // significará que se está enviando a esta activity la información de
+        // un registro ya existente, y por tanto, que no se va a añadir uno
+        // nuevo, sino que se va a modificar uno.
+        // A tal efecto, se establecen en los campos de texto de la activity
+        // los datos del registro a modificar.
         if (objetoIntent.hasExtra("id")) {
             numEntrada = objetoIntent.getStringExtra("id")!!
             binding.textoTituloEntradaAnadir.setText(objetoIntent.getStringExtra("titulo"))
@@ -42,6 +51,7 @@ class activity_diario_anadir : AppCompatActivity() {
         }
 
 
+        // El botón "guardar" volverá a la activity anterior con datos
         binding.botonGuardar.setOnClickListener() {
             volverConDatos()
         }
@@ -57,6 +67,7 @@ class activity_diario_anadir : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // Aquí se inflan los objetos xml de la toolbar que se use
         menuInflater.inflate(R.menu.toolbar_otras_activities, menu)
         return true
     }
@@ -74,6 +85,8 @@ class activity_diario_anadir : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            // En este caso, la única acción que se puede iniciar
+            // seleccionando items de la toolbar es la de abrir web
             R.id.Web -> {
                 abrirWeb()
                 true
@@ -103,11 +116,15 @@ class activity_diario_anadir : AppCompatActivity() {
     fun volverConDatos() {
         val intent = Intent()
 
-
+        // En el caso de que el intent contenga una id, significará que se están
+        // modificando registros ya existentes; con ello, esta id que se había recibido
+        // también se devuelve a la activity anterior.
         if (objetoIntent.hasExtra("id")) {
             intent.putExtra("id", numEntrada)
         }
 
+        // Al intent se le añaden como putExtras los contenidos de los
+        // campos de texto de la activity
         intent.putExtra("titulo", binding.textoTituloEntradaAnadir.text.toString())
         intent.putExtra("arma", binding.textoArmaUtilizadaAnadir.text.toString())
         intent.putExtra("resumen", binding.textoResumenCazaAnadir.text.toString())

@@ -42,12 +42,17 @@ class activity_diario_vista : AppCompatActivity() {
 
     private lateinit var binding: ActivityDiarioVistaBinding
 
+    // Datos necesarios para crear el canal de notificaciones
     private val ID_CANAL: String = "MHFD"
     private var PETICION_PERMISOS: Int = 111
 
+    // activityResultLauncher preparado para el caso de
+    // modificación de registros
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
 
 
+    // Se recupera la colección "cazas" de la firestore;
+    // se trata de un diario de caza
     private val db = FirebaseFirestore.getInstance()
     private val myCollection = db.collection("cazas")
 
@@ -64,26 +69,35 @@ class activity_diario_vista : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         crearObjetosDelXml()
+        // Creación del canal de notificaciones
         crearCanalNotificaciones()
 
+        // Se establece como toolbar la que nos hemos creado
+        // y se le indica que no muestre el título
         setSupportActionBar(binding.toolbar.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        // Se registra el filtro para armas para que surja de él
+        // un menú contextual
         registerForContextMenu(binding.textoFiltroArma)
 
 
         iniciarRecyclerView()
 
+        // Definición de listeners para mostrar una RecyclerView
+        // filtrada y para lanzar la activity que nos permite
+        // añadir un registro a la colección
         binding.botonFiltrar.setOnClickListener {
             listarFiltrando()
         }
-
 
 
         binding.botonAnadir.setOnClickListener {
             lanzarActivityRegistro()
         }
 
+        // Se prepara un activityResultLauncher para
+        // volver desde otra activity conteniendo datos
         activityResultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 resultado ->
@@ -91,14 +105,19 @@ class activity_diario_vista : AppCompatActivity() {
                         val datos: Intent = resultado.data!!
                         val numEntrada: Int
 
+                        // Si los datos recuperados tienen id, se estaba modificando
+                        // un registro, con lo que se usa la misma id que tenía
                         if (datos.hasExtra("id")) {
                             numEntrada = datos.getStringExtra("id")!!.toInt()
                         } else {
+                            // Si no, se estaba añadiendo un registro nuevo, y su id
+                            // se obtiene mediante un método
                             numEntrada = entradaProvider.getId()
                         }
 
 
-
+                        // Se crea un objeto Entrada con los datos obtenidos
+                        // del activityResultLauncher
                         var entradaDiario = Entrada(
                             numEntrada,
                             datos.getStringExtra("titulo")!!,
@@ -107,7 +126,8 @@ class activity_diario_vista : AppCompatActivity() {
                         )
 
 
-
+                        // Se actúa y se lanzan notificaciones distintas dependiendo
+                        // de si se estaba modificando o añadiendo un registro
                         if (datos.hasExtra("id")) {
                             actualizarRegistro(posicion, entradaDiario)
                             lanzarNotifModificar()
@@ -121,6 +141,7 @@ class activity_diario_vista : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // Aquí se inflan los objetos xml de la toolbar que se use
         menuInflater.inflate(R.menu.toolbar_otras_activities, menu)
         return true
     }
@@ -146,6 +167,7 @@ class activity_diario_vista : AppCompatActivity() {
             val textoDescripcion = "Canal para las notificaciones del diario de Monster Hunter Finder"
             val importancia = NotificationManager.IMPORTANCE_DEFAULT
 
+            // Se crea el canal pasando como info las variables que nos hemos definido
             val canal = NotificationChannel(ID_CANAL, nombre, importancia).apply{
                 description = textoDescripcion
             }
@@ -165,6 +187,8 @@ class activity_diario_vista : AppCompatActivity() {
      */
     fun lanzarNotifAnadir() {
 
+        // Inicialmente se verifica si se han concedido permisos;
+        // si no se han concedido, se solicitan
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.POST_NOTIFICATIONS)) {
             Toast.makeText(this, R.string.darPermisos.toString(), Toast.LENGTH_LONG).show()
         } else {
@@ -182,12 +206,16 @@ class activity_diario_vista : AppCompatActivity() {
             }
         }
 
+        // Se lanza un PendingIntent, de tal manera que la notificación
+        // seguirá presente aunque se haya cerrado la aplicación, y nos
+        // redirigirá a la activity de vista del diario si se toca la notificación
         val contenidoIntent = PendingIntent.getActivity(
             this,
             0,
             Intent(this, activity_diario_vista::class.java), PendingIntent.FLAG_IMMUTABLE
         )
 
+        // Se crea la notificación con los contenidos que se vayan indicando
         var notificationBuilder = NotificationCompat.Builder(this, ID_CANAL)
             .setSmallIcon(android.R.drawable.ic_input_get)
             .setContentTitle(getString(R.string.diarioCazaNotificaciones))
@@ -195,6 +223,7 @@ class activity_diario_vista : AppCompatActivity() {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(contenidoIntent)
 
+        // Y se lanza dicha notificación
         with(NotificationManagerCompat.from(this)){
             notify(1, notificationBuilder.build())
         }
@@ -207,6 +236,9 @@ class activity_diario_vista : AppCompatActivity() {
      * entrada del diario de caza.
      * Únicamente en el caso de que el usuario le haya concedido permisos de
      * notificaciones a la aplicación.
+     * La notificación que se lanza es distinta de la notificación de añadir,
+     * incluyendo ID de la notificación diferente.
+     * La documentación intra-código es la misma que la del método lanzarNotifAnadir()
      */
     fun lanzarNotifModificar() {
 
@@ -241,7 +273,7 @@ class activity_diario_vista : AppCompatActivity() {
             .setContentIntent(contenidoIntent)
 
         with(NotificationManagerCompat.from(this)){
-            notify(1, notificationBuilder.build())
+            notify(2, notificationBuilder.build())
         }
 
 
@@ -260,6 +292,8 @@ class activity_diario_vista : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            // En este caso, la única acción que se puede iniciar
+            // seleccionando items de la toolbar es la de abrir web
             R.id.Web -> {
                 abrirWeb()
                 true
@@ -287,11 +321,15 @@ class activity_diario_vista : AppCompatActivity() {
         super.onCreateContextMenu(menu, v, menuInfo)
 
         when (v) {
+            // En el EditText para el filtro de arma se infla como menú
+            // contextual el menú xml indicado
             binding.textoFiltroArma -> menuInflater.inflate(R.menu.menu_armas, menu)
         }
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
+        // Dependiendo de la opción del menú contextual que se seleccione, el
+        // texto del EditText para el filtro de armas se establece a un valor.
         return when (item.itemId) {
             R.id.menuGranEspada -> {
                 binding.textoFiltroArma.setText(R.string.granEspada)
@@ -392,12 +430,14 @@ class activity_diario_vista : AppCompatActivity() {
             .setPositiveButton(
                 R.string.vaciarFiltroSi,
                 DialogInterface.OnClickListener{
+                        // Si se elige confirmar, se vacía el campo del filtro para armas
                         dialog, id -> vaciarCampos()
                 }
             )
             .setNegativeButton(
                 R.string.vaciarFiltroNo,
                 DialogInterface.OnClickListener{
+                        // Si se elige negar, se cierra el cuadro de diálogo
                         dialog, id -> dialog.cancel()
                 }
             )
@@ -414,6 +454,7 @@ class activity_diario_vista : AppCompatActivity() {
 
         binding.recyclerEntradas.layoutManager = manager
 
+        // Se pasan como lambda las funciones de borrado y modificado
         entradaProvider = EntradaProvider()
         entradasAdapter = EntradasAdapter(
             listaEntradas = entradaProvider.listaEntradas,
@@ -445,6 +486,8 @@ class activity_diario_vista : AppCompatActivity() {
 
         binding.recyclerEntradas.layoutManager = manager
 
+        // Se pasan como lambda las funciones de borrado y modificado para poder
+        // hacer dichas funciones aun mientras se está filtrando
         entradaProvider = EntradaProvider()
         entradasAdapter = EntradasAdapter(
             listaEntradas = entradaProvider.listaEntradas,
@@ -452,6 +495,7 @@ class activity_diario_vista : AppCompatActivity() {
             lanzarActivityModificar = {posicion: Int, entradaDiario: Entrada -> lanzarActivityModificar(posicion, entradaDiario)})
 
         myCollection
+            // El filtrado busca coincidencias por el campo "arma" de la Firestore
             .whereEqualTo("arma", binding.textoFiltroArma.text.toString())
             .get()
             .addOnSuccessListener {

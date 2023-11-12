@@ -21,6 +21,8 @@ class activity_diario_ver : AppCompatActivity() {
 
     private lateinit var binding: ActivityDiarioVerBinding
 
+    // Se recupera la colección "cazas" de la firestore;
+    // se trata de un diario de caza
     private val db = FirebaseFirestore.getInstance()
     private val myCollection = db.collection("cazas")
 
@@ -29,22 +31,31 @@ class activity_diario_ver : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         crearObjetosDelXml()
 
+        // Se establece como toolbar la que nos hemos creado
+        // y se le indica que no muestre el título
         setSupportActionBar(binding.toolbar.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
 
+        // Se inicia un intent para recibir datos que se le hayan enviado
+        // desde una activity anterior; estos datos serán la id de la
+        // entrada del diario cuyos datos se van a visualizar
         val objetoIntent: Intent = intent
         var datosEnviados = objetoIntent.getStringExtra("Identificador")
         if (datosEnviados != null) {
             myCollection
+                // Se accede al documento cuya id se ha recibido
                 .document(datosEnviados)
                 .get()
                 .addOnSuccessListener {
                         resultado ->
+                    // Los valores de sus campos se asignan a variables
                     val titulo = resultado.getString("titulo")
                     val arma = resultado.getString("arma")
                     val resumen = resultado.getString("resumen")
 
+                    // Y en los campos de texto de la activity se despliegan
+                    // los datos de estas variables
                     binding.textoTituloEntradaVer.setText(titulo)
                     binding.textoArmaUtilizadaVer.setText(arma)
                     binding.textoResumenCazaVer.setText(resumen)
@@ -65,6 +76,7 @@ class activity_diario_ver : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // Aquí se inflan los objetos xml de la toolbar que se use
         menuInflater.inflate(R.menu.toolbar_otras_activities, menu)
         return true
     }
@@ -82,6 +94,8 @@ class activity_diario_ver : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            // En este caso, la única acción que se puede iniciar
+            // seleccionando items de la toolbar es la de abrir web
             R.id.Web -> {
                 abrirWeb()
                 true

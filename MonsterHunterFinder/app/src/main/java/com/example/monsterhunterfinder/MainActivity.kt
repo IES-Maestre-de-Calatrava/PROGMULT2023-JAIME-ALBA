@@ -17,23 +17,22 @@ import com.google.firebase.firestore.FirebaseFirestore
 /**
  * Activity Main, en la que se da acceso al usuario a
  * su perfil, al diario de caza y al buscador de jugadores.
+ * También a la versión completa de la Toolbar, con
+ * distintas opciones.
  * @author Jaime
  */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val db = FirebaseFirestore.getInstance()
-    private val coleccionInic = db.collection("primeraIniciacion")
-    private lateinit var misPreferencias: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         crearObjetosDelXml()
 
-        misPreferencias = getSharedPreferences(packageName + "_preferences", Context.MODE_PRIVATE)
-
+        // Se establece como toolbar la que nos hemos creado
         setSupportActionBar(binding.toolbar.toolbar)
+        // Se establece que no se muestre el título de la toolbar
         supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
@@ -50,6 +49,7 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // Aquí se inflan los objetos xml de la toolbar que se use
         menuInflater.inflate(R.menu.toolbar_main_activity, menu)
         return true
     }
@@ -105,6 +105,10 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    /**
+     * Función que muestra por pantalla un pequeño texto
+     * sobre el desarrollador de la app.
+     */
     fun lanzarAcercaDe() {
         Toast.makeText(this, R.string.contacto, Toast.LENGTH_LONG).show()
     }
@@ -130,6 +134,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // En esta función se lanza una acción u otra dependiendo
+        // del elemento item de la toolbar que se seleccione
         return when (item.itemId) {
             R.id.AcercaDe -> {
                 lanzarAcercaDe()
