@@ -5,38 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/material_dynamic_neutral20"
-    tools:context=".activity_editar_perfil">
+    tools:context=".activity_diario_anadir">
 
-    <ImageView
-        android:id="@+id/headerPerfilEditar"
-        android:layout_width="wrap_content"
-        android:layout_height="150dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/wallpaper_deviljho" />
-
-    <ImageView
-        android:id="@+id/iconPerfilEditar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginEnd="42dp"
-        app:layout_constraintBottom_toBottomOf="@+id/headerPerfilEditar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/headerPerfilEditar"
-        app:layout_constraintTop_toTopOf="@+id/headerPerfilEditar"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/icon" />
 
     <Button
-        android:id="@+id/botonVolverEditar"
+        android:id="@+id/botonVolverDiarioAnadir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginBottom="7dp"
         android:backgroundTint="@android:color/system_neutral1_900"
         android:onClick="volver"
         android:text="@string/botonVolver"
@@ -45,16 +22,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/headerPerfilEditar"
-        app:layout_constraintVertical_bias="1.0"
-        tools:onClick="volver" />
+        app:layout_constraintTop_toTopOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="1.0" />
+
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/cajaNombreEditar"
+        android:id="@+id/cajaTituloEntradaAnadir"
         android:layout_width="250dp"
         android:layout_height="65dp"
-        android:layout_marginStart="35dp"
-        android:hint="@string/userName"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:hint="@string/tituloEntrada"
         android:textColorHint="@color/material_dynamic_neutral70"
         app:boxStrokeColor="@android:color/holo_orange_dark"
         app:boxStrokeWidth="2dp"
@@ -63,12 +41,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headerPerfilEditar"
-        app:layout_constraintVertical_bias="0.13"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         tools:hintTextColor="@color/material_dynamic_neutral60">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textoNombreEditar"
+            android:id="@+id/textoTituloEntradaAnadir"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/material_dynamic_neutral70" />
@@ -77,26 +55,52 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/cajaBioEditar"
+        android:id="@+id/cajaArmaUtilizadaAnadir"
+        android:layout_width="250dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="15dp"
+        android:hint="@string/arma"
+        android:inputType="textMultiLine"
+        android:textColorHint="@color/material_dynamic_neutral70"
+        app:boxStrokeColor="@android:color/holo_orange_dark"
+        app:boxStrokeWidth="2dp"
+        app:hintTextColor="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/cajaTituloEntradaAnadir"
+        app:layout_constraintStart_toStartOf="@+id/cajaTituloEntradaAnadir"
+        app:layout_constraintTop_toBottomOf="@+id/cajaTituloEntradaAnadir"
+        app:layout_constraintVertical_bias="0.0"
+        tools:hintTextColor="@color/material_dynamic_neutral60">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textoArmaUtilizadaAnadir"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/material_dynamic_neutral70" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/cajaResumenCazaAnadir"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="35dp"
-        android:layout_marginBottom="150dp"
-        android:hint="@string/bio"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="75dp"
+        android:hint="@string/resumenCaza"
+        android:inputType="textMultiLine"
         android:textColorHint="@color/material_dynamic_neutral70"
         app:boxStrokeColor="@android:color/holo_orange_dark"
         app:boxStrokeWidth="2dp"
         app:hintTextColor="@android:color/holo_orange_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/cajaNombreEditar"
-        app:layout_constraintTop_toBottomOf="@+id/cajaNombreEditar"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/cajaArmaUtilizadaAnadir"
+        app:layout_constraintTop_toBottomOf="@+id/cajaArmaUtilizadaAnadir"
         tools:hintTextColor="@color/material_dynamic_neutral60">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textoBioEditar"
+            android:id="@+id/textoResumenCazaAnadir"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textColor="@color/material_dynamic_neutral70" />
@@ -104,20 +108,21 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/botonConfirmarEditar"
+        android:id="@+id/botonGuardar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="7dp"
         android:backgroundTint="@android:color/system_neutral1_900"
-        android:onClick="mostrarConfirmar"
-        android:text="@string/confirmar"
+        android:text="@string/guardarEntrada"
         android:textColor="@android:color/holo_orange_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/headerPerfilEditar"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+

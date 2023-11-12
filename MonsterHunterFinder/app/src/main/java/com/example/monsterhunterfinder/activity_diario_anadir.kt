@@ -33,7 +33,7 @@ class activity_diario_anadir : AppCompatActivity() {
 
         // Se establece como toolbar la que nos hemos creado
         // y se le indica que no muestre el título
-        setSupportActionBar(binding.toolbar.toolbar)
+        setSupportActionBar(binding.toolbar?.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         objetoIntent = intent

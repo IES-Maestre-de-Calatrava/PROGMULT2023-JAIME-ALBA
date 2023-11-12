@@ -74,7 +74,7 @@ class activity_diario_vista : AppCompatActivity() {
 
         // Se establece como toolbar la que nos hemos creado
         // y se le indica que no muestre el título
-        setSupportActionBar(binding.toolbar.toolbar)
+        setSupportActionBar(binding.toolbar?.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         // Se registra el filtro para armas para que surja de él

@@ -1,10 +1,12 @@
 package com.example.monsterhunterfinder.adapter
 
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.monsterhunterfinder.Multimedia
 import com.example.monsterhunterfinder.databinding.ItemMultimediaBinding
 import com.bumptech.glide.Glide
+import com.example.monsterhunterfinder.R
 
 /**
  *  Clase encargada de ubicar los datos de un elemento
@@ -29,5 +31,15 @@ class MultimediasViewHolder(view: View):  RecyclerView.ViewHolder(view) {
         Glide.with(binding.multimedia.context)
             .load(multimedia.enlace)
             .into(binding.multimedia)
+
+
+        // Se asigna una acción al pulsar en el elemento completo
+        itemView.setOnClickListener{
+            Toast.makeText(
+                binding.multimedia.context,
+                R.string.textoGaleria,
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 }
