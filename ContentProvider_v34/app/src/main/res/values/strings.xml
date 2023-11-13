@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">ContentProvider</string>
+    <string name="action_settings">Settings</string>
+    <string name="consultar">Cons</string>
+    <string name="insertar">Ins</string>
+    <string name="eliminar">Elim</string>
+    <string name="llamadas">Llamadas</string>
+    <string name="escribir">Escribir</string>
+    <string name="eliminarFilasEjemplo">Elimina todas las filas</string>
+    <string name="modificarFilasEjemplo">Modifica todas las filas</string>
+    <string name="modificarFila">Modifica una fila</string>
+    <string name="eliminarFila">Elimina una fila</string>
+</resources>
