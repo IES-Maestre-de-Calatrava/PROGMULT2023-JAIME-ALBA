@@ -17,6 +17,9 @@ class ResenaProvider {
      */
     fun actualizarLista(resultado: QuerySnapshot) {
         lateinit var resena: Resena
+
+        resenasList.clear()
+
         for (documento in resultado) {
             resena = documento.toObject(Resena::class.java)
             resena.id = documento.id.toInt()

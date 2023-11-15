@@ -10,12 +10,12 @@
         android:id="@+id/vistaInterna"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_margin="2dp"
         android:background="@color/material_dynamic_neutral20"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="2dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textoListaTitulo"

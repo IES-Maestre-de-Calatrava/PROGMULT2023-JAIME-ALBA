@@ -19,6 +19,9 @@ class EntradaProvider {
     fun actualizarLista(resultado: QuerySnapshot) {
         lateinit var entrada: Entrada
 
+        // La RecyclerView se va a recargar varias veces; ésto es para que no se dupliquen elementos
+        listaEntradas.clear()
+
         for (documento in resultado) {
             entrada = documento.toObject(Entrada::class.java)
             entrada.numEntrada = documento.id.toInt()

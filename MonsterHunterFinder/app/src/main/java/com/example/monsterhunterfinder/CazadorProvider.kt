@@ -18,6 +18,8 @@ class CazadorProvider {
     fun actualizarLista(resultado: QuerySnapshot) {
         lateinit var cazador: Cazador
 
+        cazadoresList.clear()
+
         for (documento in resultado) {
             cazador = documento.toObject(Cazador::class.java)
             cazador.id = documento.id.toInt()

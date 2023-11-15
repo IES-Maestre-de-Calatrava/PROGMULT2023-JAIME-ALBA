@@ -412,6 +412,16 @@ class activity_diario_vista : AppCompatActivity() {
     fun vaciarCampos() {
         binding.textoFiltroArma.setText("")
         iniciarRecyclerView()
+        iniciarRecyclerView()
+        iniciarRecyclerView()
+        iniciarRecyclerView()
+        iniciarRecyclerView()
+        iniciarRecyclerView()
+        iniciarRecyclerView()
+        iniciarRecyclerView()
+        iniciarRecyclerView()
+        iniciarRecyclerView()
+
     }
 
     /**
@@ -450,7 +460,7 @@ class activity_diario_vista : AppCompatActivity() {
      * colección cuya variable hayamos inicializado anteriormente.
      */
     private fun iniciarRecyclerView() {
-        val decoracion = DividerItemDecoration(this, manager.orientation)
+        //val decoracion = DividerItemDecoration(this, manager.orientation)
 
         binding.recyclerEntradas.layoutManager = manager
 
@@ -467,7 +477,7 @@ class activity_diario_vista : AppCompatActivity() {
                 resultado ->
                     entradaProvider.actualizarLista(resultado)
                     binding.recyclerEntradas.adapter = entradasAdapter
-                    binding.recyclerEntradas.addItemDecoration(decoracion)
+                    //binding.recyclerEntradas.addItemDecoration(decoracion)
             }
     }
 

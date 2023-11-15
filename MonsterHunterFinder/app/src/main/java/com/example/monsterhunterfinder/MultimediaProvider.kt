@@ -18,6 +18,8 @@ class MultimediaProvider {
     fun actualizarLista(resultado: QuerySnapshot) {
         lateinit var multimedia: Multimedia
 
+        multimediasList.clear()
+
         for (documento in resultado) {
             multimedia = documento.toObject(Multimedia::class.java)
             multimedia.id = documento.id.toInt()
