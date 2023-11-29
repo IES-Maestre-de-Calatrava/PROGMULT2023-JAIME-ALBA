@@ -3,6 +3,8 @@ package com.example.monsterhunterfinder
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.media.AudioAttributes
+import android.media.SoundPool
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
@@ -25,6 +27,10 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    lateinit var soundPool: SoundPool
+    var sonidoperfil: Int=0
+    var sonidodiario: Int=0
+    var sonidobuscar: Int=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +40,37 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar.toolbar)
         // Se establece que no se muestre el título de la toolbar
         supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        // Me preparo los atributos del SoundPool
+        var audioAtributes = AudioAttributes.Builder()
+            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+            .setUsage(AudioAttributes.USAGE_MEDIA)
+            .build()
+
+        soundPool = SoundPool.Builder()
+            .setMaxStreams(5)
+            .setAudioAttributes(audioAtributes)
+            .build()
+
+        // Cargo los audios en el SoundPool
+        sonidoperfil = soundPool.load(this, R.raw.sonidoperfil, 1)
+        sonidodiario = soundPool.load(this, R.raw.sonidodiario, 1)
+        sonidobuscar = soundPool.load(this, R.raw.sonidobuscar, 1)
+    }
+
+    /**
+     * Función que permite la reproducción de sonidos al presionar
+     * en los botones del menú principal
+     */
+    fun playSound(view: View) {
+        var sonido: Int=0
+        when (view.tag) {
+            "sonidoperfil" -> sonido=sonidoperfil
+            "sonidodiario" -> sonido=sonidodiario
+            "sonidobuscar" -> sonido=sonidobuscar
+        }
+
+        soundPool.play(sonido, 1F, 1F, 1, 0, 1F)
     }
 
 
@@ -62,6 +99,8 @@ class MainActivity : AppCompatActivity() {
      * inicia la función
      */
     fun abrirPerfil(view: View) {
+        playSound(view)
+
         val intent = Intent(this, activity_perfil::class.java)
         startActivity(intent)
     }
@@ -73,6 +112,8 @@ class MainActivity : AppCompatActivity() {
      * inicia la función
      */
     fun abrirDiario(view: View) {
+        playSound(view)
+
         val intent = Intent(this, activity_diario_vista::class.java)
         startActivity(intent)
     }
@@ -84,6 +125,8 @@ class MainActivity : AppCompatActivity() {
      * inicia la función
      */
     fun abrirBuscador(view: View) {
+        playSound(view)
+
         val intent = Intent(this, activity_buscador::class.java)
         startActivity(intent)
     }

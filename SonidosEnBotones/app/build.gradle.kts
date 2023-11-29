@@ -1,15 +1,14 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("com.google.gms.google-services")
 }
 
 android {
-    namespace = "com.example.monsterhunterfinder"
+    namespace = "com.example.sonidosenbotones"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.monsterhunterfinder"
+        applicationId = "com.example.sonidosenbotones"
         minSdk = 33
         targetSdk = 34
         versionCode = 1
@@ -37,20 +36,17 @@ android {
 
     viewBinding {
         buildFeatures {
-            viewBinding = true;
+            viewBinding=true;
         }
     }
 }
 
 dependencies {
 
-    implementation("androidx.preference:preference-ktx:1.2.1")
-    implementation("com.github.bumptech.glide:glide:4.14.2")
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("com.google.firebase:firebase-firestore:24.9.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
