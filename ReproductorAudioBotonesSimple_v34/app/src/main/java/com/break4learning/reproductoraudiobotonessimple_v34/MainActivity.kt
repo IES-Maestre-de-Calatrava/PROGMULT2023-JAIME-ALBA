@@ -203,7 +203,7 @@ class MainActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         if (mediaPlayer != null) {
             bundle.putInt("posicion", pos)
             Log.d("MultimediaLog", "Valor de pos = $pos");
-            bundle.putInt("canción actual", cancionActual)
+            bundle.putInt("cancion_actual", cancionActual)
         }
     }
 
@@ -221,9 +221,10 @@ class MainActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         super.onRestoreInstanceState(bundle!!)
         Log.d("MultimediaLog", "En el onRestoreInstanceState")
 
-        if (bundle != null && mediaPlayer != null) {
+        if (bundle != null) {
             pos = bundle.getInt("posicion")
-            cancionActual = bundle.getInt("canción actual")
+            cancionActual = bundle.getInt("cancion_actual")
+            Log.d("MultimediaLog", "Valor de pos = $pos");
         }
         Log.d("MultimediaLog", "Valor de pos = $pos");
     }

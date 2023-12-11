@@ -123,6 +123,7 @@ class MainActivity : AppCompatActivity() {
         if (mediaPlayer != null) {
             // Para guardar una variable en el bundle, en el paquete:
             bundle.putInt("posicion", pos)
+            Log.d("MultimediaLog", "Valor de pos = $pos");
         }
 
         // Tras el onPause, pasa por este método y hace lo que nosotros le pongamos
