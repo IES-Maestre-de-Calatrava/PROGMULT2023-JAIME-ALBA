@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.widget.SeekBar
 import com.break4learning.reproductoraudiobotonessimple_v34.databinding.ActivityMainBinding
 
@@ -16,6 +17,8 @@ class MainActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
      * Binding
      */
     private lateinit var binding: ActivityMainBinding
+    var pos = 0
+    var cancionActual = 0
 
     // Preparamos el mediaPlayer
     private var mediaPlayer: MediaPlayer? = null
@@ -24,6 +27,11 @@ class MainActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("MultimediaLog", "En el onCreate")
+        if (savedInstanceState == null) {
+            Log.d("MultimediaLog", "No hay datos que recuperar")
+        }
+        Log.d("MultimediaLog", "Valor de pos = $pos");
 
         crearObjetosDelXml()
 
@@ -33,7 +41,9 @@ class MainActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
 
         // Reproducción de sonidos:
         // luego habrá que tocarlo para decirle que pase al sigueinte audio
-        controlSonido(sonidoActual[0])
+        if (mediaPlayer == null) {
+            controlSonido(sonidoActual[cancionActual])
+        }
     }
 
     private fun controlSonido(id: Int) {
@@ -175,4 +185,58 @@ class MainActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
     // TAREA: si lo giro, se pierde todo el control sobre el audio. Solucionarlo.
     // Y: pasarle una lista de audios, meterle dos botones y que vaya yendo para adelante y para
     // atrás en los archivos.
+    override fun onPause() {
+        super.onPause()
+        Log.d("MultimediaLog", "En el onPause")
+
+        if (mediaPlayer != null) {
+            pos = mediaPlayer!!.currentPosition
+            Log.d("MultimediaLog", "Valor de pos = $pos");
+            mediaPlayer!!.pause()
+        }
+    }
+
+    override fun onSaveInstanceState(bundle: Bundle) {
+        super.onSaveInstanceState(bundle)
+
+        Log.d("MultimediaLog", "En el onSaveInstanceState")
+        if (mediaPlayer != null) {
+            bundle.putInt("posicion", pos)
+            Log.d("MultimediaLog", "Valor de pos = $pos");
+            bundle.putInt("canción actual", cancionActual)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        Log.d("MultimediaLog", "En el onDestroy")
+        if (mediaPlayer != null) {
+            mediaPlayer!!.release()
+            mediaPlayer = null
+        }
+    }
+
+    override fun onRestoreInstanceState(bundle: Bundle) {
+        super.onRestoreInstanceState(bundle!!)
+        Log.d("MultimediaLog", "En el onRestoreInstanceState")
+
+        if (bundle != null && mediaPlayer != null) {
+            pos = bundle.getInt("posicion")
+            cancionActual = bundle.getInt("canción actual")
+        }
+        Log.d("MultimediaLog", "Valor de pos = $pos");
+    }
+
+    override fun onResume(){
+        super.onResume()
+        Log.d("MultimediaLog", "En el onResume");
+        Log.d("MultimediaLog", "Valor de pos = $pos");
+        Log.d("MultimediaLog", "Valor de canción = $cancionActual");
+
+        if (mediaPlayer != null) {
+            mediaPlayer!!.seekTo(pos)
+            mediaPlayer!!.start()
+        }
+    }
 }

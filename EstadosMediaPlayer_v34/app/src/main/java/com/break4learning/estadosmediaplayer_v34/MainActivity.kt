@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("MultimediaLog", "Valor de pos = $pos");
 
         if (mediaPlayer != null) {
-            //mediaPlayer!!.seekTo(pos)
+            mediaPlayer!!.seekTo(pos)
             mediaPlayer!!.start()
         }
     }
