@@ -8,6 +8,10 @@ import android.util.Log
 import com.break4learning.estadosmediaplayer_v34.databinding.ActivityMainBinding
 import java.io.IOException
 
+// RECORDATORIO: LA CARPETA RAW NO EXISTE DE SERIE
+// Tengo que crearla yo para alojar dentro los mp3, con click derecho
+// en res y crearla como directorio normalico, Directory, sin nada especial
+
 // Los métodos aquí mostrados pueden usarse para guardar información en general
 
 class MainActivity : AppCompatActivity() {

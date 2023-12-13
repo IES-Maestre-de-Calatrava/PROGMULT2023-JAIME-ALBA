@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
     // Preparamos el mediaPlayer
     private var mediaPlayer: MediaPlayer? = null
     // A la mutable list le vamos a pasar los sonidos que queremos reproducir
-    private var sonidoActual = mutableListOf(R.raw.bailar)
+    private var sonidoActual = mutableListOf(R.raw.bailar, R.raw.melanie, R.raw.jester)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +41,18 @@ class MainActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
 
         // Reproducción de sonidos:
         // luego habrá que tocarlo para decirle que pase al sigueinte audio
-        if (mediaPlayer == null) {
+        controlSonido(sonidoActual[cancionActual])
+
+
+        binding.prevButton.setOnClickListener{
+            pararReproductor()
+            cancionActual = if (cancionActual > 0) cancionActual - 1 else sonidoActual.size - 1
+            controlSonido(sonidoActual[cancionActual])
+        }
+
+        binding.nextButton.setOnClickListener{
+            pararReproductor()
+            cancionActual = if (cancionActual < sonidoActual.size - 1) cancionActual + 1 else 0
             controlSonido(sonidoActual[cancionActual])
         }
     }
@@ -153,6 +164,8 @@ class MainActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         // Comprobamos que mediaPlayer está funcionando
         if (mediaPlayer != null) {
             mediaPlayer!!.stop()
+            binding.seekBar.progress = 0
+
             // Si da problemas al detenerlo: mediaPlayer.reset()
             mediaPlayer!!.release() // Para liberar recursos
             mediaPlayer = null
@@ -204,6 +217,7 @@ class MainActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
             bundle.putInt("posicion", pos)
             Log.d("MultimediaLog", "Valor de pos = $pos");
             bundle.putInt("cancion_actual", cancionActual)
+
         }
     }
 
@@ -235,9 +249,27 @@ class MainActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         Log.d("MultimediaLog", "Valor de pos = $pos");
         Log.d("MultimediaLog", "Valor de canción = $cancionActual");
 
-        if (mediaPlayer != null) {
+        if (mediaPlayer == null) {
+            // Tengo que hacer un proceso de creación cuando el mediaPlayer sea nulo.
+            // Si lo hago sin que sea nulo, me va a dar una excepción.
+            mediaPlayer = MediaPlayer.create(this, sonidoActual[cancionActual])
+            mediaPlayer!!.setOnCompletionListener(this)
+
+            // También inicializamos la seekBar; lo vamos a hacer con un hilo
+            inicializarSeekBar()
+
+            binding.seekBar.isEnabled = true
+
+            binding.playButton.isEnabled = false
+            binding.stopButton.isEnabled = true
+            binding.pauseButton.isEnabled = true
+
             mediaPlayer!!.seekTo(pos)
             mediaPlayer!!.start()
         }
     }
+
+    // Problemas:
+    // 1.- Por cómo funciona el onResume, la reproducción empieza nada más se ejecuta la app
+    // 2.- Si estoy en otra canción de la lista, al pulsar Stop se vuelve a la primera
 }
