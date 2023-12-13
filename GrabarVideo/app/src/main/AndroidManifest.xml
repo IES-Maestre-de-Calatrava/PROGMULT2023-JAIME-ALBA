@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--Permisos a solicitar: cámara y grabar audio-->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
+
+    <!--Le digo a la tienda de android que mi app requiere de cámara, y si el dispositivo no tiene cámara, no deja descargarlo-->
+    <!--Si nuestra app usa la cámara pero no es estrictamente necesaria para su funcionamiento, ponemos required="false"-->
+
+    <!--En tiempo de ejecución tenemos que verificar si existe la cámara; para ello hay un método-->
+    <!--hasSystemFeature(PackageManager.FEATURE_CAMERA). Sólo necesario si required="false"-->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true">
+    </uses-feature>
+
+    <!--También meto algo para coger vídeos de la galería de una forma especial-->
+    <!--Estas tres cosas son para poder usar la cámara-->
+    <queries>
+        <!--Browser-->
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+        </intent>
+        <!--Cámara-->
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE"/>
+        </intent>
+        <!--Galería-->
+        <intent>
+            <action android:name="android.intent.action.GET_CONTENT"/>
+        </intent>
+    </queries>
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.GrabarVideo"
+        tools:targetApi="31">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
