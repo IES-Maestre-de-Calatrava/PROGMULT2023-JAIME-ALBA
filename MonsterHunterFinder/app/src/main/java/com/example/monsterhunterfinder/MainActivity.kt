@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.media.AudioAttributes
+import android.media.MediaPlayer
 import android.media.SoundPool
 import android.net.Uri
 import android.os.Bundle
@@ -11,6 +12,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.monsterhunterfinder.databinding.ActivityMainBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -31,6 +34,11 @@ class MainActivity : AppCompatActivity() {
     var sonidoperfil: Int=0
     var sonidodiario: Int=0
     var sonidobuscar: Int=0
+
+
+    // Para la reproducción de audio
+    private var mediaPlayer: MediaPlayer? = null
+    lateinit var activityResultLauncherMusica: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +64,49 @@ class MainActivity : AppCompatActivity() {
         sonidoperfil = soundPool.load(this, R.raw.sonidoperfil, 1)
         sonidodiario = soundPool.load(this, R.raw.sonidodiario, 1)
         sonidobuscar = soundPool.load(this, R.raw.sonidobuscar, 1)
+
+
+        // Se registra el activityResultLauncher utilizado para la música de fondo,
+        // para recoger su resultado
+        activityResultLauncherMusica = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+                result ->
+            if (result.data != null) {
+                val data: Intent = result.data!!
+                iniciarReproduccion(data.data)
+            }
+        }
+
+        // Listener para cargar sonidos de la galería
+        binding.botonMusica.setOnClickListener {
+            SeleccionarSonidoDeGalería()
+        }
+    }
+
+    /**
+     * Método que, en caso de que el mediaPlayer no esté inicializado, lo crea con
+     * el audio a reproducir. Simplemente se escucha de fondo, no hay control sobre
+     * él una vez ha iniciado la reproducción.
+     *
+     * @param id Identificador del audio a reproducir
+     */
+    private fun iniciarReproduccion(id: Uri?){
+        if (mediaPlayer==null){
+            mediaPlayer = MediaPlayer.create(this, id)
+            mediaPlayer!!.start()
+        }
+    }
+
+    /**
+     * Método que permite seleccionar sonidos (archivos de audio) de la galería.
+     */
+    fun SeleccionarSonidoDeGalería() {
+        val intent = Intent()
+        intent.action = Intent.ACTION_GET_CONTENT
+
+        // Le indico el tipo de fichero que me permita seleccionar (cualquier archivo de audio)
+        intent.type = "audio/*"
+
+        activityResultLauncherMusica.launch(intent)
     }
 
     /**

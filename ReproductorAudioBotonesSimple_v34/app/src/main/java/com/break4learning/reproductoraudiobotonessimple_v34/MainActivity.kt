@@ -20,6 +20,10 @@ class MainActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
     var pos = 0
     var cancionActual = 0
 
+    companion object {
+        var isPlaying = false
+    }
+
     // Preparamos el mediaPlayer
     private var mediaPlayer: MediaPlayer? = null
     // A la mutable list le vamos a pasar los sonidos que queremos reproducir
@@ -28,20 +32,48 @@ class MainActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d("MultimediaLog", "En el onCreate")
-        if (savedInstanceState == null) {
-            Log.d("MultimediaLog", "No hay datos que recuperar")
-        }
         Log.d("MultimediaLog", "Valor de pos = $pos");
-
         crearObjetosDelXml()
 
-        // Hasta que no se empiece a reproducir el audio, el usuario no podrá tocar la seekbar
-        binding.seekBar.isEnabled = false
+
+        if (mediaPlayer == null) {
+            // Tengo que hacer un proceso de creación cuando el mediaPlayer sea nulo.
+            // Si lo hago sin que sea nulo, me va a dar una excepción.
+            mediaPlayer = MediaPlayer.create(this, sonidoActual[cancionActual])
+            mediaPlayer!!.setOnCompletionListener(this)
+
+            // También inicializamos la seekBar; lo vamos a hacer con un hilo
+            inicializarSeekBar()
+        }
 
 
-        // Reproducción de sonidos:
-        // luego habrá que tocarlo para decirle que pase al sigueinte audio
-        controlSonido(sonidoActual[cancionActual])
+        if (savedInstanceState == null) {
+            Log.d("MultimediaLog", "No hay datos que recuperar")
+
+            // Hasta que no se empiece a reproducir el audio, el usuario no podrá tocar la seekbar
+            binding.seekBar.isEnabled = false
+
+            binding.playButton.isEnabled = true
+            binding.stopButton.isEnabled = false
+            binding.pauseButton.isEnabled = false
+
+            // Reproducción de sonidos:
+            // luego habrá que tocarlo para decirle que pase al sigueinte audio
+            controlSonido(sonidoActual[cancionActual])
+        } else {
+            Log.d("MultimediaLog", "En el onCreate con datos a recuperar")
+
+            // Hasta que no se empiece a reproducir el audio, el usuario no podrá tocar la seekbar
+            if (isPlaying) {
+                binding.seekBar.isEnabled = true
+                binding.playButton.isEnabled = false
+                binding.stopButton.isEnabled = true
+                binding.pauseButton.isEnabled = true
+            }
+        }
+
+
+
 
 
         binding.prevButton.setOnClickListener{
@@ -60,6 +92,7 @@ class MainActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
     private fun controlSonido(id: Int) {
         // Me creo listeners para cada botón
         binding.playButton.setOnClickListener {
+            isPlaying = true
             iniciarReproduccion(id)
         }
 
@@ -79,6 +112,7 @@ class MainActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         binding.stopButton.setOnClickListener {
             // Detiene el reproductor, no el audio.
             // Funcionará con el onCompletion, cuando la reproducción se acabe.
+            isPlaying = false
             pararReproductor()
         }
 
@@ -118,17 +152,18 @@ class MainActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
             // También inicializamos la seekBar; lo vamos a hacer con un hilo
             inicializarSeekBar()
 
-            mediaPlayer!!.start()
 
-            // Y aquí jugamos con habilitar o deshabilitar botones para evitar errores.
-            // Si hay reproducción activa, deshabilito el botón play. A los otros dos sí
-            // les puedo dar.
-            binding.playButton.isEnabled = false
-            binding.stopButton.isEnabled = true
-            binding.pauseButton.isEnabled = true
-            // Y habilitamos la seekbar
-            binding.seekBar.isEnabled = true
         }
+        mediaPlayer!!.start()
+
+        // Y aquí jugamos con habilitar o deshabilitar botones para evitar errores.
+        // Si hay reproducción activa, deshabilito el botón play. A los otros dos sí
+        // les puedo dar.
+        binding.playButton.isEnabled = false
+        binding.stopButton.isEnabled = true
+        binding.pauseButton.isEnabled = true
+        // Y habilitamos la seekbar
+        binding.seekBar.isEnabled = true
     }
 
     private fun inicializarSeekBar() {
@@ -217,6 +252,7 @@ class MainActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
             bundle.putInt("posicion", pos)
             Log.d("MultimediaLog", "Valor de pos = $pos");
             bundle.putInt("cancion_actual", cancionActual)
+            bundle.putBoolean("reproduciendo", mediaPlayer!!.isPlaying)
 
         }
     }
@@ -249,27 +285,21 @@ class MainActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         Log.d("MultimediaLog", "Valor de pos = $pos");
         Log.d("MultimediaLog", "Valor de canción = $cancionActual");
 
-        if (mediaPlayer == null) {
-            // Tengo que hacer un proceso de creación cuando el mediaPlayer sea nulo.
-            // Si lo hago sin que sea nulo, me va a dar una excepción.
-            mediaPlayer = MediaPlayer.create(this, sonidoActual[cancionActual])
-            mediaPlayer!!.setOnCompletionListener(this)
-
-            // También inicializamos la seekBar; lo vamos a hacer con un hilo
-            inicializarSeekBar()
-
-            binding.seekBar.isEnabled = true
-
-            binding.playButton.isEnabled = false
-            binding.stopButton.isEnabled = true
-            binding.pauseButton.isEnabled = true
-
+        if (mediaPlayer != null) {
+            Log.d("MultimediaLog", "ANTES DEL SEEK, valor de pos = $pos");
             mediaPlayer!!.seekTo(pos)
-            mediaPlayer!!.start()
+
+            if (isPlaying) {
+                mediaPlayer!!.start()
+            }
+
+            // Reproducción de sonidos:
+            // luego habrá que tocarlo para decirle que pase al sigueinte audio
+            controlSonido(sonidoActual[cancionActual])
         }
     }
 
     // Problemas:
-    // 1.- Por cómo funciona el onResume, la reproducción empieza nada más se ejecuta la app
-    // 2.- Si estoy en otra canción de la lista, al pulsar Stop se vuelve a la primera
+    // 1.- Si se presiona pause y se gira el móvil, la ejecución se reanuda
+    // 2.- Si hay un stop y se gira el móvil, la seekBar se habilita
 }

@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +17,7 @@ import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.SeekBar
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -63,7 +65,6 @@ class activity_diario_vista : AppCompatActivity() {
     val manager = LinearLayoutManager(this)
 
     private var posicion: Int = 0
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -139,6 +140,8 @@ class activity_diario_vista : AppCompatActivity() {
                     }
             }
     }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         // Aquí se inflan los objetos xml de la toolbar que se use
