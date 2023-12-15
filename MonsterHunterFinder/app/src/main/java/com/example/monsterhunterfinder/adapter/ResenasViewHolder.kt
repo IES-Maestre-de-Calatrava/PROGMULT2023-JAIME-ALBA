@@ -1,8 +1,14 @@
 package com.example.monsterhunterfinder.adapter
 
+import android.content.Intent
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.monsterhunterfinder.R
 import com.example.monsterhunterfinder.Resena
+import com.example.monsterhunterfinder.activity_audio
+import com.example.monsterhunterfinder.activity_diario_ver
 import com.example.monsterhunterfinder.databinding.ItemResenaBinding
 
 /**
@@ -27,5 +33,17 @@ class ResenasViewHolder(view: View): RecyclerView.ViewHolder(view) {
     fun render(resena: Resena) {
         binding.textoCazador.text = resena.cazador
         binding.textoResena.text = resena.experiencia
+
+        // Al pulsar en un elemento reseña, se abrirá la activity de reproducción
+        // de audios con el audio correspondiente
+        itemView.setOnClickListener{
+            val contexto = itemView.context
+            val intent = Intent(contexto, activity_audio::class.java)
+
+            val identificador: String = resena.nombreAudio
+            intent.putExtra("Identificador", identificador)
+
+            contexto.startActivity(intent)
+        }
     }
 }
