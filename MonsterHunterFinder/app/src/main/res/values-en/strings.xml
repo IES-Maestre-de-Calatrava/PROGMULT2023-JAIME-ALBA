@@ -46,7 +46,7 @@
     <string name="modificar">MODIFY</string>
     <string name="ver">>></string>
     <string name="bio">User bio</string>
-    <string name="confirmar">SAVE CHANGES</string>
+    <string name="confirmar">SAVE</string>
     <string name="confirmarPregunta">Do you want to confirm the changes?</string>
     <string name="eliminar">X</string>
     <string name="editar">Ed</string>
@@ -75,4 +75,5 @@
     <string name="findes">On weekends</string>
     <string name="entreSemana">On weekdays</string>
     <string name="textoGaleria">Show yourself off to the rest of players!</string>
+    <string name="videoAnadir">And record a video or select it from the gallery!</string>
 </resources>

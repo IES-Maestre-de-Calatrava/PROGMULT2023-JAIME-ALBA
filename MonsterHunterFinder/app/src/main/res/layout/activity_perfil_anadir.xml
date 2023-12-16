@@ -69,7 +69,7 @@
             android:id="@+id/textoEnlaceFoto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/material_dynamic_neutral70" />
+            android:textColor="@color/material_dynamic_neutral70"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,5 +88,62 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/headerPerfilAnadir"
         app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textoVideo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="35dp"
+        android:text="@string/videoAnadir"
+        android:textColor="@color/material_dynamic_neutral70"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cajaEnlaceFoto"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/botonGaleria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:backgroundTint="@android:color/system_neutral1_900"
+        app:icon="@drawable/baseline_upload_24"
+        app:iconGravity="textStart"
+        app:iconSize="28dp"
+        app:iconTint="@color/mtrl_textinput_default_box_stroke_color"
+        app:layout_constraintBottom_toBottomOf="@+id/botonConfirmarAnadir"
+        app:layout_constraintEnd_toStartOf="@+id/botonConfirmarAnadir"
+        app:layout_constraintTop_toTopOf="@+id/botonConfirmarAnadir"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <RelativeLayout
+        android:id="@+id/layoutControlesAnadir"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/botonGaleria"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textoVideo">
+
+        <VideoView
+            android:id="@+id/videoViewAnadir"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

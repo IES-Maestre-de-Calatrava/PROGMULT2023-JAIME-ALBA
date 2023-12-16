@@ -103,7 +103,8 @@ class activity_perfil : AppCompatActivity() {
                     // y es insertado en la colección
                     var multimedia = Multimedia(
                         idMultimedia,
-                        datos.getStringExtra("enlace")!!)
+                        datos.getStringExtra("enlace")!!,
+                        datos.getStringExtra("uri_video")!!)
                     insertarMultimedia(multimedia)
                 }
         }
@@ -211,7 +212,8 @@ class activity_perfil : AppCompatActivity() {
             .document(multimedia.id.toString())
             .set(
                 hashMapOf(
-                    "enlace" to multimedia.enlace
+                    "enlace" to multimedia.enlace,
+                    "uri" to multimedia.uri
                 )
             )
             .addOnSuccessListener {

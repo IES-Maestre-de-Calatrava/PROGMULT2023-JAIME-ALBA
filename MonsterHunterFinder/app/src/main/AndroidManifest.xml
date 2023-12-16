@@ -15,6 +15,9 @@
         android:theme="@style/Theme.MonsterHunterFinder"
         tools:targetApi="31">
         <activity
+            android:name=".activity_video"
+            android:exported="false" />
+        <activity
             android:name=".activity_audio"
             android:exported="false" />
         <activity

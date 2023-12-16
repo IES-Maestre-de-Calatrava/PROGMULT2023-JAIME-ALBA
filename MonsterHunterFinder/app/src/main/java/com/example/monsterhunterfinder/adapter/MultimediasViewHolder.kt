@@ -1,5 +1,6 @@
 package com.example.monsterhunterfinder.adapter
 
+import android.content.Intent
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -7,6 +8,8 @@ import com.example.monsterhunterfinder.Multimedia
 import com.example.monsterhunterfinder.databinding.ItemMultimediaBinding
 import com.bumptech.glide.Glide
 import com.example.monsterhunterfinder.R
+import com.example.monsterhunterfinder.activity_audio
+import com.example.monsterhunterfinder.activity_video
 
 /**
  *  Clase encargada de ubicar los datos de un elemento
@@ -40,6 +43,14 @@ class MultimediasViewHolder(view: View):  RecyclerView.ViewHolder(view) {
                 R.string.textoGaleria,
                 Toast.LENGTH_LONG
             ).show()
+
+            val contexto = itemView.context
+            val intent = Intent(contexto, activity_video::class.java)
+
+            val identificador: String = multimedia.id.toString()
+            intent.putExtra("Identificador", identificador)
+
+            contexto.startActivity(intent)
         }
     }
 }

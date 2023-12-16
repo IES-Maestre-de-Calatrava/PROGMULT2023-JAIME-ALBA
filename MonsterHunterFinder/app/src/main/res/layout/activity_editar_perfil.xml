@@ -8,7 +8,7 @@
     tools:context=".activity_editar_perfil">
 
     <ImageView
-        android:id="@+id/headerPerfilAudio"
+        android:id="@+id/headerPerfilVideo"
         android:layout_width="wrap_content"
         android:layout_height="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -19,20 +19,20 @@
         app:srcCompat="@drawable/wallpaper_deviljho" />
 
     <ImageView
-        android:id="@+id/iconPerfilAudio"
+        android:id="@+id/iconPerfilVideo"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginEnd="42dp"
-        app:layout_constraintBottom_toBottomOf="@+id/headerPerfilAudio"
+        app:layout_constraintBottom_toBottomOf="@+id/headerPerfilVideo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/headerPerfilAudio"
-        app:layout_constraintTop_toTopOf="@+id/headerPerfilAudio"
+        app:layout_constraintStart_toStartOf="@+id/headerPerfilVideo"
+        app:layout_constraintTop_toTopOf="@+id/headerPerfilVideo"
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/icon" />
 
     <Button
-        android:id="@+id/botonVolverAudio"
+        android:id="@+id/botonVolverVideo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -45,7 +45,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/headerPerfilAudio"
+        app:layout_constraintTop_toTopOf="@+id/headerPerfilVideo"
         app:layout_constraintVertical_bias="1.0"
         tools:onClick="volver" />
 
@@ -63,7 +63,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headerPerfilAudio"
+        app:layout_constraintTop_toBottomOf="@+id/headerPerfilVideo"
         app:layout_constraintVertical_bias="0.13"
         tools:hintTextColor="@color/material_dynamic_neutral60">
 
@@ -117,7 +117,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/headerPerfilAudio"
+        app:layout_constraintTop_toTopOf="@+id/headerPerfilVideo"
         app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

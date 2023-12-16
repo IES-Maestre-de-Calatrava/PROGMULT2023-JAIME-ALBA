@@ -45,7 +45,7 @@
     <string name="modificar">"MODIFICAR "</string>
     <string name="ver">>></string>
     <string name="bio">Biografía</string>
-    <string name="confirmar">CONFIRMAR CAMBIOS</string>
+    <string name="confirmar">CONFIRMAR</string>
     <string name="confirmarPregunta">¿Quieres confirmar los cambios?</string>
     <string name="eliminar">X</string>
     <string name="editar">Ed</string>
@@ -74,4 +74,5 @@
     <string name="findes">Findes</string>
     <string name="entreSemana">Entre semana</string>
     <string name="textoGaleria">¡Lúcete ante el resto de jugadores!</string>
+    <string name="videoAnadir">¡Y graba un vídeo o selecciónalo de la galería!</string>
 </resources>
