@@ -4,6 +4,8 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.MediaController
 import android.widget.VideoView
@@ -35,9 +37,8 @@ class activity_perfil_anadir : AppCompatActivity() {
     // Declaración del acceso al almacenamiento de Firebase
     private val storage = FirebaseStorage.getInstance()
     private val videoStorage = storage.reference
-    // Variables para controlar si hay vídeo y si hay foto
+    // Variable para controlar si hay vídeo
     var hayVideo = false
-    var hayImagen = false
 
     // Para poner controlador al vídeo
     lateinit var mediaController: MediaController
@@ -45,6 +46,13 @@ class activity_perfil_anadir : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         crearObjetosDelXml()
+
+        // Inicialmente, el botón de confirmar es invisible.
+        // Se hará visible solamente cuando se haya seleccionado un
+        // vídeo de la galería Y exista texto en la caja para el
+        // enlace de la foto, de manera que únicamente se pueda confirmar
+        // cuando existan ambas cosas
+        binding.botonConfirmarAnadir.visibility = View.INVISIBLE
 
         // Se establece un listener para el botón de confirmar;
         // el método volverConFoto() será el que envíe un intent
@@ -59,6 +67,19 @@ class activity_perfil_anadir : AppCompatActivity() {
         binding.botonGaleria.setOnClickListener {
             SeleccionarDeGaleria()
         }
+
+        // Listener para la caja de texto del enlace de la foto
+        binding.textoEnlaceFoto.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                actualizarEstadoBoton()
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+        })
 
         // Registramos el contenido con el que vuelva el activityResultLauncher
         activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -86,6 +107,21 @@ class activity_perfil_anadir : AppCompatActivity() {
                     }
 
                 }
+        }
+    }
+
+    /**
+     * Método que se usará para habilitar o deshabilitar el botón de confirmar;
+     * únicamente se habilitará cuando se haya seleccionado un vídeo de la
+     * galería y exista texto en la caja de texto para el enlace de la foto
+     */
+    private fun actualizarEstadoBoton() {
+        val textoEnlaceFoto = binding.textoEnlaceFoto.text.toString().trim()
+
+        if (hayVideo && textoEnlaceFoto.isNotEmpty()) {
+            binding.botonConfirmarAnadir.visibility = View.VISIBLE
+        } else {
+            binding.botonConfirmarAnadir.visibility = View.INVISIBLE
         }
     }
 

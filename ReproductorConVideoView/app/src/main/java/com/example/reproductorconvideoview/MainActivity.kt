@@ -1,5 +1,6 @@
 package com.example.reproductorconvideoview
 
+import android.content.res.Configuration
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,6 +16,10 @@ class MainActivity : AppCompatActivity() {
     // Nos declaramos un VideoView, y otra clase para ponerle controles
     lateinit var mVideoView: VideoView
     lateinit var mediaController: MediaController // El de widget
+
+    // Para controlar el estado de reproducción
+    private var currentPosition: Int = 0
+    private var isVideoPlaying: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         mVideoView.setOnCompletionListener {
             // Habilito que cuando el vídeo termine de reproducirse se le pueda dar otra vez al play
             binding.botonReproducirVideo.isEnabled = true
+            isVideoPlaying = false
         }
     }
 
@@ -61,4 +67,43 @@ class MainActivity : AppCompatActivity() {
     // Cosas que hacer:
     // -Cargar vídeos desde la galería
     // -Mantener el control al girar el móvil
+
+    override fun onPause() {
+        super.onPause()
+        if (mVideoView.isPlaying) {
+            currentPosition = mVideoView.currentPosition
+            mVideoView.pause()
+            isVideoPlaying = true
+        }
+    }
+
+    override fun onSaveInstanceState(bundle: Bundle) {
+        super.onSaveInstanceState(bundle)
+        bundle.putInt("currentPosition", currentPosition)
+        bundle.putBoolean("isVideoPlaying", isVideoPlaying)
+    }
+
+    override fun onRestoreInstanceState(bundle: Bundle) {
+        super.onRestoreInstanceState(bundle)
+        currentPosition = bundle.getInt("currentPosition")
+        isVideoPlaying = bundle.getBoolean("isVideoPlaying")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (isVideoPlaying) {
+            mVideoView.seekTo(currentPosition)
+            mVideoView.start()
+        }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        // Aquí puedes manejar los cambios de configuración según tus necesidades
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // Ajustes específicos para orientación horizontal (puedes agregar más según tus necesidades)
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // Ajustes específicos para orientación vertical (puedes agregar más según tus necesidades)
+        }
+    }
 }

@@ -301,5 +301,4 @@ class MainActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
 
     // Problemas:
     // 1.- Si se presiona pause y se gira el móvil, la ejecución se reanuda
-    // 2.- Si hay un stop y se gira el móvil, la seekBar se habilita
 }
