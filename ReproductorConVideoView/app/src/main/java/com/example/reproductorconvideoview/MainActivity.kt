@@ -75,6 +75,8 @@ class MainActivity : AppCompatActivity() {
             currentPosition = mVideoView.currentPosition
             mVideoView.pause()
             isVideoPlaying = true
+        } else {
+            isVideoPlaying = false
         }
     }
 

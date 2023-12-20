@@ -35,9 +35,9 @@ class activity_video : AppCompatActivity() {
     // Variable para el videoView
     lateinit var mVideoView: VideoView
 
-    // Variables para controlar el estado de reproducción
-    // La posición de la reproducción actual
+    // Variables para controlar el estado de reproducción del vídeo
     private var currentPosition: Int = 0
+    private var isVideoPlaying: Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -114,8 +114,6 @@ class activity_video : AppCompatActivity() {
         finish()
     }
 
-    // Al girar el dispositivo, se sigue una secuencia onPause > onSaveInstanceState > onDestroy >
-    // > onCreate > onRestoreInstanceState > onResume
     override fun onPause() {
         super.onPause()
         Log.d("TAG", "En el onPause")
@@ -126,6 +124,9 @@ class activity_video : AppCompatActivity() {
             currentPosition = mVideoView.currentPosition
             Log.d("TAG", "La reproducción iba por $currentPosition")
             mVideoView.pause()
+            isVideoPlaying = true
+        } else {
+            isVideoPlaying = false
         }
     }
 
@@ -135,6 +136,7 @@ class activity_video : AppCompatActivity() {
         // En el onSaveInstanceState guardamos la posición
         // por la que iba la reproducción del vídeo
         bundle.putInt("currentPosition", mVideoView.currentPosition)
+        bundle.putBoolean("isVideoPlaying", isVideoPlaying)
     }
 
     override fun onDestroy() {
@@ -149,14 +151,22 @@ class activity_video : AppCompatActivity() {
         // posición por la que se encontraba la reproducción y el booleano
         // que indica si había vídeo reproduciéndose
         currentPosition = bundle.getInt("currentPosition")
-        val isPlaying = bundle.getBoolean("isPlaying")
+        isVideoPlaying = bundle.getBoolean("isVideoPlaying")
         Log.d("TAG", "La reproducción iba por $currentPosition")
 
-        // Inmediatamente tras cargar los datos se iguala la posición
+        mVideoView.seekTo(currentPosition)
+        if (bundle.getBoolean("isPlaying")) {
+            mVideoView.start()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Tras cargar los datos se iguala la posición
         // a la que ya había, y si había en proceso una reproducción,
         // ésta se inicia
-        mVideoView.seekTo(currentPosition)
-        if (isPlaying) {
+        if (isVideoPlaying) {
+            mVideoView.seekTo(currentPosition)
             mVideoView.start()
         }
     }
