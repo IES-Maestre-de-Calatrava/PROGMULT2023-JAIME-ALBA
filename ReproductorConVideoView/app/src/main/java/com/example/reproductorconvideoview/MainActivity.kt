@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
             // Se hace un prepareListener para en el video view cargar el vídeo y entonces habilitar
             // t.odo lo que le ponga aquí dentro, NO antes de cargarlo
             mVideoView.start()
+            isVideoPlaying = true
             mVideoView.requestFocus() // Le pongo el foco
             ponerControles(mVideoView) // Le pongo los controles
             binding.botonReproducirVideo.isEnabled = false // Cuando comience el vídeo, el botón de
@@ -97,13 +98,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        // Aquí puedes manejar los cambios de configuración según tus necesidades
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            // Ajustes específicos para orientación horizontal (puedes agregar más según tus necesidades)
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            // Ajustes específicos para orientación vertical (puedes agregar más según tus necesidades)
-        }
-    }
+
 }

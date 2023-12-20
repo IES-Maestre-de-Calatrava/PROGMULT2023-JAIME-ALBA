@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/material_dynamic_neutral20"
-    tools:context=".activity_editar_perfil">
+    tools:context=".activity_video">
 
     <ImageView
         android:id="@+id/headerPerfilVideo"
@@ -53,14 +53,15 @@
         android:id="@+id/layoutControlesVer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="150dp"
+        android:layout_marginStart="175dp"
         android:layout_marginTop="25dp"
-        android:layout_marginEnd="150dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginEnd="175dp"
+        android:layout_marginBottom="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headerPerfilVideo">
+        app:layout_constraintTop_toBottomOf="@+id/headerPerfilVideo"
+        app:layout_constraintVertical_bias="0.0">
 
         <VideoView
             android:id="@+id/videoViewVer"
@@ -69,6 +70,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true" />
+
     </RelativeLayout>
 
 

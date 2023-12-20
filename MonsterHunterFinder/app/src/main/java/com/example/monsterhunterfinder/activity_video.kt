@@ -1,13 +1,14 @@
 package com.example.monsterhunterfinder
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.MediaController
 import android.widget.VideoView
-import com.example.monsterhunterfinder.databinding.ActivityAudioBinding
 import com.example.monsterhunterfinder.databinding.ActivityVideoBinding
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -33,10 +34,17 @@ class activity_video : AppCompatActivity() {
 
     // Variable para el videoView
     lateinit var mVideoView: VideoView
+
+    // Variables para controlar el estado de reproducción
+    // La posición de la reproducción actual
+    private var currentPosition: Int = 0
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         crearObjetosDelXml()
 
+        Log.d("TAG", "En el onCreate")
 
         // Vamos a recoger el intent lanzado al pulsar en un objeto multimedia,
         // y con él, el identificador que hace referencia a la imagen asociada
@@ -47,7 +55,12 @@ class activity_video : AppCompatActivity() {
         // Bindeamos el videoView utilizado para ver el vídeo asociado
         // a la imagen en la que hayamos pulsado
         mVideoView = binding.videoViewVer
-        cargarVideo()
+
+        // Verificar si hay un estado guardado antes de iniciar la reproducción, para que el
+        // vídeo solamente se cargue una vez, al iniciarse la activity por primera vez
+        if (savedInstanceState == null) {
+            cargarVideo()
+        }
     }
 
     /**
@@ -98,7 +111,53 @@ class activity_video : AppCompatActivity() {
      * inicia la función
      */
     fun volver(view: View) {
-        activity_audio.isPlaying = false
         finish()
+    }
+
+    // Al girar el dispositivo, se sigue una secuencia onPause > onSaveInstanceState > onDestroy >
+    // > onCreate > onRestoreInstanceState > onResume
+    override fun onPause() {
+        super.onPause()
+        Log.d("TAG", "En el onPause")
+        if (mVideoView.isPlaying) {
+            // Si había vídeo reproduciéndose, se guarda el estado correspondiente
+            // para la variable y la posición que había en la reproducción, y se
+            // pausa el reproductor
+            currentPosition = mVideoView.currentPosition
+            Log.d("TAG", "La reproducción iba por $currentPosition")
+            mVideoView.pause()
+        }
+    }
+
+    override fun onSaveInstanceState(bundle: Bundle) {
+        super.onSaveInstanceState(bundle)
+        Log.d("TAG", "En el onSaveInstanceState")
+        // En el onSaveInstanceState guardamos la posición
+        // por la que iba la reproducción del vídeo
+        bundle.putInt("currentPosition", mVideoView.currentPosition)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("TAG", "En el onDestroy")
+    }
+
+    override fun onRestoreInstanceState(bundle: Bundle) {
+        super.onRestoreInstanceState(bundle)
+        Log.d("TAG", "En el onRestoreInstanceState")
+        // En el onRestoreInstanceState, tras el onCreate, recogemos la
+        // posición por la que se encontraba la reproducción y el booleano
+        // que indica si había vídeo reproduciéndose
+        currentPosition = bundle.getInt("currentPosition")
+        val isPlaying = bundle.getBoolean("isPlaying")
+        Log.d("TAG", "La reproducción iba por $currentPosition")
+
+        // Inmediatamente tras cargar los datos se iguala la posición
+        // a la que ya había, y si había en proceso una reproducción,
+        // ésta se inicia
+        mVideoView.seekTo(currentPosition)
+        if (isPlaying) {
+            mVideoView.start()
+        }
     }
 }
