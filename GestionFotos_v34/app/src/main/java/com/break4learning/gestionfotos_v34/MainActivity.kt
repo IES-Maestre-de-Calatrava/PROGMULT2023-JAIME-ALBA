@@ -5,12 +5,14 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.media.MediaScannerConnection
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -48,6 +50,15 @@ class MainActivity : AppCompatActivity() {
     private val CAPTURA_IMAGEN_GUARDAR_GALERIA = 3
     private var fotoPath = ""
     lateinit var activityResultLauncherCapturaImagenYGuardarEnGaleria: ActivityResultLauncher<Intent>
+
+    // 4.- Hacer foto y redimensionar a escala
+    private val CAPTURA_IMAGEN_GUARDAR_GALERIA_REDIMENSIONADA = 4
+    lateinit var activityResultLauncherRedimensionarImagen: ActivityResultLauncher<Intent>
+
+    // 5.- Hacer foto y redimensionar a tamaño de ImageView
+    private val CAPTURA_IMAGEN_GUARDAR_GALERIA_REDIMENSIONADA2 = 5
+    lateinit var activityResultLauncherRedimensionarImagen2: ActivityResultLauncher<Intent>
+
 
 
 
@@ -138,6 +149,54 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
+
+        // 4.- Hacer foto y redimensionar a escala
+        binding.btnRedi.setOnClickListener {
+            // Comprobamos que haya apps capaces de atender la llamada para fotos
+            if (packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+                dispatchTakePictureIntent(true, CAPTURA_IMAGEN_GUARDAR_GALERIA_REDIMENSIONADA)
+            }
+        }
+
+        activityResultLauncherRedimensionarImagen =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                    result ->
+                if (result.data != null) {
+                    val data: Intent = result.data!!
+
+                    if (result.resultCode == RESULT_OK) {
+                        // En lugar de al Set Uri, llamamos a un método que se va a encargar
+                        // de hacer el redimensionado
+                        setPicRedim()
+                        refreshGallery()
+                    }
+                }
+            }
+
+
+        // 5.- Hacer foto y redimensionar a tamaño de la ImageView
+        binding.btnRedi2.setOnClickListener {
+            // Comprobamos que haya apps capaces de atender la llamada para fotos
+            if (packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+                dispatchTakePictureIntent(true, CAPTURA_IMAGEN_GUARDAR_GALERIA_REDIMENSIONADA2)
+            }
+        }
+
+        activityResultLauncherRedimensionarImagen2 =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                    result ->
+                if (result.data != null) {
+                    val data: Intent = result.data!!
+
+                    if (result.resultCode == RESULT_OK) {
+                        // En lugar de al Set Uri, llamamos a un método que se va a encargar
+                        // de hacer el redimensionado
+                        setPicRedim2()
+                        refreshGallery()
+                    }
+                }
+            }
+
     }
 
     // 1.- Carga imagen de la galería
@@ -197,11 +256,69 @@ class MainActivity : AppCompatActivity() {
 
                 if (intent.resolveActivity(packageManager) != null) {
                     when (code) {
+                        // Según el código, se llama a un activityResultLauncher o a otro
                         CAPTURA_IMAGEN_GUARDAR_GALERIA -> activityResultLauncherCapturaImagenYGuardarEnGaleria.launch(intent)
+                        CAPTURA_IMAGEN_GUARDAR_GALERIA_REDIMENSIONADA -> activityResultLauncherRedimensionarImagen.launch(intent)
+                        CAPTURA_IMAGEN_GUARDAR_GALERIA_REDIMENSIONADA2 -> activityResultLauncherRedimensionarImagen2.launch(intent)
                     }
                 }
             }
         }
+    }
+
+    /**
+     * Redimensionar una imagen
+     */
+    private fun setPicRedim() {
+        val bmOptions = BitmapFactory.Options()
+
+        // Le indicamos el factor de reducción
+        // 0 es sin reducción, a mayor número mayor reducción
+        val scaleFactor = 100
+
+        bmOptions.inJustDecodeBounds = false
+        bmOptions.inSampleSize = scaleFactor
+
+        val bitmap = BitmapFactory.decodeFile(fotoPath, bmOptions)
+
+        binding.imageView.setImageBitmap(bitmap)
+    }
+
+    /**
+     * Redimensiona una imagen al tamaño del ImageView que la
+     * va a contener
+     */
+    private fun setPicRedim2() {
+        // Lo primero es obtener las dimensiones del ImageView
+        val targetW: Int = binding.imageView.width
+        val targetH: Int = binding.imageView.height
+
+        val bmOptions = BitmapFactory.Options()
+        bmOptions.inJustDecodeBounds = true
+        BitmapFactory.decodeFile(fotoPath, bmOptions)
+
+        // Primero saco las dimensiones del ImageView y luego genero la foto adaptada
+        // a esas dimensiones; ya luego si quiero reescalarla la reescalo, pero primero
+        // necesito tener cargada una foto con la que poder trabajar
+
+        val photoW = bmOptions.outWidth
+        val photoH = bmOptions.outHeight
+
+        // Fórmula matemática para ver qué reducción tengo que aplicar en función
+        // de las dimensiones del ImageView con el que estoy trabajando
+
+        // De entre los dos factores de reducción que salen me quedo con el más
+        // pequeño para que la imagen resultante pese menos
+
+        // Si cojo el factor de reducción más grande, en su lado se va a ver bien,
+        // pero en el otro lado se va a ver mal
+        val scaleFactor = Math.min(photoW/targetW, photoH/targetH)
+        bmOptions.inJustDecodeBounds = false
+        bmOptions.inSampleSize = scaleFactor
+
+        Log.d("DIMENSIONES", "Escala = $scaleFactor")
+        val bitmap = BitmapFactory.decodeFile(fotoPath, bmOptions)
+        binding.imageView.setImageBitmap(bitmap)
     }
 
 
@@ -279,4 +396,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Nos ha dejado Javier en el control de versiones un método getPath para recuperar uris
+    // de SQLite
+    // Ahora el RecyclerView tiene que poder subir fotos con un redimensionado correcto
 }
