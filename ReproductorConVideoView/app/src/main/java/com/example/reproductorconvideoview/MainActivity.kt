@@ -68,37 +68,4 @@ class MainActivity : AppCompatActivity() {
     // Cosas que hacer:
     // -Cargar vídeos desde la galería
     // -Mantener el control al girar el móvil
-
-    override fun onPause() {
-        super.onPause()
-        if (mVideoView.isPlaying) {
-            currentPosition = mVideoView.currentPosition
-            mVideoView.pause()
-            isVideoPlaying = true
-        } else {
-            isVideoPlaying = false
-        }
-    }
-
-    override fun onSaveInstanceState(bundle: Bundle) {
-        super.onSaveInstanceState(bundle)
-        bundle.putInt("currentPosition", currentPosition)
-        bundle.putBoolean("isVideoPlaying", isVideoPlaying)
-    }
-
-    override fun onRestoreInstanceState(bundle: Bundle) {
-        super.onRestoreInstanceState(bundle)
-        currentPosition = bundle.getInt("currentPosition")
-        isVideoPlaying = bundle.getBoolean("isVideoPlaying")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (isVideoPlaying) {
-            mVideoView.seekTo(currentPosition)
-            mVideoView.start()
-        }
-    }
-
-
 }
