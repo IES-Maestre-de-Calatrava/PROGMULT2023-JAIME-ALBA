@@ -2,8 +2,6 @@ package com.example.monsterhunterfinder.adapter
 
 import android.content.DialogInterface
 import android.content.Intent
-import android.os.Parcelable
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +10,6 @@ import com.example.monsterhunterfinder.R
 import com.example.monsterhunterfinder.activity_diario_ver
 import com.example.monsterhunterfinder.databinding.ItemEntradaBinding
 import com.google.firebase.firestore.FirebaseFirestore
-import java.io.Serializable
 
 /**
  *  Clase encargada de ubicar los datos de un elemento

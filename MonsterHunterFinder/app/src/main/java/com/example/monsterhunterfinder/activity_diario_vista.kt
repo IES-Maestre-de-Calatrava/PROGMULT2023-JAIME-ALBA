@@ -17,7 +17,6 @@ import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.SeekBar
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -63,7 +62,6 @@ class activity_diario_vista : AppCompatActivity() {
     private lateinit var entradaProvider: EntradaProvider
     private lateinit var entradasAdapter: EntradasAdapter
     val manager = LinearLayoutManager(this)
-
     private var posicion: Int = 0
 
 
@@ -140,7 +138,6 @@ class activity_diario_vista : AppCompatActivity() {
                     }
             }
     }
-
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -279,13 +276,13 @@ class activity_diario_vista : AppCompatActivity() {
             notify(2, notificationBuilder.build())
         }
 
-
     }
 
     /**
      * Función que finaliza la activity actual, devolviendo
      * al usuario a aquella activity desde la que hubiera
      * accedido.
+     * También detiene la reproducción de audio si la había.
      * @param view: vista (botón en este caso) cuya activación
      * inicia la función
      */
@@ -415,16 +412,6 @@ class activity_diario_vista : AppCompatActivity() {
     fun vaciarCampos() {
         binding.textoFiltroArma.setText("")
         iniciarRecyclerView()
-        iniciarRecyclerView()
-        iniciarRecyclerView()
-        iniciarRecyclerView()
-        iniciarRecyclerView()
-        iniciarRecyclerView()
-        iniciarRecyclerView()
-        iniciarRecyclerView()
-        iniciarRecyclerView()
-        iniciarRecyclerView()
-
     }
 
     /**
@@ -463,7 +450,7 @@ class activity_diario_vista : AppCompatActivity() {
      * colección cuya variable hayamos inicializado anteriormente.
      */
     private fun iniciarRecyclerView() {
-        //val decoracion = DividerItemDecoration(this, manager.orientation)
+        val decoracion = DividerItemDecoration(this, manager.orientation)
 
         binding.recyclerEntradas.layoutManager = manager
 
@@ -480,7 +467,7 @@ class activity_diario_vista : AppCompatActivity() {
                 resultado ->
                     entradaProvider.actualizarLista(resultado)
                     binding.recyclerEntradas.adapter = entradasAdapter
-                    //binding.recyclerEntradas.addItemDecoration(decoracion)
+                    binding.recyclerEntradas.addItemDecoration(decoracion)
             }
     }
 

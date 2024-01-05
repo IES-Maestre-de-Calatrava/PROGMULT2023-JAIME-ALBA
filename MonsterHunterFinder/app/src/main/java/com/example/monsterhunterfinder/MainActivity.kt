@@ -36,9 +36,7 @@ class MainActivity : AppCompatActivity() {
     var sonidobuscar: Int=0
 
 
-    // Para la reproducción de audio
-    private var mediaPlayer: MediaPlayer? = null
-    lateinit var activityResultLauncherMusica: ActivityResultLauncher<Intent>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,47 +64,7 @@ class MainActivity : AppCompatActivity() {
         sonidobuscar = soundPool.load(this, R.raw.sonidobuscar, 1)
 
 
-        // Se registra el activityResultLauncher utilizado para la música de fondo,
-        // para recoger su resultado
-        activityResultLauncherMusica = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-                result ->
-            if (result.data != null) {
-                val data: Intent = result.data!!
-                iniciarReproduccion(data.data)
-            }
-        }
 
-        // Listener para cargar sonidos de la galería
-        binding.botonMusica.setOnClickListener {
-            SeleccionarSonidoDeGalería()
-        }
-    }
-
-    /**
-     * Método que, en caso de que el mediaPlayer no esté inicializado, lo crea con
-     * el audio a reproducir. Simplemente se escucha de fondo, no hay control sobre
-     * él una vez ha iniciado la reproducción.
-     *
-     * @param id Identificador del audio a reproducir
-     */
-    private fun iniciarReproduccion(id: Uri?){
-        if (mediaPlayer==null){
-            mediaPlayer = MediaPlayer.create(this, id)
-            mediaPlayer!!.start()
-        }
-    }
-
-    /**
-     * Método que permite seleccionar sonidos (archivos de audio) de la galería.
-     */
-    fun SeleccionarSonidoDeGalería() {
-        val intent = Intent()
-        intent.action = Intent.ACTION_GET_CONTENT
-
-        // Le indico el tipo de fichero que me permita seleccionar (cualquier archivo de audio)
-        intent.type = "audio/*"
-
-        activityResultLauncherMusica.launch(intent)
     }
 
     /**
