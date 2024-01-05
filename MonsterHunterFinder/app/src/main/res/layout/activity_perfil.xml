@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:text="@string/userName"
         android:textColor="@android:color/holo_orange_dark"
-        android:textSize="24dp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/iconPerfil"
         app:layout_constraintHorizontal_bias="1.0"
@@ -102,7 +102,7 @@
         app:tint="@android:color/system_neutral1_900" />
 
     <Button
-        android:id="@+id/botonVolver"
+        android:id="@+id/botonVolverPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"

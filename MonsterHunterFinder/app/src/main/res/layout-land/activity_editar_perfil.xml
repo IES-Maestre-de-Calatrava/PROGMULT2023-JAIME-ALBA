@@ -8,7 +8,7 @@
     tools:context=".activity_editar_perfil">
 
     <ImageView
-        android:id="@+id/headerPerfilVideo"
+        android:id="@+id/headerPerfilEditar"
         android:layout_width="wrap_content"
         android:layout_height="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -19,15 +19,15 @@
         app:srcCompat="@drawable/wallpaper_deviljho" />
 
     <ImageView
-        android:id="@+id/iconPerfilVideo"
+        android:id="@+id/iconPerfilEditar"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginEnd="42dp"
-        app:layout_constraintBottom_toBottomOf="@+id/headerPerfilVideo"
+        app:layout_constraintBottom_toBottomOf="@+id/headerPerfilEditar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.68"
-        app:layout_constraintStart_toStartOf="@+id/headerPerfilVideo"
-        app:layout_constraintTop_toTopOf="@+id/headerPerfilVideo"
+        app:layout_constraintStart_toStartOf="@+id/headerPerfilEditar"
+        app:layout_constraintTop_toTopOf="@+id/headerPerfilEditar"
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/icon" />
 
@@ -45,7 +45,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headerPerfilVideo"
+        app:layout_constraintTop_toBottomOf="@+id/headerPerfilEditar"
         app:layout_constraintVertical_bias="0.13"
         tools:hintTextColor="@color/material_dynamic_neutral60">
 
@@ -99,11 +99,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/headerPerfilVideo"
+        app:layout_constraintTop_toTopOf="@+id/headerPerfilEditar"
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/botonVolverVideo"
+        android:id="@+id/botonVolverEditar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="7dp"
@@ -116,7 +116,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/headerPerfilVideo"
+        app:layout_constraintTop_toTopOf="@+id/headerPerfilEditar"
         app:layout_constraintVertical_bias="1.0"
         tools:onClick="volver" />
 

@@ -49,27 +49,93 @@
         app:layout_constraintVertical_bias="1.0" />
 
 
-    <RelativeLayout
-        android:id="@+id/layoutControlesVer"
+    <VideoView
+        android:id="@+id/videoViewVideo"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="35dp"
-        android:layout_marginBottom="250dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headerPerfilVideo">
+        app:layout_constraintTop_toBottomOf="@+id/headerPerfilVideo"
+        app:layout_constraintVertical_bias="0.15" />
 
-        <VideoView
-            android:id="@+id/videoViewVer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true" />
-    </RelativeLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botonPlayVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        app:backgroundTint="@android:color/system_neutral1_900"
+        app:srcCompat="@drawable/baseline_play_arrow_24"
+        app:tint="@color/mtrl_textinput_default_box_stroke_color"
+        app:layout_constraintBottom_toBottomOf="@+id/botonPauseVideo"
+        app:layout_constraintEnd_toStartOf="@+id/botonPauseVideo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/botonPauseVideo"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botonPauseVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        app:backgroundTint="@android:color/system_neutral1_900"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/videoViewVideo"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/baseline_pause_24"
+        app:tint="@color/mtrl_textinput_default_box_stroke_color" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botonStopVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        app:backgroundTint="@android:color/system_neutral1_900"
+        app:layout_constraintBottom_toBottomOf="@+id/botonPauseVideo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/botonPauseVideo"
+        app:layout_constraintTop_toTopOf="@+id/botonPauseVideo"
+        app:srcCompat="@drawable/baseline_stop_24"
+        app:tint="@color/mtrl_textinput_default_box_stroke_color"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botonRetrVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true"
+        app:backgroundTint="@android:color/system_neutral1_900"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/botonPlayVideo"
+        app:layout_constraintStart_toStartOf="@+id/botonPlayVideo"
+        app:layout_constraintTop_toBottomOf="@+id/botonPlayVideo"
+        app:layout_constraintVertical_bias="0.08"
+        app:srcCompat="@android:drawable/ic_media_rew"
+        app:tint="@color/mtrl_textinput_default_box_stroke_color" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botonAvanVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true"
+        app:backgroundTint="@android:color/system_neutral1_900"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/botonStopVideo"
+        app:layout_constraintStart_toStartOf="@+id/botonStopVideo"
+        app:layout_constraintTop_toBottomOf="@+id/botonPauseVideo"
+        app:layout_constraintVertical_bias="0.08"
+        app:srcCompat="@android:drawable/ic_media_ff"
+        app:tint="@color/mtrl_textinput_default_box_stroke_color" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

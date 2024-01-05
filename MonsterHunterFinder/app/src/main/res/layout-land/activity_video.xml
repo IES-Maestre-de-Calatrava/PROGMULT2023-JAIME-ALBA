@@ -49,29 +49,12 @@
         app:layout_constraintVertical_bias="1.0" />
 
 
-    <RelativeLayout
-        android:id="@+id/layoutControlesVer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="175dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="175dp"
-        android:layout_marginBottom="25dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headerPerfilVideo"
-        app:layout_constraintVertical_bias="0.0">
-
-        <VideoView
-            android:id="@+id/videoViewVer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true" />
-
-    </RelativeLayout>
+    <VideoView
+        android:id="@+id/videoViewVideo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        tools:layout_editor_absoluteX="175dp"
+        tools:layout_editor_absoluteY="175dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
