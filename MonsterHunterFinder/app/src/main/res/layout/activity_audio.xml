@@ -61,46 +61,81 @@
         app:layout_constraintTop_toBottomOf="@+id/headerPerfilVideo"
         app:layout_constraintVertical_bias="0.23" />
 
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/botonPlay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@android:color/system_neutral1_900"
-        app:icon="@drawable/baseline_play_arrow_24"
-        app:iconGravity="textStart"
-        app:iconTint="@color/mtrl_textinput_default_box_stroke_color"
+        android:layout_margin="20dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        app:backgroundTint="@android:color/system_neutral1_900"
+        app:srcCompat="@drawable/baseline_play_arrow_24"
+        app:tint="@color/mtrl_textinput_default_box_stroke_color"
         app:layout_constraintBottom_toBottomOf="@+id/botonPause"
         app:layout_constraintEnd_toStartOf="@+id/botonPause"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/botonPause" />
+        app:layout_constraintTop_toTopOf="@+id/botonPause"/>
 
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/botonPause"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:backgroundTint="@android:color/system_neutral1_900"
-        app:icon="@drawable/baseline_pause_24"
-        app:iconTint="@color/mtrl_textinput_default_box_stroke_color"
+        android:layout_margin="20dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        app:backgroundTint="@android:color/system_neutral1_900"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seekBar"
         app:layout_constraintVertical_bias="0.0"
-        tools:iconGravity="textStart" />
+        app:srcCompat="@drawable/baseline_pause_24"
+        app:tint="@color/mtrl_textinput_default_box_stroke_color" />
 
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/botonStop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@android:color/system_neutral1_900"
-        app:icon="@drawable/baseline_stop_24"
-        app:iconGravity="textStart"
-        app:iconTint="@color/mtrl_textinput_default_box_stroke_color"
+        android:layout_margin="20dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        app:backgroundTint="@android:color/system_neutral1_900"
         app:layout_constraintBottom_toBottomOf="@+id/botonPause"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/botonPause"
-        app:layout_constraintTop_toTopOf="@+id/botonPause" />
+        app:layout_constraintTop_toTopOf="@+id/botonPause"
+        app:srcCompat="@drawable/baseline_stop_24"
+        app:tint="@color/mtrl_textinput_default_box_stroke_color"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botonRetr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true"
+        app:backgroundTint="@android:color/system_neutral1_900"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/botonPlay"
+        app:layout_constraintStart_toStartOf="@+id/botonPlay"
+        app:layout_constraintTop_toBottomOf="@+id/botonPlay"
+        app:layout_constraintVertical_bias="0.08"
+        app:srcCompat="@android:drawable/ic_media_rew"
+        app:tint="@color/mtrl_textinput_default_box_stroke_color" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botonAvan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true"
+        app:backgroundTint="@android:color/system_neutral1_900"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/botonStop"
+        app:layout_constraintStart_toStartOf="@+id/botonStop"
+        app:layout_constraintTop_toBottomOf="@+id/botonPause"
+        app:layout_constraintVertical_bias="0.08"
+        app:srcCompat="@android:drawable/ic_media_ff"
+        app:tint="@color/mtrl_textinput_default_box_stroke_color" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
