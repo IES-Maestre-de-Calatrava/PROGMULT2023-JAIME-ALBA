@@ -28,12 +28,14 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
     // el nombre del archivo de audio a reproducir
     private lateinit var nombreAudio: String
 
-    // Posición por la que se halla reproduciendo
+    // Variable que guarda la posición por la que se halla reproduciendo
     var pos = 0
 
-    // Variable usada para verificar si había una reproducción en curso
+    // Variables para controlar el estado de la reproducción: el si hay
+    // una reproducción en curso y el estado de pausa de la misma
     companion object {
         var isPlaying = false
+        var isPaused = false
     }
 
     // Preparamos el mediaPlayer
@@ -50,7 +52,7 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         val objetoIntent: Intent = intent
         nombreAudio = objetoIntent.getStringExtra("Identificador").toString()
         nombreAudio = nombreAudio.substring(0, nombreAudio.length - 4);
-        Log.d("AAAAA", nombreAudio)
+        Log.d("MultimediaLog", nombreAudio)
 
 
         if (mediaPlayer == null) {
@@ -66,46 +68,98 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
                 mediaPlayer!!.prepare()
             } catch (e: IOException) {
                 e.printStackTrace()
-                Log.e("AudioError", "Error al preparar el MediaPlayer: ${e.message}")
+                Log.e("MultimediaLog", "Error al preparar el MediaPlayer: ${e.message}")
             }
 
-
             mediaPlayer!!.setOnCompletionListener(this)
-
             // También inicializamos la seekBar; lo vamos a hacer con un hilo
             inicializarSeekBar()
         }
 
+        // Siempre que giramos el dispositivo, pasamos por un proceso onPause > onSaveInstanceState >
+        // onDestroy > onCreate > onRestoreInstancestate > onResume.
+        // Si el savedInstanceState vale null, significa que es el primer onCreate que se hace,
+        // el que tiene lugar al abrir la activity por primera vez, y que no se han hecho giros de
+        // dispositivo con anterioridad.
 
         if (savedInstanceState == null) {
             Log.d("MultimediaLog", "No hay datos que recuperar")
 
+            // Estado inicial: nada habilitado salvo el botón de play
             // Hasta que no se empiece a reproducir el audio, el usuario no podrá tocar la seekbar
             binding.seekBar.isEnabled = false
 
             binding.botonPlay.isEnabled = true
             binding.botonStop.isEnabled = false
             binding.botonPause.isEnabled = false
+            binding.botonRetr.isEnabled = false
+            binding.botonAvan.isEnabled = false
 
-            // Reproducción de sonidos:
-            // luego habrá que tocarlo para decirle que pase al sigueinte audio
+            // Control de la reproducción de sonidos:
             controlSonido(nombreAudio)
         } else {
             Log.d("MultimediaLog", "En el onCreate con datos a recuperar")
 
-            // Hasta que no se empiece a reproducir el audio, el usuario no podrá tocar la seekbar
+            // Si es un onCreate distinto del primero y hay una reproducción a
+            // medias (se le ha dado al Play)
             if (isPlaying) {
                 binding.seekBar.isEnabled = true
+
                 binding.botonPlay.isEnabled = false
                 binding.botonStop.isEnabled = true
                 binding.botonPause.isEnabled = true
+
+                binding.botonRetr.isEnabled = true
+                binding.botonAvan.isEnabled = true
+
+            // Si es un onCreate distinto del primero y no hay una reproducción
+            // a medias (nunca se pulsó Play o el último botón tocado fue Stop)
+            } else {
+                binding.seekBar.isEnabled = false
+
+                binding.botonPlay.isEnabled = true
+                binding.botonStop.isEnabled = false
+                binding.botonPause.isEnabled = false
+
+                binding.botonRetr.isEnabled = false
+                binding.botonAvan.isEnabled = false
             }
         }
     }
 
     /**
+     * Función que adelanta la reproducción un total de 3 segundos, sumando tiempo
+     * a la currentPosition del mediaPlayer.
+     * El coerceIn se usa para vigilar que la posición final esté dentro de un rango
+     * válido del tiempo de ejecución.
+     *
+     * @param millis: Número entero que equivale al momento actual de la reproducción
+     */
+    private fun avanzarReproduccion(millis: Int) {
+        if (mediaPlayer != null) {
+            val newPosition = mediaPlayer!!.currentPosition + millis
+            mediaPlayer!!.seekTo(newPosition.coerceIn(0, mediaPlayer!!.duration))
+        }
+    }
+
+    /**
+     * Función que atrasa la reproducción un total de 3 segundos, restando tiempo
+     * a la currentPosition del mediaPlayer.
+     * El coerceIn se usa para vigilar que la posición final esté dentro de un rango
+     * válido del tiempo de ejecución.
+     *
+     * @param millis: Número entero que equivale al momento actual de la reproducción
+     */
+    private fun retrocederReproduccion(millis: Int) {
+        if (mediaPlayer != null) {
+            val newPosition = mediaPlayer!!.currentPosition - millis
+            mediaPlayer!!.seekTo(newPosition.coerceIn(0, mediaPlayer!!.duration))
+        }
+    }
+
+    /**
      * Método dedicado al control de la reproducción del audio, implementando
-     * listeners para los botones de play, pause y stop.
+     * listeners para los botones de play, pause, stop, retroceso y avance.
      *
      * @param nombre String que contiene el nombre del audio a reproducir
      */
@@ -118,10 +172,12 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
 
         binding.botonPause.setOnClickListener {
             if (mediaPlayer != null) {
-                // Si estaba ejecutando, pausa. Si no, reproduce.
+                // Si estaba reproduciendo, pausa. Si no, reproduce.
                 if (mediaPlayer!!.isPlaying) {
+                    isPaused = true
                     mediaPlayer!!.pause()
                 } else {
+                    isPaused = false
                     mediaPlayer!!.start()
                 }
             }
@@ -148,11 +204,19 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
             }
-
-
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
             }
         })
+
+        // Listener para el botón de retroceso
+        binding.botonRetr.setOnClickListener{
+            retrocederReproduccion(3000)
+        }
+
+        // Listener para el botón de avance
+        binding.botonAvan.setOnClickListener{
+            avanzarReproduccion(3000)
+        }
     }
 
 
@@ -178,19 +242,23 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
             }
 
             mediaPlayer!!.setOnCompletionListener(this)
-
             inicializarSeekBar()
         }
+
+        // Tras el proceso de creación del mediaPlayer, la reproducción se inicia.
         mediaPlayer!!.start()
 
         // Y aquí jugamos con habilitar o deshabilitar botones para evitar errores.
         // Si hay reproducción activa, deshabilito el botón play. A los otros dos sí
-        // les puedo dar.
+        // se les puede dar. También se habilita la seekBar.
+        binding.seekBar.isEnabled = true
+
         binding.botonPlay.isEnabled = false
         binding.botonStop.isEnabled = true
         binding.botonPause.isEnabled = true
-        // Y habilitamos la seekbar
-        binding.seekBar.isEnabled = true
+
+        binding.botonRetr.isEnabled = true
+        binding.botonAvan.isEnabled = true
     }
 
 
@@ -237,12 +305,15 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
             mediaPlayer!!.release() // Para liberar recursos
             mediaPlayer = null
 
-            // Y rehago el juego de botones habilitados
+            // Y rehago el juego de habilitaciones de seekBar y botones
+            binding.seekBar.isEnabled = false
+
             binding.botonPlay.isEnabled = true
             binding.botonStop.isEnabled = false
             binding.botonPause.isEnabled = false
-            // Deshabilitamos la seekBar
-            binding.seekBar.isEnabled = false
+
+            binding.botonRetr.isEnabled = false
+            binding.botonAvan.isEnabled = false
         }
     }
 
@@ -268,31 +339,33 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         Log.d("MultimediaLog", "En el onPause")
 
         if (mediaPlayer != null) {
-            // Al entrar en el onPause, se guarda la posición actual de
-            // la reproducción del mediaPlayer
+            // Cuando estamos en el onPause, si había una reproducción en proceso
+            // (mediaPlayer creado), el valor de la misma se asigna a la variable pos
+            // La reproducción se pausa
             pos = mediaPlayer!!.currentPosition
+            Log.d("MultimediaLog", "Valor de pos = $pos");
             mediaPlayer!!.pause()
         }
     }
 
     override fun onSaveInstanceState(bundle: Bundle) {
         super.onSaveInstanceState(bundle)
-
         Log.d("MultimediaLog", "En el onSaveInstanceState")
 
-        // Si el mediaPlayer no era null, se guarda su estado de
-        // avance en un bundle
         if (mediaPlayer != null) {
             bundle.putInt("posicion", pos)
+            Log.d("MultimediaLog", "Valor de pos = $pos");
+
+            // En el onSaveInstanceState, creamos un "paquete" que más tarde se recuperará.
+            // En él meto la posición por la que se hallaba la reproducción.
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-
-        // Al llegar al onDestroy, el mediaPlayer existente se iguala
-        // a null y se liberan recursos
         Log.d("MultimediaLog", "En el onDestroy")
+
+        // En el onDestroy, el mediaPlayer se iguala a null para liberar recursos
         if (mediaPlayer != null) {
             mediaPlayer!!.release()
             mediaPlayer = null
@@ -300,30 +373,42 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
     }
 
     override fun onRestoreInstanceState(bundle: Bundle) {
+        // Antes del onRestoreInstanceState, se pasa por el onCreate.
+        // En éste, siempre se creará un mediaPlayer nuevo.
+
         super.onRestoreInstanceState(bundle!!)
         Log.d("MultimediaLog", "En el onRestoreInstanceState")
 
         if (bundle != null) {
-            // La posición por la que iba reproduciendo el mediaPlayer se
-            // recupera cuando se llega a onRestoreInstanceState
+            // Del "paquete" recuperamos el punto por el que se hallaba la reproducción.
+
             pos = bundle.getInt("posicion")
+            Log.d("MultimediaLog", "Valor de pos = $pos");
         }
+        Log.d("MultimediaLog", "Valor de pos = $pos");
     }
 
     override fun onResume(){
         super.onResume()
         Log.d("MultimediaLog", "En el onResume");
+        Log.d("MultimediaLog", "Valor de pos = $pos");
+        // El onResume se ejecuta tras el onCreate.
 
-        // Si el mediaPlayer no era null, se busca la posición en la que se encontraba
         if (mediaPlayer != null) {
+            Log.d("MultimediaLog", "ANTES DEL SEEK, valor de pos = $pos");
+
+            // Usamos la variable que habíamos empleado para guardar la posición de la
+            // reproducción para llevar la reproducción directamente hasta ese punto.
             mediaPlayer!!.seekTo(pos)
 
-            // Si estaba tocando (como al girar el móvil mientras se reproduce
-            // un audio), inicia para reanudar
-            if (isPlaying) {
+            // Si había una reproducción en proceso y no se había pausado el reproductor,
+            // la reproducción se inicia. Si no, se busca la posición por la que iba la
+            // reproducción, pero ésta no se inicia.
+            if (isPlaying && !isPaused) {
                 mediaPlayer!!.start()
             }
 
+            // Y metemos el control de sonidos vía botones.
             controlSonido(nombreAudio)
         }
     }
