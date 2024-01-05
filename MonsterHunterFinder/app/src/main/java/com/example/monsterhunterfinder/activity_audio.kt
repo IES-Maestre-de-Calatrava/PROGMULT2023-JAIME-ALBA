@@ -89,11 +89,11 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
             // Hasta que no se empiece a reproducir el audio, el usuario no podrá tocar la seekbar
             binding.seekBar.isEnabled = false
 
-            binding.botonPlay.isEnabled = true
-            binding.botonStop.isEnabled = false
-            binding.botonPause.isEnabled = false
-            binding.botonRetr.isEnabled = false
-            binding.botonAvan.isEnabled = false
+            binding.botonPlayAudio.isEnabled = true
+            binding.botonStopAudio.isEnabled = false
+            binding.botonPauseAudio.isEnabled = false
+            binding.botonRetrAudio.isEnabled = false
+            binding.botonAvanAudio.isEnabled = false
 
             // Control de la reproducción de sonidos:
             controlSonido(nombreAudio)
@@ -105,24 +105,24 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
             if (isPlaying) {
                 binding.seekBar.isEnabled = true
 
-                binding.botonPlay.isEnabled = false
-                binding.botonStop.isEnabled = true
-                binding.botonPause.isEnabled = true
+                binding.botonPlayAudio.isEnabled = false
+                binding.botonStopAudio.isEnabled = true
+                binding.botonPauseAudio.isEnabled = true
 
-                binding.botonRetr.isEnabled = true
-                binding.botonAvan.isEnabled = true
+                binding.botonRetrAudio.isEnabled = true
+                binding.botonAvanAudio.isEnabled = true
 
             // Si es un onCreate distinto del primero y no hay una reproducción
             // a medias (nunca se pulsó Play o el último botón tocado fue Stop)
             } else {
                 binding.seekBar.isEnabled = false
 
-                binding.botonPlay.isEnabled = true
-                binding.botonStop.isEnabled = false
-                binding.botonPause.isEnabled = false
+                binding.botonPlayAudio.isEnabled = true
+                binding.botonStopAudio.isEnabled = false
+                binding.botonPauseAudio.isEnabled = false
 
-                binding.botonRetr.isEnabled = false
-                binding.botonAvan.isEnabled = false
+                binding.botonRetrAudio.isEnabled = false
+                binding.botonAvanAudio.isEnabled = false
             }
         }
     }
@@ -165,12 +165,12 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
      */
     private fun controlSonido(nombre: String) {
         // Me creo listeners para cada botón
-        binding.botonPlay.setOnClickListener {
+        binding.botonPlayAudio.setOnClickListener {
             isPlaying = true
             iniciarReproduccion(nombre)
         }
 
-        binding.botonPause.setOnClickListener {
+        binding.botonPauseAudio.setOnClickListener {
             if (mediaPlayer != null) {
                 // Si estaba reproduciendo, pausa. Si no, reproduce.
                 if (mediaPlayer!!.isPlaying) {
@@ -183,7 +183,7 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
             }
         }
 
-        binding.botonStop.setOnClickListener {
+        binding.botonStopAudio.setOnClickListener {
             // Detiene el reproductor, no el audio.
             // Funcionará con el onCompletion, cuando la reproducción se acabe.
             isPlaying = false
@@ -209,12 +209,12 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         })
 
         // Listener para el botón de retroceso
-        binding.botonRetr.setOnClickListener{
+        binding.botonRetrAudio.setOnClickListener{
             retrocederReproduccion(3000)
         }
 
         // Listener para el botón de avance
-        binding.botonAvan.setOnClickListener{
+        binding.botonAvanAudio.setOnClickListener{
             avanzarReproduccion(3000)
         }
     }
@@ -253,12 +253,12 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         // se les puede dar. También se habilita la seekBar.
         binding.seekBar.isEnabled = true
 
-        binding.botonPlay.isEnabled = false
-        binding.botonStop.isEnabled = true
-        binding.botonPause.isEnabled = true
+        binding.botonPlayAudio.isEnabled = false
+        binding.botonStopAudio.isEnabled = true
+        binding.botonPauseAudio.isEnabled = true
 
-        binding.botonRetr.isEnabled = true
-        binding.botonAvan.isEnabled = true
+        binding.botonRetrAudio.isEnabled = true
+        binding.botonAvanAudio.isEnabled = true
     }
 
 
@@ -308,12 +308,12 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
             // Y rehago el juego de habilitaciones de seekBar y botones
             binding.seekBar.isEnabled = false
 
-            binding.botonPlay.isEnabled = true
-            binding.botonStop.isEnabled = false
-            binding.botonPause.isEnabled = false
+            binding.botonPlayAudio.isEnabled = true
+            binding.botonStopAudio.isEnabled = false
+            binding.botonPauseAudio.isEnabled = false
 
-            binding.botonRetr.isEnabled = false
-            binding.botonAvan.isEnabled = false
+            binding.botonRetrAudio.isEnabled = false
+            binding.botonAvanAudio.isEnabled = false
         }
     }
 
