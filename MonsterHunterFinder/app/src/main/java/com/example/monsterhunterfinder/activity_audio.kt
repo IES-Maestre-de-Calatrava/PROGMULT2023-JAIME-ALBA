@@ -128,10 +128,10 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
     }
 
     /**
-     * Función que adelanta la reproducción un total de 3 segundos, sumando tiempo
+     * Función que adelanta la reproducción, sumando tiempo
      * a la currentPosition del mediaPlayer.
-     * El coerceIn se usa para vigilar que la posición final esté dentro de un rango
-     * válido del tiempo de ejecución.
+     * El coerceIn se usa para vigilar que la posición final
+     * esté dentro de un rango válido del tiempo de ejecución.
      *
      * @param millis: Número entero que equivale al momento actual de la reproducción
      */
@@ -143,10 +143,10 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
     }
 
     /**
-     * Función que atrasa la reproducción un total de 3 segundos, restando tiempo
+     * Función que atrasa la reproducción, restando tiempo
      * a la currentPosition del mediaPlayer.
-     * El coerceIn se usa para vigilar que la posición final esté dentro de un rango
-     * válido del tiempo de ejecución.
+     * El coerceIn se usa para vigilar que la posición final
+     * esté dentro de un rango válido del tiempo de ejecución.
      *
      * @param millis: Número entero que equivale al momento actual de la reproducción
      */
@@ -249,7 +249,7 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         mediaPlayer!!.start()
 
         // Y aquí jugamos con habilitar o deshabilitar botones para evitar errores.
-        // Si hay reproducción activa, deshabilito el botón play. A los otros dos sí
+        // Si hay reproducción activa, deshabilito el botón play. A los otros sí
         // se les puede dar. También se habilita la seekBar.
         binding.seekBar.isEnabled = true
 

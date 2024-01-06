@@ -1,17 +1,24 @@
 package com.example.monsterhunterfinder
 
 import android.content.Intent
-import android.content.res.Configuration
+import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.MediaController
 import android.widget.VideoView
 import com.example.monsterhunterfinder.databinding.ActivityVideoBinding
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.concurrent.CountDownLatch
 
+/**
+ * Activity asociada a la reproducción de los distintos vídeos
+ * que van asociados a las imágenes que un usuario sube a su
+ * perfil.
+ *
+ * @author Jaime
+ */
 class activity_video : AppCompatActivity() {
 
 
@@ -22,6 +29,9 @@ class activity_video : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private val coleccionVideos = db.collection("multimedia")
 
+    // Variable para la uri obtenida de la Firebase
+    private lateinit var uriFire: String
+
 
     // Preparamos una variable String vacía que se igualará
     // a la String contenida en el putExtra para así obtener
@@ -29,69 +39,197 @@ class activity_video : AppCompatActivity() {
     // la uri del vídeo a reproducir
     private lateinit var identificador: String
 
-    // Para poner controlador al vídeo
-    lateinit var mediaController: MediaController
-
     // Variable para el videoView
-    lateinit var mVideoView: VideoView
+    private var mVideoView: VideoView? = null
 
     // Variables para controlar el estado de reproducción del vídeo
-    private var currentPosition: Int = 0
-    private var isVideoPlaying: Boolean = false
-
+    private var pos: Int = 0
+    companion object {
+        // Controla que haya una reproducción en proceso
+        var isPlaying = false
+        // Controla el estado de pausa
+        var isPaused = false
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         crearObjetosDelXml()
-
         Log.d("TAG", "En el onCreate")
+
 
         // Vamos a recoger el intent lanzado al pulsar en un objeto multimedia,
         // y con él, el identificador que hace referencia a la imagen asociada
         // al vídeo que debe reproducirse
         val objetoIntent: Intent = intent
         identificador = objetoIntent.getStringExtra("Identificador").toString()
+        Log.d("MultimediaLog"," El identificador del elemento multimedia vale $identificador")
 
-        // Bindeamos el videoView utilizado para ver el vídeo asociado
-        // a la imagen en la que hayamos pulsado
-        mVideoView = binding.videoViewVer
 
-        // Verificar si hay un estado guardado antes de iniciar la reproducción, para que el
-        // vídeo solamente se cargue una vez, al iniciarse la activity por primera vez
-        if (savedInstanceState == null) {
-            cargarVideo()
+        // Tengo que realizar un proceso de creación cuando el reproductor de
+        // vídeo sea nulo
+        if (mVideoView == null) {
+            // Ligamos el reproductor a la VideoView del layout
+            mVideoView = binding.videoViewVideo
+            mVideoView!!.setOnCompletionListener { pararReproduccion() }
+            // El reproductor de vídeo se creará usando como URI aquella que se
+            // haya almacenado en la Firestore, asociada al objeto multimedia en
+            // el que se haya presionado
+            coleccionVideos.document(identificador).get().addOnSuccessListener {
+                uriFire = (Uri.parse(it.get("uri").toString())).toString()
+                mVideoView!!.setVideoURI(Uri.parse(it.get("uri").toString()))
+                Log.d("MultimediaLog","Vídeo cargado con uri $uriFire")
+            }
         }
-    }
 
-    /**
-     * Método que carga, desde el almacenamiento de Firebase, el vídeo
-     * que va asociado a la imagen en la que se ha pulsado en la
-     * RecyclerView del perfil de usuario.
-     */
-    private fun cargarVideo() {
-        coleccionVideos.document(identificador).get().addOnSuccessListener {
-            mVideoView.setVideoURI(Uri.parse(it.get("uri").toString()))
+        // Siempre que giramos el dispositivo, pasamos por un proceso onPause > onSaveInstanceState >
+        // onDestroy > onCreate > onRestoreInstancestate > onResume.
+        // Si el savedInstanceState vale null, significa que es el primer onCreate que se hace,
+        // el que tiene lugar al abrir la activity por primera vez, y que no se han hecho giros de
+        // dispositivo con anterioridad.
+        if (savedInstanceState == null) {
+            // Estado inicial: nada habilitado salvo el botón de play
+            Log.d("MultimediaLog", "En el onCreate, sin datos a recuperar");
+            binding.botonPlayVideo.isEnabled = true
+            binding.botonStopVideo.isEnabled = false
+            binding.botonPauseVideo.isEnabled = false
 
-            mVideoView.setOnPreparedListener{
-                // Se hace un prepareListener para en el video view cargar el vídeo y entonces habilitar
-                // t.odo lo que le ponga aquí dentro, NO antes de cargarlo
-                mVideoView.start()
-                mVideoView.requestFocus() // Le pongo el foco
-                ponerControles(mVideoView) // Le pongo los controles
+            binding.botonRetrVideo.isEnabled = false
+            binding.botonAvanVideo.isEnabled = false
+
+            // Control de la reproducción de vídeo mediante botones
+            controlVideo()
+        } else {
+            Log.d("MultimediaLog", "En el onCreate, con datos a recuperar")
+
+            // Si es un onCreate distinto del primero y hay una reproducción a
+            // medias (se le ha dado al Play)
+            if (isPlaying) {
+
+                binding.botonPlayVideo.isEnabled = false
+                binding.botonStopVideo.isEnabled = true
+                binding.botonPauseVideo.isEnabled = true
+
+                binding.botonRetrVideo.isEnabled = true
+                binding.botonAvanVideo.isEnabled = true
+
+            // Si es un onCreate distinto del primero y no hay una reproducción
+            // a medias (nunca se pulsó Play o el último botón tocado fue Stop)
+            } else {
+
+                binding.botonPlayVideo.isEnabled = true
+                binding.botonStopVideo.isEnabled = false
+                binding.botonPauseVideo.isEnabled = false
+
+                binding.botonRetrVideo.isEnabled = false
+                binding.botonAvanVideo.isEnabled = false
             }
         }
     }
 
     /**
-     * Método para poner los controles al reproductor de vídeo
+     * Método que establece los listeners necesarios y les asigna
+     * funcionalidades para poder manipular la reproducción del
+     * vídeo mediante los botones existentes.
      */
-    private fun ponerControles(videoView: VideoView) {
-        mediaController = MediaController(videoView.context)
-        // Le decimos dónde queremos poner esos controles
-        mediaController.setAnchorView(videoView as View) // Se lo ponemos en la propia vista
-        videoView.setMediaController(mediaController)
+    private fun controlVideo() {
+        binding.botonPlayVideo.setOnClickListener {
+            isPlaying = true
+            cargarMultimedia()
+        }
+
+        binding.botonStopVideo.setOnClickListener {
+            // Detiene el reproductor en su totalidad, igualándolo a null.
+            isPlaying = false
+            pararReproduccion()
+        }
+
+        binding.botonPauseVideo.setOnClickListener {
+            if (mVideoView != null) {
+                // Si estaba reproduciendo, pausa. Si no, reproduce.
+                if (mVideoView!!.isPlaying) {
+                    isPaused = true
+                    mVideoView!!.pause()
+                } else {
+                    isPaused = false
+                    mVideoView!!.start()
+                }
+            }
+        }
+
+        // Listener para el botón de retroceso
+        binding.botonRetrVideo.setOnClickListener {
+            retrocederReproduccion(10000)
+        }
+
+        // Listener para el botón de avance
+        binding.botonAvanVideo.setOnClickListener {
+            avanzarReproduccion(10000)
+        }
     }
 
+    /**
+     * Método que verifica si el reproductor de vídeo con el que se trabaja
+     * es nulo, lo crea en caso afirmativo y, en la propia creación, carga
+     * desde el almacenamiento de Firebase el vídeo que va asociado a la
+     * imagen en la que se ha pulsado en la RecyclerView del perfil de usuario.
+     */
+    private fun cargarMultimedia() {
+
+        if (mVideoView == null) {
+            // Ligamos el reproductor a la VideoView del layout
+            mVideoView = binding.videoViewVideo
+            mVideoView!!.setOnCompletionListener { pararReproduccion() }
+            // El reproductor de vídeo se creará usando como URI aquella que se
+            // haya almacenado en la Firestore, asociada al objeto multimedia en
+            // el que se haya presionado
+            coleccionVideos.document(identificador).get().addOnSuccessListener {
+                mVideoView!!.setVideoURI(Uri.parse(it.get("uri").toString()))
+            }
+        }
+
+        // Tras el proceso de creación, la reproducción se inicia
+        mVideoView!!.setBackgroundColor(Color.TRANSPARENT)
+        mVideoView!!.start()
+
+        // Y aquí jugamos con habilitar o deshabilitar botones para evitar errores.
+        // Si hay reproducción activa, deshabilito el botón play. A los otros sí
+        // se les puede dar.
+        binding.botonPlayVideo.isEnabled = false
+        binding.botonStopVideo.isEnabled = true
+        binding.botonPauseVideo.isEnabled = true
+        binding.botonRetrVideo.isEnabled = true
+        binding.botonAvanVideo.isEnabled = true
+    }
+
+    /**
+     * Función que atrasa la reproducción, restando tiempo
+     * a la currentPosition de la VideoView.
+     * El coerceIn se usa para vigilar que la posición final
+     * esté dentro de un rango válido del tiempo de ejecución.
+     *
+     * @param millis: Número entero que equivale al momento actual de la reproducción
+     */
+    private fun retrocederReproduccion(millis: Int) {
+        if (mVideoView != null) {
+            val newPosition = mVideoView!!.currentPosition - millis
+            mVideoView!!.seekTo(newPosition.coerceIn(0, mVideoView!!.duration))
+        }
+    }
+
+    /**
+     * Función que adelanta la reproducción, sumando tiempo
+     * a la currentPosition de la VideoView.
+     * El coerceIn se usa para vigilar que la posición final
+     * esté dentro de un rango válido del tiempo de ejecución.
+     *
+     * @param millis: Número entero que equivale al momento actual de la reproducción
+     */
+    private fun avanzarReproduccion(millis: Int) {
+        if (mVideoView != null) {
+            val newPosition = mVideoView!!.currentPosition + millis
+            mVideoView!!.seekTo(newPosition.coerceIn(0, mVideoView!!.duration))
+        }
+    }
 
     /**
      * Función que toma el archivo xml del layout asociado
@@ -102,6 +240,27 @@ class activity_video : AppCompatActivity() {
         setContentView(binding.root)
     }
 
+    /**
+     * Método empleado para detener la reproducción cuando se presiona el
+     * botón de Stop o cuando la reproducción termina. La VideoView se
+     * iguala a null para destruir la instancia que se esté utilizando.
+     */
+    private fun pararReproduccion() {
+        if (mVideoView != null) {
+            mVideoView!!.pause()
+            pos = 0
+            mVideoView!!.seekTo(pos)
+
+            mVideoView!!.setBackgroundColor(Color.BLACK)
+            mVideoView = null
+
+            binding.botonPlayVideo.isEnabled = true
+            binding.botonStopVideo.isEnabled = false
+            binding.botonPauseVideo.isEnabled = false
+            binding.botonRetrVideo.isEnabled = false
+            binding.botonAvanVideo.isEnabled = false
+        }
+    }
 
     /**
      * Función que finaliza la activity actual, devolviendo
@@ -116,58 +275,80 @@ class activity_video : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        Log.d("TAG", "En el onPause")
-        if (mVideoView.isPlaying) {
-            // Si había vídeo reproduciéndose, se guarda el estado correspondiente
-            // para la variable y la posición que había en la reproducción, y se
-            // pausa el reproductor
-            currentPosition = mVideoView.currentPosition
-            Log.d("TAG", "La reproducción iba por $currentPosition")
-            mVideoView.pause()
-            isVideoPlaying = true
-        } else {
-            isVideoPlaying = false
+        Log.d("MultimediaLog", "En el onPause")
+
+        if (mVideoView != null) {
+            // Cuando estamos en el onPause, si había una reproducción en proceso,
+            // el valor de la misma se asigna a la variable pos
+            // La reproducción se pausa
+            pos = mVideoView!!.currentPosition
+            Log.d("MultimediaLog", "Valor de pos = $pos");
+            mVideoView!!.pause()
         }
     }
 
     override fun onSaveInstanceState(bundle: Bundle) {
         super.onSaveInstanceState(bundle)
-        Log.d("TAG", "En el onSaveInstanceState")
-        // En el onSaveInstanceState guardamos la posición
-        // por la que iba la reproducción del vídeo
-        bundle.putInt("currentPosition", mVideoView.currentPosition)
-        bundle.putBoolean("isVideoPlaying", isVideoPlaying)
+        Log.d("MultimediaLog", "En el onSaveInstanceState")
+
+        if (mVideoView != null) {
+            bundle.putInt("posicion", pos)
+            Log.d("MultimediaLog", "Valor de pos en el bundle = $pos");
+
+            // En el onSaveInstanceState, creamos un "paquete" que más tarde se recuperará.
+            // En él meto la posición por la que se hallaba la reproducción.
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("TAG", "En el onDestroy")
-    }
+        Log.d("MultimediaLog", "En el onDestroy")
 
-    override fun onRestoreInstanceState(bundle: Bundle) {
-        super.onRestoreInstanceState(bundle)
-        Log.d("TAG", "En el onRestoreInstanceState")
-        // En el onRestoreInstanceState, tras el onCreate, recogemos la
-        // posición por la que se encontraba la reproducción y el booleano
-        // que indica si había vídeo reproduciéndose
-        currentPosition = bundle.getInt("currentPosition")
-        isVideoPlaying = bundle.getBoolean("isVideoPlaying")
-        Log.d("TAG", "La reproducción iba por $currentPosition")
-
-        mVideoView.seekTo(currentPosition)
-        if (bundle.getBoolean("isPlaying")) {
-            mVideoView.start()
+        // En el onDestroy, el reproductor de vídeo se iguala a null
+        // para eliminar esa instancia
+        if (mVideoView != null) {
+            mVideoView = null
         }
     }
 
-    override fun onResume() {
+    override fun onRestoreInstanceState(bundle: Bundle) {
+        // Antes del onRestoreInstanceState, se pasa por el onCreate.
+        // En éste, siempre se creará un reproductor de vídeo nuevo.
+
+        super.onRestoreInstanceState(bundle!!)
+        Log.d("MultimediaLog", "En el onRestoreInstanceState")
+
+        if (bundle != null) {
+            // Del "paquete" recuperamos el punto por el que se hallaba la reproducción.
+            pos = bundle.getInt("posicion")
+            Log.d("MultimediaLog", "Valor de pos tras revisar el bundle = $pos");
+        } else {
+            Log.d("MultimediaLog", "Valor de pos si no hay bundle = $pos");
+        }
+    }
+
+    override fun onResume(){
         super.onResume()
-        // Tras cargar los datos se iguala la posición
-        // a la que ya había, y si había en proceso una reproducción,
-        // ésta se inicia
-        if (isVideoPlaying) {
-            mVideoView.seekTo(currentPosition)
-            mVideoView.start()
+        Log.d("MultimediaLog", "En el onResume");
+        Log.d("MultimediaLog", "Valor de pos en el onResume = $pos");
+        // El onResume se ejecuta tras el onCreate.
+
+        if (mVideoView != null) {
+            Log.d("MultimediaLog", "EN EL ONRESUME ANTES DEL SEEK, valor de pos = $pos");
+
+            // Usamos la variable que habíamos empleado para guardar la posición de la
+            // reproducción para llevar la reproducción directamente hasta ese punto.
+            mVideoView!!.seekTo(pos)
+            Log.d("MultimediaLog", "EN EL ONRESUME DESPUÉS DEL SEEK, valor de pos = $pos");
+
+            // Si había una reproducción en proceso y no se había pausado el reproductor,
+            // la reproducción se inicia. Si no, se busca la posición por la que iba la
+            // reproducción, pero ésta no se inicia.
+            if (isPlaying && !isPaused) {
+                mVideoView!!.start()
+            }
+
+            controlVideo()
         }
     }
 }
