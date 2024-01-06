@@ -97,7 +97,7 @@
         app:layout_constraintEnd_toEndOf="@+id/botonPlayAudio"
         app:layout_constraintStart_toStartOf="@+id/botonPlayAudio"
         app:layout_constraintTop_toBottomOf="@+id/botonPlayAudio"
-        app:layout_constraintVertical_bias="0.08"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@android:drawable/ic_media_rew"
         app:tint="@color/mtrl_textinput_default_box_stroke_color" />
 
@@ -113,7 +113,7 @@
         app:layout_constraintEnd_toEndOf="@+id/botonStopAudio"
         app:layout_constraintStart_toStartOf="@+id/botonStopAudio"
         app:layout_constraintTop_toBottomOf="@+id/botonPauseAudio"
-        app:layout_constraintVertical_bias="0.08"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@android:drawable/ic_media_ff"
         app:tint="@color/mtrl_textinput_default_box_stroke_color" />
 
