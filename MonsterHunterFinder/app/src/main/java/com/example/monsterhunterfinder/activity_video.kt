@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.VideoView
 import com.example.monsterhunterfinder.databinding.ActivityVideoBinding
 import com.google.firebase.firestore.FirebaseFirestore
-import java.util.concurrent.CountDownLatch
 
 /**
  * Activity asociada a la reproducción de los distintos vídeos
@@ -78,6 +77,23 @@ class activity_video : AppCompatActivity() {
                 uriFire = (Uri.parse(it.get("uri").toString())).toString()
                 mVideoView!!.setVideoURI(Uri.parse(it.get("uri").toString()))
                 Log.d("MultimediaLog","Vídeo cargado con uri $uriFire")
+
+
+                // Código inicialmente contenido en el onResume
+                if (mVideoView != null) {
+
+                    // Usamos la variable que habíamos empleado para guardar la posición de la
+                    // reproducción para llevar la reproducción directamente hasta ese punto.
+                    Log.d("MultimediaLog","Se hace el seekTo a la posición $pos")
+                    mVideoView!!.seekTo(pos)
+
+                    // Si había una reproducción en proceso y no se había pausado el reproductor,
+                    // la reproducción se inicia. Si no, se busca la posición por la que iba la
+                    // reproducción, pero ésta no se inicia.
+                    if (isPlaying && !isPaused) {
+                        mVideoView!!.start()
+                    }
+                }
             }
         }
 
@@ -96,8 +112,6 @@ class activity_video : AppCompatActivity() {
             binding.botonRetrVideo.isEnabled = false
             binding.botonAvanVideo.isEnabled = false
 
-            // Control de la reproducción de vídeo mediante botones
-            controlVideo()
         } else {
             Log.d("MultimediaLog", "En el onCreate, con datos a recuperar")
 
@@ -124,6 +138,9 @@ class activity_video : AppCompatActivity() {
                 binding.botonAvanVideo.isEnabled = false
             }
         }
+
+        // Control de la reproducción de vídeo mediante botones
+        controlVideo()
     }
 
     /**
@@ -133,13 +150,11 @@ class activity_video : AppCompatActivity() {
      */
     private fun controlVideo() {
         binding.botonPlayVideo.setOnClickListener {
-            isPlaying = true
             cargarMultimedia()
         }
 
         binding.botonStopVideo.setOnClickListener {
             // Detiene el reproductor en su totalidad, igualándolo a null.
-            isPlaying = false
             pararReproduccion()
         }
 
@@ -185,6 +200,8 @@ class activity_video : AppCompatActivity() {
             coleccionVideos.document(identificador).get().addOnSuccessListener {
                 mVideoView!!.setVideoURI(Uri.parse(it.get("uri").toString()))
             }
+
+            isPlaying = true
         }
 
         // Tras el proceso de creación, la reproducción se inicia
@@ -259,6 +276,9 @@ class activity_video : AppCompatActivity() {
             binding.botonPauseVideo.isEnabled = false
             binding.botonRetrVideo.isEnabled = false
             binding.botonAvanVideo.isEnabled = false
+
+            isPlaying = false
+            isPaused = false
         }
     }
 
@@ -270,6 +290,7 @@ class activity_video : AppCompatActivity() {
      * inicia la función
      */
     fun volver(view: View) {
+        pararReproduccion()
         finish()
     }
 
@@ -333,22 +354,23 @@ class activity_video : AppCompatActivity() {
         Log.d("MultimediaLog", "Valor de pos en el onResume = $pos");
         // El onResume se ejecuta tras el onCreate.
 
-        if (mVideoView != null) {
-            Log.d("MultimediaLog", "EN EL ONRESUME ANTES DEL SEEK, valor de pos = $pos");
+        // La idea inicial era restaurar en este método la posición de las reproducciones
+        // que hubieran quedado a medias ante un giro del dispositivo. Sin embargo, a través
+        // de los mensajes de traza es posible observar que la carga del vídeo desde Firebase
+        // tarda un tiempo, tiempo suficiente para terminar después de que se haya ejecutado
+        // el código contenido en el método onResume, dando lugar a un funcionamiento
+        // incorrecto en el que el estado de la reproducción no se mantiene porque el
+        // vídeo termina de cargar demasiado tarde.
 
-            // Usamos la variable que habíamos empleado para guardar la posición de la
-            // reproducción para llevar la reproducción directamente hasta ese punto.
-            mVideoView!!.seekTo(pos)
-            Log.d("MultimediaLog", "EN EL ONRESUME DESPUÉS DEL SEEK, valor de pos = $pos");
-
-            // Si había una reproducción en proceso y no se había pausado el reproductor,
-            // la reproducción se inicia. Si no, se busca la posición por la que iba la
-            // reproducción, pero ésta no se inicia.
-            if (isPlaying && !isPaused) {
-                mVideoView!!.start()
-            }
-
-            controlVideo()
-        }
+        // Por ello, el código aquí contenido se va a mover al onCreate, al interior de
+        // addOnSuccessListener, para que únicamente se ejecute en caso de que el vídeo
+        // haya cargado correctamente.
     }
+
+    // funcionamiento por defecto: ante un giro de dispositivo, la posición se guarda, pero
+    // la reproducción se pausa y el juego de botones pasa a sólo play
+
+    // si le doy a stop en el portrait: funcionan bien las reproducciones iniciadas en portrait
+    // si le doy a stop en el landscape: funcionan bien las reproducciones iniciadas en el landscape
+    // no pueden coexistir
 }
