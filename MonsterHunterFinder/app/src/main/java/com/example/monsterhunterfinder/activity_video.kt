@@ -150,6 +150,8 @@ class activity_video : AppCompatActivity() {
      */
     private fun controlVideo() {
         binding.botonPlayVideo.setOnClickListener {
+            pararReproduccion()
+
             cargarMultimedia()
         }
 
