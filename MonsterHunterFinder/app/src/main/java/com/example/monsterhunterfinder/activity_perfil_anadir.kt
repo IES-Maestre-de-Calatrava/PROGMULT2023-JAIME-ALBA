@@ -64,7 +64,7 @@ class activity_perfil_anadir : AppCompatActivity() {
         }
 
         // Listener para el botón de añadir desde la galería
-        binding.botonGaleria.setOnClickListener {
+        binding.botonGaleriaVideo?.setOnClickListener {
             SeleccionarDeGaleria()
         }
 

@@ -50,7 +50,7 @@
     <string name="eliminar">X</string>
     <string name="editar">Ed</string>
     <string name="seguroBorrado">¿Estás seguro de borrar esta entrada?</string>
-    <string name="enlaceFoto">¡Pega aquí el enlace de la foto!</string>
+    <string name="enlaceFoto">¡Haz una foto o selecciónala de tu galería!</string>
     <string name="hintBuscar">¡Pulsa largo para buscar por favoritos!</string>
     <string name="asunto">¡Nueva app de Monster Hunter!</string>
     <string name="contenido">¿Aburrido de cazar en solitario? ¡Descarga ya Monster Hunter Finder!</string>
@@ -74,5 +74,5 @@
     <string name="findes">Findes</string>
     <string name="entreSemana">Entre semana</string>
     <string name="textoGaleria">¡Lúcete ante el resto de jugadores!</string>
-    <string name="videoAnadir">¡Y selecciona un vídeo de tu galería!</string>
+    <string name="videoAnadir">¡Y graba un vídeo o selecciónalo de tu galería!</string>
 </resources>

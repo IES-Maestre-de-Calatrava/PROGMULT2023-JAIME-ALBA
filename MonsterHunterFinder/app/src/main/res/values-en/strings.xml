@@ -51,7 +51,7 @@
     <string name="eliminar">X</string>
     <string name="editar">Ed</string>
     <string name="seguroBorrado">Are you sure about deleting this entry?</string>
-    <string name="enlaceFoto">Paste here the link of the pic!</string>
+    <string name="enlaceFoto">Take a picture or select it from your gallery!</string>
     <string name="hintBuscar">Long press to search by favs!</string>
     <string name="asunto">New app about Monster Hunter!</string>
     <string name="contenido">Enough of hunting alone? Download Monster Hunter Finder now!</string>
@@ -75,5 +75,5 @@
     <string name="findes">On weekends</string>
     <string name="entreSemana">On weekdays</string>
     <string name="textoGaleria">Show yourself off to the rest of players!</string>
-    <string name="videoAnadir">And select a video from your gallery!</string>
+    <string name="videoAnadir">And record a video or select it from your gallery!</string>
 </resources>
