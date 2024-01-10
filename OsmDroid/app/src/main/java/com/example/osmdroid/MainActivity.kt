@@ -6,14 +6,20 @@ import com.example.osmdroid.databinding.ActivityMainBinding
 import org.osmdroid.views.MapView
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import android.content.Context
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
+import androidx.core.content.ContextCompat
 
 import org.osmdroid.config.Configuration.getInstance
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
+import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.compass.CompassOverlay
 import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
@@ -29,8 +35,16 @@ class MainActivity : AppCompatActivity() {
     // Variable para el map
     private lateinit var map: MapView
 
-    // Variable para la localización actual
+    // Variable para la localización actual (la mía)
     private lateinit var mLocationOverlay: MyLocationNewOverlay
+
+    private lateinit var locListener: LocationListener
+    private lateinit var locManager: LocationManager
+
+    // Variables para posicionesnueva y vieja, para dibujar las líneas
+    // y los marcadores de la ruta
+    private lateinit var posicion_new: GeoPoint
+    private lateinit var posicion_old: GeoPoint
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,11 +71,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         accionesParaBotones()
+        binding.buttonOn.isEnabled = true
+
 
         // Cargar el mapa
         map = binding.map
         generarMapa()
         quitarRepeticionYLimitarScroll()
+
+        //habilitarMiLocalizacion()
     }
 
     // File > Settings > buscar Plugins > en Marketplace buscar kdoc > Kdoc-er
@@ -105,12 +123,90 @@ class MainActivity : AppCompatActivity() {
 
     private fun accionesParaBotones() {
         binding.buttonOff.setOnClickListener {
-
+            pararLocalizacion()
         }
 
         binding.buttonOn.setOnClickListener {
+            // Ésto va a habilitar la escucha del GPS. Puedo hacerle sugerencias de funcionamiento:
+            // cada 3 segundos recibir posiciones, cada 6... Yo me suscribo a un servicio de
+            // recepción de coordenadas, y éstas llegas cuando llegan.
 
+            // Ahora vamos a deshabilitar el seguimiento de ruta y le vamos a pedir que, moviéndonos
+            // nosotros, nos vaya pintando la ruta.
+            habilitarLocalizacion()
         }
+    }
+
+    @SuppressLint("MissingPermission") // Esta línea indica que aseguramos que están los permisos
+    fun habilitarLocalizacion () {
+        // Habría que volver a comprobar permisos (recomendado)
+        binding.buttonOff.isEnabled = true
+        binding.buttonOn.isEnabled = false
+
+        // Vale tanto para OsmDroid como para Google Maps
+        locManager = this.getSystemService(AppCompatActivity.LOCATION_SERVICE) as LocationManager
+        val loc: Location? = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+
+        locListener = LocationListener{
+            location -> pintarRuta(location)
+        }
+
+        // Pedir actualizaciones de localización, que me avise cuando haya cambios en esas posiciones
+        // Le pido que sea cada 3000 milisegundos
+        // Si pongo 1f: es que intente mandarme las posiciones cada metro que avance
+        // Y le indico el listener que voy a utilizar para enterarme de cuando lleguen coordenadas nuevas
+        // Cada vez que haya una update de localización voy a pintar un icono y una línea uniéndolo con el icono anterior
+        locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0f, locListener)
+    }
+
+    /**
+     * Pintar ruta
+     *
+     * @param loc
+     */
+    private fun pintarRuta(loc: Location) {
+        if (loc != null) {
+            // El !:: se usa para ver si una variable lateinit se ha inicializado
+            if (!::posicion_new.isInitialized) {
+                // El mapa trabaja con coordenadas GeoPoint
+                posicion_new = GeoPoint(loc.latitude, loc.longitude)
+            } else {
+                // Si ha sido inicializada, ya tiene dentro unas coordenadas: las paso a una variable
+                // para guardarlas y reasigno a las coordenadas nuevas
+                posicion_old = posicion_new
+                posicion_new = GeoPoint(loc.latitude, loc.longitude)
+            }
+            // Creo un marcador, y cuando pulse en él, me pone latitud y longitud de ese punto
+            var contenido = loc.latitude.toString() + " " + loc.longitude.toString()
+            // Se hace distinto a Google Maps
+            añadirMarcador(posicion_new, "Punto", contenido)
+            // Y un método que me desplaza manualmente hacia la posición
+            moverAPosicion(posicion_new, 15.5, 1, 29f, false)
+        }
+    }
+
+    /**
+     * Añadir marcador
+     *
+     * @param posicion_new
+     * @param tituloP
+     * @param contenidoP
+     */
+    private fun añadirMarcador(posicion_new: GeoPoint, tituloP: String, contenidoP: String) {
+        var marker = Marker(map)
+        marker.position = posicion_new
+        marker.icon = ContextCompat.getDrawable(this, android.R.drawable.ic_menu_compass)
+        marker.title = tituloP
+        marker.snippet = contenidoP
+
+        // Para indicarle a dónde quiero que se ancle: centros horizontal y vertical
+        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
+        map.overlays.add(marker)
+        map.invalidate() // Creo la capa, la pongo y la invalido
+    }
+
+    private fun moverAPosicion(latlngP: GeoPoint, zoomP: Double, speedP: Long, orientacionP: Float, tiltP: Boolean) {
+        map.controller.animateTo(latlngP, zoomP, speedP, orientacionP, tiltP)
     }
 
     /**
@@ -167,12 +263,52 @@ class MainActivity : AppCompatActivity() {
             CompassOverlay(this, InternalCompassOrientationProvider(this), map)
         mCompassOverlay.enableCompass()
         map.getOverlays().add(mCompassOverlay)
+
+
     }
 
     private fun habilitarMiLocalizacion() {
         // Normalmente se le deja una posición por defecto para que el mapa vaya a un lado en caso
         // de que no haya habilitados internet o GPS, suele hacerse con la ubicación actual
         mLocationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(this), map)
+
+        // Para habilitar tanto la ubicación como el seguimiento
+        mLocationOverlay.enableMyLocation()
+        mLocationOverlay.enableFollowLocation()
+
+        // para poner esta capa por encima de las que ya hay:
+        map.getOverlays().add(mLocationOverlay)
+
+        // Por ahora no hace nada porque no hay GPS; hay que simular que lo activamos
+        // Me voy a los tres puntitos, a location, busco una localización y set location
+
+
+        // También desde ahí puedo buscar rutas; un punto de inicio, un punto desde el que llegar
+        // y que salga en movimiento
+    }
+
+    private fun pararLocalizacion() {
+        locManager.removeUpdates(locListener)
+        binding.buttonOff.isEnabled = false
+        binding.buttonOn.isEnabled = true
+
+        mLocationOverlay.disableMyLocation()
+    }
+
+    override fun onStop(){
+        super.onStop()
+        pararLocalizacion()
+    }
+
+    // Estos dos son para controlar la consistencia del mapa
+    override fun onPause() {
+        super.onPause()
+        map.onPause()
+    }
+
+    override fun onResume(){
+        super.onResume()
+        map.onResume()
     }
 
     private fun crearObjetosDelXml() {
