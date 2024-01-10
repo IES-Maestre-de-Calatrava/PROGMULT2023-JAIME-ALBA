@@ -103,7 +103,7 @@ class activity_perfil : AppCompatActivity() {
                     // y es insertado en la colección
                     var multimedia = Multimedia(
                         idMultimedia,
-                        datos.getStringExtra("enlace")!!,
+                        datos.getStringExtra("uri_foto")!!,
                         datos.getStringExtra("uri_video")!!)
                     insertarMultimedia(multimedia)
                 }
