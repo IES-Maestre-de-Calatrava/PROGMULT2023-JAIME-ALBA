@@ -292,7 +292,7 @@ class MainActivity : AppCompatActivity() {
         binding.buttonOff.isEnabled = false
         binding.buttonOn.isEnabled = true
 
-        mLocationOverlay.disableMyLocation()
+        //mLocationOverlay.disableMyLocation()
     }
 
     override fun onStop(){
