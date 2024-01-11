@@ -2,7 +2,44 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!--Permisos para notificaciones-->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!--Permisos para hacer fotos e incluirlas en la galería-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+
+    <!--Permisos a solicitar para grabar vídeo: cámara y grabar audio-->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
+    <!--Le digo a la tienda de android que mi app requiere de cámara, y si el dispositivo no tiene cámara, no deja descargarlo-->
+    <!--Si nuestra app usa la cámara pero no es estrictamente necesaria para su funcionamiento, ponemos required="false"-->
+
+    <!--En tiempo de ejecución tenemos que verificar si existe la cámara; para ello hay un método-->
+    <!--hasSystemFeature(PackageManager.FEATURE_CAMERA). Sólo necesario si required="false"-->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true">
+    </uses-feature>
+
+    <!--También meto algo para coger vídeos de la galería de una forma especial-->
+    <!--Estas tres cosas son para poder usar la cámara-->
+    <queries>
+        <!--Browser-->
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+        </intent>
+        <!--Cámara-->
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE"/>
+        </intent>
+        <!--Galería-->
+        <intent>
+            <action android:name="android.intent.action.GET_CONTENT"/>
+        </intent>
+    </queries>
 
     <application
         android:allowBackup="true"
@@ -53,6 +90,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.monsterhunterfinder"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:ignore="WrongManifestParent">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/dcim_camara"/>
+
+        </provider>
 
         <meta-data
             android:name="preloaded_fonts"

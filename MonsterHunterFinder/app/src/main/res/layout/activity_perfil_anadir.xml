@@ -7,8 +7,8 @@
     tools:context=".activity_perfil_anadir"
     android:background="@color/material_dynamic_neutral20">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/cajaEnlaceFoto"
+    <TextView
+        android:id="@+id/textoFoto"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
@@ -16,23 +16,12 @@
         android:layout_marginEnd="35dp"
         android:hint="@string/enlaceFoto"
         android:textColorHint="@color/material_dynamic_neutral70"
-        app:boxStrokeColor="@android:color/holo_orange_dark"
-        app:boxStrokeWidth="2dp"
-        app:hintTextColor="@android:color/holo_orange_dark"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:hintTextColor="@color/material_dynamic_neutral60">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textoEnlaceFoto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/material_dynamic_neutral70" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/botonHacerFoto"
@@ -65,7 +54,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cajaEnlaceFoto"
+        app:layout_constraintTop_toBottomOf="@+id/textoFoto"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
