@@ -26,16 +26,12 @@ class activity_perfil_anadir : AppCompatActivity() {
     private lateinit var binding: ActivityPerfilAnadirBinding
     private val FOTO_INSERTADA: Int = 1
 
-    // ActivityResultLauncher para los vídeos
-    lateinit var activityResultLauncherVideo: ActivityResultLauncher<Intent>
-    // ActivityResultLauncher para las fotos
-    lateinit var activityResultLauncherFoto: ActivityResultLauncher<Intent>
-
-    // PARA PRUEBAS
+    // ActivityResultLauncher común para seleccionar vídeos y fotos
+    // del almacenamiento del teléfono, y variables para controlar que
+    // estas acciones se hayan realizado
     lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     var cogeVideo = false
     var cogeFoto = false
-
 
     // Variable para el videoView
     lateinit var mVideoView: VideoView
@@ -86,20 +82,31 @@ class activity_perfil_anadir : AppCompatActivity() {
             binding.botonHacerFoto.visibility = View.INVISIBLE
         }
 
+        // Se va a utilizar un activityResultLauncher común, tanto para vídeo como para fotos del
+        // almacenamiento del teléfono
+        // Para evitar conflictos, tanto para vídeos como para fotos, seleccionar de galería
+        // desactivará el botón de tomarlos en el momento, y viceversa
         activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 resultado ->
             if (resultado.data != null) {
                 val data: Intent = resultado.data!!
 
+                // Caso de que se haya seleccionado un vídeo
                 if (cogeVideo) {
+                    actualizarEstadoBoton()
 
                     mVideoView = binding.videoViewAnadir
 
-                    // Al videoView se le asigna el resultado obtenido de la galería
+                    // El vídeo escogido de la galería se muestra en el videoView,
+                    // para que el usuario pueda ver una previsualización de lo que
+                    // va a subir a la galería de su perfil
                     mVideoView.setVideoURI(data.data)
                     uriGaleriaVideo = data.data!!
                     hayVideo = true
+
+                // Caso de que se haya seleccionado una foto
                 } else if (cogeFoto) {
+                    actualizarEstadoBoton()
 
                     uriGaleriaFoto = data.data!!
                     hayFoto = true
@@ -107,36 +114,6 @@ class activity_perfil_anadir : AppCompatActivity() {
 
             }
         }
-
-        /*
-        // Registramos el contenido con el que vuelva el activityResultLauncher del vídeo
-        activityResultLauncherVideo = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            resultado ->
-                if (resultado.data != null) {
-                    val data: Intent = resultado.data!!
-
-                    // El vídeo escogido de la galería se muestra en el videoView,
-                    // para que el usuario pueda ver una previsualización de lo que
-                    // va a subir
-                    mVideoView = binding.videoViewAnadir
-
-                    // Al videoView se le asigna el resultado obtenido de la galería
-                    mVideoView.setVideoURI(data.data)
-                    uriGaleriaVideo = data.data!!
-                    hayVideo = true
-                }
-        }
-
-        // Registramos el contenido con el que vuelva el activityResultLauncher del vídeo
-        activityResultLauncherFoto = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            resultado ->
-            if (resultado.data != null) {
-                val data: Intent = resultado.data!!
-                uriGaleriaFoto = data.data!!
-                hayFoto = true
-            }
-        }*/
-
     }
 
     /**
@@ -153,10 +130,9 @@ class activity_perfil_anadir : AppCompatActivity() {
 
 
     /**
-     * Método que realiza una subida de vídeo a la storage de la Firebase
-     * y manda el resultado obtenido al método que se encargará de volver
-     * a la activity anterior empleando tanto la foto seleccionada como el
-     * vídeo elegido.
+     * Método que realiza una subida de vídeo al storage de la Firebase.
+     * También llama al método subirFoto, pasándole por parámetro la uri
+     * del vídeo ya almacenado en Firebase.
      */
     private fun subirVideo() {
         val videoName = "${System.currentTimeMillis()}.mp4"
@@ -172,7 +148,10 @@ class activity_perfil_anadir : AppCompatActivity() {
     }
 
     /**
-     * Método que realiza una subida de foto a la storage de la Firebase
+     * Método que realiza una subida de foto al storage de la Firebase.
+     * También llama al método volverConFoto, pasándole por parámetro la uri
+     * de la foto ya almacenada en Firebase y la uri del vídeo que vaya a
+     * haber asociado.
      */
     private fun subirFoto(uri: Uri) {
         val fotoName = "${System.currentTimeMillis()}.jpg"
@@ -194,13 +173,12 @@ class activity_perfil_anadir : AppCompatActivity() {
      */
     private fun SeleccionarVideoDeGaleria() {
         val intent = Intent()
-        intent.action = Intent.ACTION_PICK
+        intent.action = Intent.ACTION_GET_CONTENT
 
         intent.type = "video/*"
 
         activityResultLauncher.launch(intent)
         cogeVideo = true
-        actualizarEstadoBoton()
     }
 
     /**
@@ -210,13 +188,12 @@ class activity_perfil_anadir : AppCompatActivity() {
      */
     private fun SeleccionarFotoDeGaleria() {
         val intent = Intent()
-        intent.action = Intent.ACTION_PICK
+        intent.action = Intent.ACTION_GET_CONTENT
 
         intent.type = "image/*"
 
         activityResultLauncher.launch(intent)
         cogeFoto = true
-        actualizarEstadoBoton()
     }
 
     /**
@@ -241,12 +218,9 @@ class activity_perfil_anadir : AppCompatActivity() {
 
     /**
      * Función que vuelve a la activity que ha llamado a la presente
-     * con un intent que incluye datos recogidos de la caja de
-     * texto presente en el layout de esta activity.
-     * Para recoger dichos datos, será necesario un activityResultLauncher
-     * en la activity que ha llamado a la presente.
-     * Los datos que se recogen son el enlace de la imagen que
-     * será añadida a la galería.
+     * con un intent que incluye las uris de la foto y del vídeo añadidos,
+     * permitiendo emplearlas para realizar el insert de un elemento que
+     * emplea ambas uris en la RecyclerView de la galería del usuario.
      */
     fun volverConFoto(uriVideo: Uri, uriFoto: Uri) {
         val intent = Intent()
