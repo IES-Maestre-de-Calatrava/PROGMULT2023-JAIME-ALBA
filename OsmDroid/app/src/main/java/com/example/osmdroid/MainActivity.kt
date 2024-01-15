@@ -13,17 +13,24 @@ import android.content.Context
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 
 import org.osmdroid.config.Configuration.getInstance
+import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
+import org.osmdroid.views.overlay.ItemizedIconOverlay
+import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.OverlayItem
+import org.osmdroid.views.overlay.Polyline
 import org.osmdroid.views.overlay.compass.CompassOverlay
 import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
+import java.util.LinkedList
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,6 +52,7 @@ class MainActivity : AppCompatActivity() {
     // y los marcadores de la ruta
     private lateinit var posicion_new: GeoPoint
     private lateinit var posicion_old: GeoPoint
+    private lateinit var marker: Marker
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +85,7 @@ class MainActivity : AppCompatActivity() {
         // Cargar el mapa
         map = binding.map
         generarMapa()
+        añadirAccionesMapa()
         quitarRepeticionYLimitarScroll()
 
         //habilitarMiLocalizacion()
@@ -148,7 +157,7 @@ class MainActivity : AppCompatActivity() {
         val loc: Location? = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
 
         locListener = LocationListener{
-            location -> pintarRuta(location)
+            location -> pintarRutaLinea(location)
         }
 
         // Pedir actualizaciones de localización, que me avise cuando haya cambios en esas posiciones
@@ -184,6 +193,72 @@ class MainActivity : AppCompatActivity() {
             moverAPosicion(posicion_new, 15.5, 1, 29f, false)
         }
     }
+
+    /**
+     * Decirle que sólo pinte un marcador (en lugar de uno cada vez que se actualice la
+     * posición) y que vaya pintando una línea con el recorrido que voy haciendo yo
+     */
+    private fun pintarRutaLinea(loc: Location) {
+        val geoPoints: ArrayList<GeoPoint> = ArrayList()
+        var contenido: String
+        marker = Marker(map)
+
+
+        if (loc != null) {
+            if (!::posicion_new.isInitialized) {
+                posicion_new = GeoPoint(loc.latitude, loc.longitude)
+                contenido = loc.latitude.toString() + " " + loc.longitude.toString()
+                añadirMarcador(posicion_new, "Punto", contenido)
+                // Como es el primer punto y no uno antiguo, simplemente ponemos el marcador en pantalla
+            } else {
+                // Cuando ya haya más de un marcador
+                posicion_old = posicion_new
+                posicion_new = GeoPoint(loc.latitude, loc.longitude)
+                geoPoints.add(posicion_old)
+                geoPoints.add(posicion_new)
+                moverMarcador(posicion_new)
+
+            }
+            //var contenido = loc.latitude.toString() + " " + loc.longitude.toString()
+            //añadirMarcador(posicion_new, "Punto", contenido)
+            pintarLinea(geoPoints)
+            moverAPosicion(posicion_new, 15.5, 1, 29f, false)
+        }
+    }
+
+    /**
+     * Pintar lina
+     * El método que dibuja tiene que recibir un array con todos los puntos por
+     * los que pasará la línea de la ruta
+     *
+     * param puntos por los que tiene que pasar la línea
+     */
+    private fun pintarLinea(geoPoints: ArrayList<GeoPoint>) {
+        val line = Polyline()
+        line.setPoints(geoPoints)
+
+        map.overlayManager.add(line)
+    }
+
+    private fun moverMarcador(posicion_new: GeoPoint) {
+        // Cuando creo una capa, un overlay, puedo obtener su id y trabajar con él
+        // Primero voy a borrar todas las capas de tipo marker
+        val t = LinkedList(map.overlays)
+
+        // recorremos todas las capas
+        for (o in t) {
+            if (o is Marker) {
+                map.overlays.remove(o)
+            }
+        }
+
+        marker.setPosition(posicion_new)
+        map.getOverlays().add(marker)
+        map.invalidate()
+
+        // da lo mismo .overlays que .getOverlays()
+    }
+
 
     /**
      * Añadir marcador
@@ -339,4 +414,102 @@ class MainActivity : AppCompatActivity() {
     // Para poder ver el mapa: sobre el emulador hay tres puntitos en el menú, darle click
     // Si aparece vacío, sin mapa: tools > sdkmanager, ir marcando todo lo que tenga una update disponible para que lo descargue y lo instale
     // Y luego en el sdktools
+
+
+
+    // 15/01/2023
+    // Lo siguiente es controlar las pulsaciones en pantalla
+    // Hay de dos tipos: en el mapa y en marcadores
+    private fun añadirAccionesMapa() {
+        val mapEventsReceiver = object: MapEventsReceiver{
+            // Sobreescribir dos métodos: para pulsación corta y para larga
+            override fun singleTapConfirmedHelper(loc: GeoPoint?): Boolean {
+                if (loc != null) {
+                    // Al hacer pulsación corta, pone un marcador con el contenido que queramos, esta
+                    // parte es manipulable
+                    // PODEMOS SACAR UN CUADRO DE DIÁLOGO, PEDIR UN NOMBRE AL USUARIO Y QUE ÉL LO PONGA
+                    // O ABRIR OTRA ACTIVITY
+                    var contenido = loc?.latitude.toString() + " " + loc?.longitude.toString()
+                    añadirMarcador(loc, "Punto con click", contenido)
+                }
+                return true
+            }
+
+            override fun longPressHelper(loc: GeoPoint?): Boolean {
+                if (loc != null) {
+                    // Le voy a decir que, en lugar de crear el marcador, me muestre un cuadro de diálogo con la información
+                    mostrarDialogo("Coordenadas: ", loc)
+
+
+                    // Con el long click, va a crear un tipo diferente de marcador; uno en el que, al pulsar, haga algo
+                    var contenido = loc?.latitude.toString() + " " + loc?.longitude.toString()
+                    map.overlays.add(añadirMarcadorConAccion(loc, "Punto", contenido))
+                }
+                return false
+            }
+        }
+
+        val mapEventsOverlay = MapEventsOverlay(mapEventsReceiver)
+        // Le vamos a poner una cosa que no hemos hecho en los otros: el índice en el que queremos que esté la capa
+        // En este caso, índice 0
+        map.overlays.add(0, mapEventsOverlay)
+        map.invalidate()
+    }
+
+    /**
+     * Añadir marcador con accion
+     * Va a devolver una capa con un Itemized, un icono que tiene acciones
+     *
+     * @param posicion_new
+     * @param tituloP
+     * @param contenidoP
+     * @return
+     */
+    private fun añadirMarcadorConAccion(posicion_new: GeoPoint, tituloP: String, contenidoP: String): ItemizedIconOverlay<OverlayItem> {
+        return ItemizedIconOverlay(
+            // Por si queremos devolver muchos iconos, luego recorrer el arraylist y ya está
+            ArrayList<OverlayItem>().apply{
+                val marker = Marker(map)
+                marker.position = posicion_new
+                marker.title = tituloP
+                marker.snippet = contenidoP
+                marker.icon = ContextCompat.getDrawable(map.context, android.R.drawable.ic_menu_camera)
+
+                val overlayItem = OverlayItem(tituloP, contenidoP, posicion_new)
+                overlayItem.setMarker(marker.icon)
+                add(overlayItem)
+
+                // Me falta que este objeto lleve los métodospara interactuar con él
+            },
+            // Listener para controlar los gestos (pulsaciones)
+            // Y en ellos ya hacemos lo que queramos
+            object: ItemizedIconOverlay.OnItemGestureListener<OverlayItem>{
+                override fun onItemSingleTapUp(index: Int, item: OverlayItem): Boolean {
+                    // el item lleva mucha info, puede devolver latitud y longitud
+                    var geoPoint = GeoPoint(item.point.latitude, item.point.longitude)
+                    mostrarDialogo("Has pulsado en el marcador con título: " + item.title, geoPoint)
+                    return true
+                }
+
+                override fun onItemLongPress(index: Int, item: OverlayItem): Boolean {
+                    return false
+                }
+
+            },
+            // Y para terminar le pasamos el contexto
+            map.context
+        )
+    }
+
+    private fun mostrarDialogo(tituloP: String, loc: GeoPoint) {
+        val builder = AlertDialog.Builder(this)
+
+        builder.setTitle(tituloP)
+            .setMessage("Latitud: " + loc.latitude + "; Longitud: " + loc.longitude)
+            .setCancelable(true) // Para que el usuario pueda salirse sin tener que elegir algo
+            .show()
+    }
+
+
+
 }
