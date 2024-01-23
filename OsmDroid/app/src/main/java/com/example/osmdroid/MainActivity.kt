@@ -33,6 +33,9 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 import java.util.LinkedList
 
 class MainActivity : AppCompatActivity() {
+    // EMPEZAR COPIANDO EN EL GRADLE LAS DOS LÍNEAS DE DEPENDENCIAS DE OSMDROID
+    // TRAS ESO, LOS PERMISOS QUE HAY EN EL MANIFEST
+
 
     private lateinit var binding: ActivityMainBinding
 

@@ -2,42 +2,38 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--Permisos para notificaciones-->
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Permisos necesarios para OsmDroid -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
-    <!--Permisos para hacer fotos e incluirlas en la galería-->
+    <!-- Permisos para notificaciones -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- Permisos para hacer fotos e incluirlas en la galería -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-
-    <!--Permisos a solicitar para grabar vídeo: cámara y grabar audio-->
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-
-    <!--Le digo a la tienda de android que mi app requiere de cámara, y si el dispositivo no tiene cámara, no deja descargarlo-->
-    <!--Si nuestra app usa la cámara pero no es estrictamente necesaria para su funcionamiento, ponemos required="false"-->
-
-    <!--En tiempo de ejecución tenemos que verificar si existe la cámara; para ello hay un método-->
-    <!--hasSystemFeature(PackageManager.FEATURE_CAMERA). Sólo necesario si required="false"-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- Permisos a solicitar para grabar vídeo: cámara y grabar audio -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- Le digo a la tienda de android que mi app requiere de cámara, y si el dispositivo no tiene cámara, no deja descargarlo -->
+    <!-- Si nuestra app usa la cámara pero no es estrictamente necesaria para su funcionamiento, ponemos required="false" -->
+    <!-- En tiempo de ejecución tenemos que verificar si existe la cámara; para ello hay un método -->
+    <!-- hasSystemFeature(PackageManager.FEATURE_CAMERA). Sólo necesario si required="false" -->
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="true">
-    </uses-feature>
-
-    <!--También meto algo para coger vídeos de la galería de una forma especial-->
-    <!--Estas tres cosas son para poder usar la cámara-->
+        android:required="true"></uses-feature> <!-- También meto algo para coger vídeos de la galería de una forma especial -->
+    <!-- Estas tres cosas son para poder usar la cámara -->
     <queries>
-        <!--Browser-->
+
+        <!-- Browser -->
         <intent>
-            <action android:name="android.intent.action.VIEW"/>
+            <action android:name="android.intent.action.VIEW" />
         </intent>
-        <!--Cámara-->
+        <!-- Cámara -->
         <intent>
-            <action android:name="android.media.action.IMAGE_CAPTURE"/>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
         </intent>
-        <!--Galería-->
+        <!-- Galería -->
         <intent>
-            <action android:name="android.intent.action.GET_CONTENT"/>
+            <action android:name="android.intent.action.GET_CONTENT" />
         </intent>
     </queries>
 
@@ -50,7 +46,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MonsterHunterFinder"
+
+        tools:replace="android:allowBackup"
+
         tools:targetApi="31">
+        <activity
+            android:name=".activity_mapa"
+            android:exported="false" />
         <activity
             android:name=".activity_video"
             android:exported="false" />
@@ -97,11 +99,9 @@
             android:exported="false"
             android:grantUriPermissions="true"
             tools:ignore="WrongManifestParent">
-
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/dcim_camara"/>
-
+                android:resource="@xml/dcim_camara" />
         </provider>
 
         <meta-data

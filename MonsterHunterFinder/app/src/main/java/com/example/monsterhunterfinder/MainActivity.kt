@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     var sonidoperfil: Int=0
     var sonidodiario: Int=0
     var sonidobuscar: Int=0
+    var sonidomapa: Int=0
 
 
 
@@ -62,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         sonidoperfil = soundPool.load(this, R.raw.sonidoperfil, 1)
         sonidodiario = soundPool.load(this, R.raw.sonidodiario, 1)
         sonidobuscar = soundPool.load(this, R.raw.sonidobuscar, 1)
-
+        sonidomapa = soundPool.load(this, R.raw.sonidomapa, 1)
 
 
     }
@@ -77,6 +78,7 @@ class MainActivity : AppCompatActivity() {
             "sonidoperfil" -> sonido=sonidoperfil
             "sonidodiario" -> sonido=sonidodiario
             "sonidobuscar" -> sonido=sonidobuscar
+            "sonidomapa" -> sonido=sonidomapa
         }
 
         soundPool.play(sonido, 1F, 1F, 1, 0, 1F)
@@ -124,6 +126,18 @@ class MainActivity : AppCompatActivity() {
         playSound(view)
 
         val intent = Intent(this, activity_diario_vista::class.java)
+        startActivity(intent)
+    }
+
+    /**
+     * Función que lanza un intent para abrir la
+     * activity asociada al mapa para gestión de reuniones
+     * y eventos de Monster Hunter Now.
+     */
+    fun abrirMapa(view: View) {
+        playSound(view)
+
+        val intent = Intent(this, activity_mapa::class.java)
         startActivity(intent)
     }
 

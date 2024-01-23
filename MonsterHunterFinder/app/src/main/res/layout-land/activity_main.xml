@@ -15,17 +15,16 @@
         android:id="@+id/botonPerfil"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
         android:backgroundTint="@android:color/system_neutral1_900"
         android:onClick="abrirPerfil"
         android:text="@string/botonPerfil"
         android:textColor="@android:color/holo_orange_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.55"
+        app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.25" />
 
     <ImageView
         android:id="@+id/iconoPerfil"
@@ -49,7 +48,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/botonPerfil"
         app:layout_constraintStart_toStartOf="@+id/botonPerfil"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.75" />
 
     <ImageView
         android:id="@+id/iconoDiario"
@@ -66,17 +66,16 @@
         android:id="@+id/botonBuscador"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="35dp"
         android:backgroundTint="@android:color/system_neutral1_900"
         android:onClick="abrirBuscador"
         android:text="@string/botonBuscar"
         android:textColor="@android:color/holo_orange_dark"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/botonDiario"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/botonDiario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.85"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.25" />
 
     <ImageView
         android:id="@+id/iconoBuscador"
@@ -88,5 +87,31 @@
         app:layout_constraintTop_toTopOf="@+id/botonBuscador"
         app:srcCompat="@android:drawable/ic_menu_search"
         app:tint="@android:color/system_neutral1_900" />
+
+    <ImageView
+        android:id="@+id/iconoMapa"
+        android:layout_width="53dp"
+        android:layout_height="48dp"
+        android:tintMode="add"
+        app:layout_constraintBottom_toBottomOf="@+id/botonMapa"
+        app:layout_constraintEnd_toStartOf="@+id/botonMapa"
+        app:layout_constraintTop_toTopOf="@+id/botonMapa"
+        app:srcCompat="@android:drawable/ic_menu_mapmode"
+        app:tint="@android:color/system_neutral1_900" />
+
+    <Button
+        android:id="@+id/botonMapa"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/system_neutral1_900"
+        android:onClick="abrirMapa"
+        android:tag="sonidomapa"
+        android:text="@string/mapa"
+        android:textColor="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/botonBuscador"
+        app:layout_constraintStart_toStartOf="@+id/botonBuscador"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.75" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

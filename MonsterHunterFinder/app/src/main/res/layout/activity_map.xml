@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity_mapa">
+
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapa"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+    </org.osmdroid.views.MapView>
+
+    <Button
+        android:id="@+id/botonBrujula"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="@android:color/system_neutral1_900"
+        app:icon="@drawable/baseline_explore_24"
+        app:iconGravity="textStart"
+        app:iconSize="28dp"
+        app:iconTint="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/botonTipo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="@android:color/system_neutral1_900"
+        app:icon="@drawable/baseline_layers_24"
+        app:iconGravity="textStart"
+        app:iconSize="28dp"
+        app:iconTint="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toBottomOf="@+id/mapa"
+        app:layout_constraintStart_toStartOf="@+id/mapa" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
