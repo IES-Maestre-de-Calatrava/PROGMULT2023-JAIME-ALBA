@@ -63,7 +63,12 @@ class activity_mapa : AppCompatActivity() {
     private lateinit var mCompassOverlay: CompassOverlay
 
     // Variable para el control del tipo de mapa
-    private var tipo=1
+    private var tipo=true
+
+    // Variable para alternar entre mi localización y desactivar mi localización+pintar ruta
+    // Si es false: darle al botón desactiva mi localización y activa la ruta
+    // Si es true: darle al botón desactiva la ruta y activa mi localización
+    private var ruta=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,9 +99,29 @@ class activity_mapa : AppCompatActivity() {
         generarMapa()
         quitarRepeticionYLimitarScroll()
 
-        // Centro el mapa en la localización del usuario
+
+        // La activity se abre con la localización del usuario activada
+        // Una pulsación la desactiva y comienza un seguimiento de ruta mediante línea
+        // Una nueva pulsación activa el estado anterior
         habilitarMiLocalizacion()
         map.invalidate()
+        binding.botonRutaLocation.setOnClickListener {
+            if (!ruta) {
+                pararLocalizacion()
+
+
+
+                ruta=true
+            } else {
+                habilitarMiLocalizacion()
+                map.invalidate()
+
+
+
+                ruta=false
+            }
+        }
+
 
         // Control de la brújula
         mCompassOverlay = CompassOverlay(this, InternalCompassOrientationProvider(this), map)
@@ -108,6 +133,14 @@ class activity_mapa : AppCompatActivity() {
         binding.botonTipo.setOnClickListener {
             cambiaMapa()
         }
+    }
+
+    /**
+     * Método que desactiva la localización del usuario
+     */
+    private fun pararLocalizacion() {
+        //locManager.removeUpdates(locListener)
+        mLocationOverlay.disableMyLocation()
     }
 
     override fun onRequestPermissionsResult(
@@ -226,23 +259,16 @@ class activity_mapa : AppCompatActivity() {
      * el por defecto y el de topografía
      */
     private fun cambiaMapa() {
-        if (tipo==1) {
-            // La primera activación cambia a mapa topográfico
+        if (tipo) {
+            // Una activación cambia a mapa topográfico
             map.setTileSource(TileSourceFactory.USGS_TOPO)
 
-            tipo++
-        } else if (tipo==2) {
-            // La segunda, a mapa de ciclismo
-            map.setTileSource(TileSourceFactory.HIKEBIKEMAP)
-
-            tipo++
+            tipo=false
         } else {
-            // Y la tercera lo devuelve al mapa por defecto
+            // Otra más lo devuelve al mapa por defecto
             map.setTileSource(TileSourceFactory.MAPNIK)
 
-            tipo--
-            tipo--
-
+            tipo=true
         }
 
         map.invalidate()

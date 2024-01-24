@@ -47,4 +47,18 @@
         app:layout_constraintBottom_toBottomOf="@+id/mapa"
         app:layout_constraintStart_toStartOf="@+id/mapa" />
 
+    <Button
+        android:id="@+id/botonRutaLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="@android:color/system_neutral1_900"
+        app:icon="@drawable/baseline_route_24"
+        app:iconGravity="textStart"
+        app:iconSize="28dp"
+        app:iconTint="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toTopOf="@+id/botonBrujula"
+        app:layout_constraintEnd_toEndOf="@+id/botonBrujula">
+    </Button>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
