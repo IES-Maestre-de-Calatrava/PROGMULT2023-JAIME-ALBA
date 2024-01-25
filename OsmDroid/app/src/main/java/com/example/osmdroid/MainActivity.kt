@@ -243,24 +243,8 @@ class MainActivity : AppCompatActivity() {
         map.overlayManager.add(line)
     }
 
-    private fun moverMarcador(posicion_new: GeoPoint) {
-        // Cuando creo una capa, un overlay, puedo obtener su id y trabajar con él
-        // Primero voy a borrar todas las capas de tipo marker
-        val t = LinkedList(map.overlays)
 
-        // recorremos todas las capas
-        for (o in t) {
-            if (o is Marker) {
-                map.overlays.remove(o)
-            }
-        }
 
-        marker.setPosition(posicion_new)
-        map.getOverlays().add(marker)
-        map.invalidate()
-
-        // da lo mismo .overlays que .getOverlays()
-    }
 
 
     /**
