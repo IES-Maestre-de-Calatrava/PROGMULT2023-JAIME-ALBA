@@ -365,7 +365,7 @@ class activity_mapa : AppCompatActivity() {
     private fun cambiaMapa() {
         if (tipo) {
             // Una activación cambia a mapa topográfico
-            map.setTileSource(TileSourceFactory.USGS_TOPO)
+            map.setTileSource(TileSourceFactory.OpenTopo)
 
             tipo=false
         } else {
