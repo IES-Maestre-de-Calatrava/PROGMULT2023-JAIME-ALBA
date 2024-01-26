@@ -77,4 +77,6 @@
     <string name="textoGaleria">Show yourself off to the rest of players!</string>
     <string name="videoAnadir">And record a video or select it from your gallery!</string>
     <string name="mapa">MAP</string>
+    <string name="titulo">Title</string>
+    <string name="descripcion">Description</string>
 </resources>

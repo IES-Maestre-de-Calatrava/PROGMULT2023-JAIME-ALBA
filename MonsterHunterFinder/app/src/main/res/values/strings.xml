@@ -76,4 +76,6 @@
     <string name="textoGaleria">¡Lúcete ante el resto de jugadores!</string>
     <string name="videoAnadir">¡Y graba un vídeo o selecciónalo de tu galería!</string>
     <string name="mapa">MAPA</string>
+    <string name="titulo">Título</string>
+    <string name="descripcion">Descripción</string>
 </resources>

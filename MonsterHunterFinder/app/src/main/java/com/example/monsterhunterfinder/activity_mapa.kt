@@ -18,6 +18,7 @@ import android.location.Location
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 
 import org.osmdroid.config.Configuration.getInstance
 import org.osmdroid.events.MapEventsReceiver
@@ -65,10 +66,11 @@ class activity_mapa : AppCompatActivity() {
     // Variable para el control del tipo de mapa
     private var tipo=true
 
-    // Variable para alternar entre mi localización y desactivar mi localización+pintar ruta
-    // Si es false: darle al botón desactiva mi localización y activa la ruta
-    // Si es true: darle al botón desactiva la ruta y activa mi localización
+    // Variable para alternar el pintado o no de la ruta
     private var ruta=false
+
+    // Variable para alternar entre activar o no la localización del usuario
+    private var localizacion=true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,19 +103,31 @@ class activity_mapa : AppCompatActivity() {
 
 
         // La activity se abre con la localización del usuario activada
-        // Una pulsación la desactiva y comienza un seguimiento de ruta mediante línea
-        // Una nueva pulsación activa el estado anterior
+        // Una pulsación en el botón la desactiva, y otra la reactiva
         habilitarMiLocalizacion()
         map.invalidate()
-        binding.botonRutaLocation.setOnClickListener {
-            if (!ruta) {
-                habilitarPintadoRuta()
-
-                ruta=true
+        binding.botonMiLocalizacion.setOnClickListener{
+            if (localizacion) {
+                pararLocalizacion()
+                binding.botonRutaLocation.visibility=View.INVISIBLE
+                localizacion = false
             } else {
-                ruta=false
+                habilitarMiLocalizacion()
+                map.invalidate()
+                binding.botonRutaLocation.visibility=View.VISIBLE
+                localizacion = true
             }
         }
+
+
+        // Habilitar o deshabilitar el pintado de la ruta del usuario
+        // El listener de localización está en escucha constante; si la
+        // variable ruta es true, pinta, y si no, no pinta
+        binding.botonRutaLocation.setOnClickListener {
+            habilitarPintadoRuta()
+            ruta = !ruta
+        }
+
 
 
         // Control de la brújula
@@ -136,13 +150,12 @@ class activity_mapa : AppCompatActivity() {
     fun habilitarPintadoRuta () {
 
         locManager = this.getSystemService(AppCompatActivity.LOCATION_SERVICE) as LocationManager
-        val loc: Location? = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
 
         locListener = LocationListener{
                 location ->
-                if (!ruta) {
-                         pintarRutaLinea(location)
-                }
+                        if(ruta){
+                            pintarRutaLinea(location)
+                        }
         }
 
         locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0f, locListener)
@@ -160,7 +173,6 @@ class activity_mapa : AppCompatActivity() {
         if (loc != null) {
             if (!::posicion_new.isInitialized) {
                 posicion_new = GeoPoint(loc.latitude, loc.longitude)
-                añadirMarcador(posicion_new)
                 // Como es el primer punto y no uno antiguo, simplemente ponemos el marcador en pantalla
             } else {
                 // Cuando ya haya más de un marcador
@@ -173,7 +185,7 @@ class activity_mapa : AppCompatActivity() {
             }
             // Se pinta la línea, se mueve el marcador al final de ella y se reencuadra el mapa
             pintarLinea(geoPoints)
-            moverAPosicion(posicion_new, 17.0, 1, 29f, false)
+            moverAPosicion(posicion_new, 18.0, 1, 29f, false)
         }
     }
 
@@ -210,22 +222,6 @@ class activity_mapa : AppCompatActivity() {
     }
 
     /**
-     * Método que añade un marcador al mapa (usado en seguimiento de ruta)
-     *
-     * @param posicion_new
-     */
-    private fun añadirMarcador(posicion_new: GeoPoint) {
-        var marker = Marker(map)
-        marker.position = posicion_new
-        marker.icon = ContextCompat.getDrawable(this, android.R.drawable.ic_menu_compass)
-
-        // Para indicarle a dónde quiero que se ancle: centros horizontal y vertical
-        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
-        map.overlays.add(marker)
-        map.invalidate() // Creo la capa, la pongo y la invalido para hacer el refresh
-    }
-
-    /**
      * Pintar lina
      * El método que dibuja tiene que recibir un array con todos los puntos por
      * los que pasará la línea de la ruta
@@ -237,14 +233,6 @@ class activity_mapa : AppCompatActivity() {
         line.setPoints(geoPoints)
 
         map.overlayManager.add(line)
-    }
-
-    /**
-     * Método que desactiva la localización del usuario
-     */
-    private fun pararLocalizacion() {
-        locManager.removeUpdates(locListener)
-        mLocationOverlay.disableMyLocation()
     }
 
     override fun onRequestPermissionsResult(
@@ -291,7 +279,7 @@ class activity_mapa : AppCompatActivity() {
         // A la instancia del programa le cargo las preferencias
         getInstance().load(this, getSharedPreferences(packageName+"osmdroid", Context.MODE_PRIVATE))
         map.minZoomLevel = 4.0
-        map.controller.setZoom(20.0)
+        map.controller.setZoom(18.0)
 
         // Para que salgan fijos controles de zoom
         map.zoomController.setVisibility(CustomZoomButtonsController.Visibility.ALWAYS)
@@ -376,5 +364,30 @@ class activity_mapa : AppCompatActivity() {
         }
 
         map.invalidate()
+    }
+
+    /**
+     * Método que detiene la escucha de las actualizaciones
+     * de la posición del usuario
+     */
+    private fun pararLocalizacion() {
+        locManager.removeUpdates(locListener)
+        mLocationOverlay.disableMyLocation()
+    }
+
+    override fun onStop(){
+        super.onStop()
+        pararLocalizacion()
+    }
+
+    // Para controlar la consistencia del mapa
+    override fun onPause() {
+        super.onPause()
+        map.onPause()
+    }
+
+    override fun onResume(){
+        super.onResume()
+        map.onResume()
     }
 }
