@@ -10,9 +10,11 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import android.content.Context
+import android.content.Intent
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 
@@ -56,6 +58,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var posicion_new: GeoPoint
     private lateinit var posicion_old: GeoPoint
     private lateinit var marker: Marker
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

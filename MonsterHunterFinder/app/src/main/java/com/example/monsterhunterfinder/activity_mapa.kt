@@ -12,13 +12,18 @@ import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 import android.content.Context
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import android.location.Location
+import android.util.Log
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import com.google.firebase.firestore.FirebaseFirestore
 
 import org.osmdroid.config.Configuration.getInstance
 import org.osmdroid.events.MapEventsReceiver
@@ -72,6 +77,14 @@ class activity_mapa : AppCompatActivity() {
     // Variable para alternar entre activar o no la localización del usuario
     private var localizacion=true
 
+    // Variables para la recuperación de la lista de marcadores
+    private val db = FirebaseFirestore.getInstance()
+    private val myCollection = db.collection("marcadores")
+
+    // Variable para volver con datos de la activity que se abre
+    private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         crearObjetosDelXml()
@@ -100,6 +113,11 @@ class activity_mapa : AppCompatActivity() {
         map = binding.mapa
         generarMapa()
         quitarRepeticionYLimitarScroll()
+        añadirAccionesMapa()
+
+
+        // Recuperar todos los marcadores almacenados
+        recuperarMarcadores()
 
 
         // La activity se abre con la localización del usuario activada
@@ -140,6 +158,137 @@ class activity_mapa : AppCompatActivity() {
         binding.botonTipo.setOnClickListener {
             cambiaMapa()
         }
+
+
+        // El activityResultLauncher vuelve con datos de la activity de añadir
+        // y crea y añade una entrada para la colección de marcadores, pintando
+        // también un icono para el marcador registrado
+        activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            result ->
+                if (result.data != null) {
+                    val datos: Intent = result.data!!
+                    myCollection
+                        .document()
+                        .set(
+                            hashMapOf(
+                                "latitud" to datos.getStringExtra("latitud"),
+                                "longitud" to datos.getStringExtra("longitud"),
+                                "tipo" to datos.getStringExtra("tipo"),
+                                "titulo" to datos.getStringExtra("titulo"),
+                                "descripcion" to datos.getStringExtra("descripcion")
+                            )
+                        )
+                        .addOnSuccessListener {
+                            map.overlays.add(
+                                añadirMarcadorConAccion(
+                                    datos.getStringExtra("latitud"),
+                                    datos.getStringExtra("longitud"),
+                                    datos.getStringExtra("tipo"),
+                                    datos.getStringExtra("titulo"),
+                                    datos.getStringExtra("descripcion")))
+                        }
+                }
+        }
+    }
+
+    /**
+     * Función que añade al mapa un marcador interactuable y que ajusta
+     * las funciones en caso de interacción; una pulsación corta abre una
+     * activity con los datos del marcador, y una larga lo borra
+     *
+     * @param latitud latitud del marcador
+     * @param longitud longitud del marcador
+     * @param tipo tipo del marcador; el icono varía según el tipo
+     */
+    private fun añadirMarcadorConAccion(latitud: String?, longitud: String?, tipo: String?, titulo: String?, descripcion: String?): ItemizedIconOverlay<OverlayItem> {
+        return ItemizedIconOverlay(
+
+            // Por si queremos devolver muchos iconos, luego recorrer el arraylist y ya está
+            ArrayList<OverlayItem>().apply{
+                val marker = Marker(map)
+                val lat = latitud!!.toDoubleOrNull()
+                val lon = longitud!!.toDoubleOrNull()
+                Log.d("Probando", "latitud: $latitud, longitud: $longitud, tipo: $tipo")
+
+                marker.position = GeoPoint(lat!!, lon!!)
+                if (tipo!!.equals("punto")) {
+                    marker.icon = ContextCompat.getDrawable(map.context, R.drawable.baseline_speaker_notes_24)
+                } else if (tipo!!.equals("reunion")) {
+                    marker.icon = ContextCompat.getDrawable(map.context, R.drawable.baseline_people_alt_24)
+                }
+
+                val overlayItem = OverlayItem("titulo", "descripcion", marker.position)
+                overlayItem.setMarker(marker.icon)
+                add(overlayItem)
+            },
+
+            // Listener para controlar los gestos (pulsaciones cortas o largas)
+            object: ItemizedIconOverlay.OnItemGestureListener<OverlayItem>{
+                // Una pulsación corta abre una activity con la información del marcador
+                override fun onItemSingleTapUp(index: Int, item: OverlayItem): Boolean {
+                    val intent = Intent(map.context, activity_mapa_ver::class.java)
+                    intent.putExtra("tipo", tipo)
+                    intent.putExtra("titulo", titulo)
+                    intent.putExtra("descripcion", descripcion)
+                    startActivity(intent)
+                    return true
+                }
+
+                // Una pulsación larga borra el marcador
+                override fun onItemLongPress(index: Int, item: OverlayItem): Boolean {
+                    borrarMarcador(item)
+                    return false
+                }
+
+            },
+            map.context
+        )
+    }
+
+    /**
+     * Método que borra el marcador interactuable sobre el que
+     * se realiza una pulsación larga.
+     */
+    private fun borrarMarcador(overlayItem: OverlayItem) {
+        for (a in map.overlays) {
+            if (a is ItemizedIconOverlay<*>) {
+                val item = a.getItem(0)
+                if (item==overlayItem) {
+                    map.overlays.remove(a)
+                    map.invalidate()
+                }
+            }
+        }
+
+        myCollection
+            .whereEqualTo("latitud", overlayItem.point.latitude.toString())
+            .whereEqualTo("longitud", overlayItem.point.longitude.toString())
+            .get()
+            .addOnSuccessListener {
+                res ->
+                    for (doc in res) {
+                        myCollection.document(doc.id).delete()
+                    }
+            }
+    }
+
+    /**
+     * Función que recupera la colección de marcadores existentes en Firebase
+     * y los pinta en el mapa
+     */
+    private fun recuperarMarcadores() {
+        myCollection.get()
+            .addOnSuccessListener {
+                result ->
+                    for (document in result) {
+                        val latitud = document.getString("latitud")
+                        val longitud = document.getString("longitud")
+                        val tipo = document.getString("tipo")
+                        val titulo = document.getString("titulo")
+                        val descripcion = document.getString("descripcion")
+                        map.overlays.add(añadirMarcadorConAccion(latitud, longitud, tipo, titulo, descripcion))
+                    }
+            }
     }
 
     /**
@@ -371,7 +520,6 @@ class activity_mapa : AppCompatActivity() {
      * de la posición del usuario
      */
     private fun pararLocalizacion() {
-        locManager.removeUpdates(locListener)
         mLocationOverlay.disableMyLocation()
     }
 
@@ -389,5 +537,58 @@ class activity_mapa : AppCompatActivity() {
     override fun onResume(){
         super.onResume()
         map.onResume()
+    }
+
+    /**
+     * Método que ejecuta las acciones pertinentes cuando el usuario realiza
+     * una pulsación sobre el mapa, haciéndose una distinción en función de si
+     * la pulsación ha sido corta (punto de interés) o larga (reunión de juego).
+     */
+    private fun añadirAccionesMapa() {
+        val mapEventsReceiver = object: MapEventsReceiver{
+            override fun singleTapConfirmedHelper(loc: GeoPoint?): Boolean {
+                if (loc != null) {
+                    // Identifico la latitud, la longitud y el tipo de pulsación que ha sido
+                    var latitud = loc?.latitude.toString()
+                    var longitud = loc?.longitude.toString()
+                    var tipo = "punto"
+
+                    // Creo un intent para pasarlo a la siguiente activity
+                    val intent = Intent(map.context, activity_mapa_anadir::class.java)
+                    intent.putExtra("latitud", latitud)
+                    intent.putExtra("longitud", longitud)
+                    intent.putExtra("tipo", tipo)
+
+                    // Y lanzo la activity con el intent y su contenido
+                    //activityResultLauncher.launch(intent)
+                    activityResultLauncher.launch(intent)
+                }
+                return true
+            }
+
+            override fun longPressHelper(loc: GeoPoint?): Boolean {
+                if (loc != null) {
+                    // Identifico la latitud, la longitud y el tipo de pulsación que ha sido
+                    var latitud = loc?.latitude.toString()
+                    var longitud = loc?.longitude.toString()
+                    var tipo = "reunion"
+
+                    // Creo un intent para pasarlo a la siguiente activity
+                    val intent = Intent(map.context, activity_mapa_anadir::class.java)
+                    intent.putExtra("latitud", latitud)
+                    intent.putExtra("longitud", longitud)
+                    intent.putExtra("tipo", tipo)
+
+                    // Y lanzo la activity con el intent y su contenido
+                    //activityResultLauncher.launch(intent)
+                    activityResultLauncher.launch(intent)
+                }
+                return false
+            }
+        }
+
+        val mapEventsOverlay = MapEventsOverlay(mapEventsReceiver)
+        map.overlays.add(0, mapEventsOverlay)
+        map.invalidate()
     }
 }

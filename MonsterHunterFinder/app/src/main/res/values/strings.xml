@@ -78,4 +78,8 @@
     <string name="mapa">MAPA</string>
     <string name="titulo">Título</string>
     <string name="descripcion">Descripción</string>
+    <string name="placeholder">Placeholder</string>
+    <string name="punto">Punto de interés</string>
+    <string name="reunion">Reunión de juego</string>
+    <string name="escribe">¡Debes escribir algo en el título y la descripción!</string>
 </resources>
