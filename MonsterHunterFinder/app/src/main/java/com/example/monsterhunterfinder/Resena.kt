@@ -11,5 +11,6 @@ data class Resena (
     var id: Int = 0,
     var cazador: String = "",
     var experiencia: String = "",
-    var nombreAudio: String = ""
+    var nombreAudio: String = "",
+    var uri: String = ""
 )

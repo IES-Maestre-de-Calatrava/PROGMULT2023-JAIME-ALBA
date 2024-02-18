@@ -40,7 +40,7 @@ class ResenasViewHolder(view: View): RecyclerView.ViewHolder(view) {
             val contexto = itemView.context
             val intent = Intent(contexto, activity_audio::class.java)
 
-            val identificador: String = resena.nombreAudio
+            val identificador: String = resena.id.toString()
             intent.putExtra("Identificador", identificador)
 
             contexto.startActivity(intent)

@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.SeekBar
 import com.example.monsterhunterfinder.databinding.ActivityAudioBinding
 import java.io.IOException
+import com.google.firebase.firestore.FirebaseFirestore
 
 /**
  * Activity asociada a la reproducción de los distintos audios
@@ -23,13 +24,24 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
 
     private lateinit var binding: ActivityAudioBinding
 
+    // Se recoge la instancia de la Firebase y el documento empleado
+    // para almacenar el contenido de las reseñas para poder acceder
+    // a los audios
+    private val db = FirebaseFirestore.getInstance()
+    private val coleccionResenas = db.collection("resenas")
+
+    // Variable para la uri obtenida de la Firebase
+    private lateinit var uriFire1: String
+    private lateinit var uriFire2: String
+
     // Preparamos una variable String vacía que se igualará
     // a la String contenida en el putExtra para así obtener
-    // el nombre del archivo de audio a reproducir
-    private lateinit var nombreAudio: String
+    // el identificador del objeto reseña que contiene
+    // la uri del audio a reproducir
+    private lateinit var identificador: String
 
     // Variable que guarda la posición por la que se halla reproduciendo
-    var pos = 0
+    private var pos: Int = 0
 
     // Variables para controlar el estado de la reproducción: el si hay
     // una reproducción en curso y el estado de pausa de la misma
@@ -50,30 +62,41 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         // y con él, el identificador que hace referencia al audio que debe
         // reproducirse
         val objetoIntent: Intent = intent
-        nombreAudio = objetoIntent.getStringExtra("Identificador").toString()
-        nombreAudio = nombreAudio.substring(0, nombreAudio.length - 4);
-        Log.d("MultimediaLog", nombreAudio)
+        identificador = objetoIntent.getStringExtra("Identificador").toString()
+        Log.d("Audio"," El identificador del elemento multimedia vale $identificador")
 
 
+        // Tengo que realizar un proceso de creación cuando el reproductor de
+        // audio sea nulo
         if (mediaPlayer == null) {
-            // Tengo que hacer un proceso de creación cuando el mediaPlayer sea nulo.
-            // Creamos el objeto como instancia de la clase importada
-            mediaPlayer = MediaPlayer()
+            // El reproductor de audio se creará usando como URI aquella que se
+            // haya almacenado en la Firestore, asociada al objeto reseña en
+            // el que se haya presionado
+            coleccionResenas.document(identificador).get().addOnSuccessListener {
+                uriFire1 = (Uri.parse(it.get("uri").toString())).toString()
+                Log.d("Audio","Vídeo cargado con uri UNO $uriFire1")
+                mediaPlayer = MediaPlayer.create(this, Uri.parse(it.get("uri").toString()))
+                mediaPlayer!!.setOnCompletionListener(this)
 
-            // Para cargar en el mediaPlayer un archivo de audio:
-            try {
-                val resourceId = resources.getIdentifier(nombreAudio, "raw", packageName)
-                mediaPlayer!!.setDataSource(this, Uri.parse("android.resource://$packageName/$resourceId"))
-                // Y le decimos que se prepare para reproducirlo
-                mediaPlayer!!.prepare()
-            } catch (e: IOException) {
-                e.printStackTrace()
-                Log.e("MultimediaLog", "Error al preparar el MediaPlayer: ${e.message}")
+                // También inicializamos la seekBar; lo vamos a hacer con un hilo
+                inicializarSeekBar()
+
+
+                // Código inicialmente contenido en el onResume
+                if (mediaPlayer != null) {
+                    // Usamos la variable que habíamos empleado para guardar la posición de la
+                    // reproducción para llevar la reproducción directamente hasta ese punto.
+                    Log.d("Audio","Se hace el seekTo a la posición $pos")
+                    mediaPlayer!!.seekTo(pos)
+
+                    // Si había una reproducción en proceso y no se había pausado el reproductor,
+                    // la reproducción se inicia. Si no, se busca la posición por la que iba la
+                    // reproducción, pero ésta no se inicia.
+                    if (isPlaying && !isPaused) {
+                        mediaPlayer!!.start()
+                    }
+                }
             }
-
-            mediaPlayer!!.setOnCompletionListener(this)
-            // También inicializamos la seekBar; lo vamos a hacer con un hilo
-            inicializarSeekBar()
         }
 
         // Siempre que giramos el dispositivo, pasamos por un proceso onPause > onSaveInstanceState >
@@ -83,7 +106,7 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         // dispositivo con anterioridad.
 
         if (savedInstanceState == null) {
-            Log.d("MultimediaLog", "No hay datos que recuperar")
+            Log.d("Audio", "En el onCreate, sin datos a recuperar")
 
             // Estado inicial: nada habilitado salvo el botón de play
             // Hasta que no se empiece a reproducir el audio, el usuario no podrá tocar la seekbar
@@ -95,10 +118,8 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
             binding.botonRetrAudio.isEnabled = false
             binding.botonAvanAudio.isEnabled = false
 
-            // Control de la reproducción de sonidos:
-            controlSonido(nombreAudio)
         } else {
-            Log.d("MultimediaLog", "En el onCreate con datos a recuperar")
+            Log.d("Audio", "En el onCreate con datos a recuperar")
 
             // Si es un onCreate distinto del primero y hay una reproducción a
             // medias (se le ha dado al Play)
@@ -125,6 +146,9 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
                 binding.botonAvanAudio.isEnabled = false
             }
         }
+
+        // Control de la reproducción de sonidos:
+        controlSonido()
     }
 
     /**
@@ -163,11 +187,17 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
      *
      * @param nombre String que contiene el nombre del audio a reproducir
      */
-    private fun controlSonido(nombre: String) {
+    private fun controlSonido() {
         // Me creo listeners para cada botón
         binding.botonPlayAudio.setOnClickListener {
-            isPlaying = true
-            iniciarReproduccion(nombre)
+            pararReproductor()
+
+            iniciarReproduccion()
+        }
+
+        binding.botonStopAudio.setOnClickListener {
+            // Detiene el reproductor en su totalidad, igualándolo a null.
+            pararReproductor()
         }
 
         binding.botonPauseAudio.setOnClickListener {
@@ -181,13 +211,6 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
                     mediaPlayer!!.start()
                 }
             }
-        }
-
-        binding.botonStopAudio.setOnClickListener {
-            // Detiene el reproductor, no el audio.
-            // Funcionará con el onCompletion, cuando la reproducción se acabe.
-            isPlaying = false
-            pararReproductor()
         }
 
 
@@ -221,44 +244,43 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
 
 
     /**
-     * Método que inicia la reproducción de audio, discriminando entre que
-     * no exista un mediaPlayer previamente creado (cuando se haya usado el
-     * botón de Stop) y que sí exista.
-     *
-     * @param nombre String que contiene el nombre del audio a reproducir
+     * Método que verifica si el reproductor de audio con el que se trabaja
+     * es nulo, lo crea en caso afirmativo y, en la propia creación, carga
+     * desde el almacenamiento de Firebase el audio que va asociado a la
+     * reseña en la que se ha pulsado en la RecyclerView del perfil de usuario.
      */
-    private fun iniciarReproduccion(nombre: String) {
+    private fun iniciarReproduccion() {
         if (mediaPlayer == null) {
 
-            mediaPlayer = MediaPlayer()
+            // El reproductor de audio se creará usando como URI aquella que se
+            // haya almacenado en la Firestore, asociada al objeto reseña en
+            // el que se haya presionado
+            coleccionResenas.document(identificador).get().addOnSuccessListener {
+                uriFire2 = (Uri.parse(it.get("uri").toString())).toString()
+                Log.d("Audio","Vídeo cargado con uri DOS $uriFire2")
+                mediaPlayer = MediaPlayer.create(this, Uri.parse(it.get("uri").toString()))
+                mediaPlayer!!.setOnCompletionListener(this)
 
-            try {
-                val resourceId = resources.getIdentifier(nombre, "raw", packageName)
-                mediaPlayer!!.setDataSource(this, Uri.parse("android.resource://$packageName/$resourceId"))
-                mediaPlayer!!.prepare()
-            } catch (e: IOException) {
-                e.printStackTrace()
-                Log.e("AudioError", "Error al preparar el MediaPlayer: ${e.message}")
+
+                isPlaying = true
+                inicializarSeekBar()
+
+                // Tras el proceso de creación del mediaPlayer, la reproducción se inicia.
+                mediaPlayer!!.start()
+
+                // Y aquí jugamos con habilitar o deshabilitar botones para evitar errores.
+                // Si hay reproducción activa, deshabilito el botón play. A los otros sí
+                // se les puede dar. También se habilita la seekBar.
+                binding.seekBar.isEnabled = true
+
+                binding.botonPlayAudio.isEnabled = false
+                binding.botonStopAudio.isEnabled = true
+                binding.botonPauseAudio.isEnabled = true
+
+                binding.botonRetrAudio.isEnabled = true
+                binding.botonAvanAudio.isEnabled = true
             }
-
-            mediaPlayer!!.setOnCompletionListener(this)
-            inicializarSeekBar()
         }
-
-        // Tras el proceso de creación del mediaPlayer, la reproducción se inicia.
-        mediaPlayer!!.start()
-
-        // Y aquí jugamos con habilitar o deshabilitar botones para evitar errores.
-        // Si hay reproducción activa, deshabilito el botón play. A los otros sí
-        // se les puede dar. También se habilita la seekBar.
-        binding.seekBar.isEnabled = true
-
-        binding.botonPlayAudio.isEnabled = false
-        binding.botonStopAudio.isEnabled = true
-        binding.botonPauseAudio.isEnabled = true
-
-        binding.botonRetrAudio.isEnabled = true
-        binding.botonAvanAudio.isEnabled = true
     }
 
 
@@ -300,6 +322,7 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         // Comprobamos que mediaPlayer está funcionando
         if (mediaPlayer != null) {
             mediaPlayer!!.stop()
+            pos = 0
             binding.seekBar.progress = 0
 
             mediaPlayer!!.release() // Para liberar recursos
@@ -314,6 +337,9 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
 
             binding.botonRetrAudio.isEnabled = false
             binding.botonAvanAudio.isEnabled = false
+
+            isPlaying = false
+            isPaused = false
         }
     }
 
@@ -336,25 +362,25 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
 
     override fun onPause() {
         super.onPause()
-        Log.d("MultimediaLog", "En el onPause")
+        Log.d("Audio", "En el onPause")
 
         if (mediaPlayer != null) {
             // Cuando estamos en el onPause, si había una reproducción en proceso
             // (mediaPlayer creado), el valor de la misma se asigna a la variable pos
             // La reproducción se pausa
             pos = mediaPlayer!!.currentPosition
-            Log.d("MultimediaLog", "Valor de pos = $pos");
+            Log.d("Audio", "Valor de pos = $pos");
             mediaPlayer!!.pause()
         }
     }
 
     override fun onSaveInstanceState(bundle: Bundle) {
         super.onSaveInstanceState(bundle)
-        Log.d("MultimediaLog", "En el onSaveInstanceState")
+        Log.d("Audio", "En el onSaveInstanceState")
 
         if (mediaPlayer != null) {
             bundle.putInt("posicion", pos)
-            Log.d("MultimediaLog", "Valor de pos = $pos");
+            Log.d("Audio", "Valor de pos en el bundle = $pos");
 
             // En el onSaveInstanceState, creamos un "paquete" que más tarde se recuperará.
             // En él meto la posición por la que se hallaba la reproducción.
@@ -363,7 +389,7 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("MultimediaLog", "En el onDestroy")
+        Log.d("Audio", "En el onDestroy")
 
         // En el onDestroy, el mediaPlayer se iguala a null para liberar recursos
         if (mediaPlayer != null) {
@@ -377,40 +403,22 @@ class activity_audio : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         // En éste, siempre se creará un mediaPlayer nuevo.
 
         super.onRestoreInstanceState(bundle!!)
-        Log.d("MultimediaLog", "En el onRestoreInstanceState")
+        Log.d("Audio", "En el onRestoreInstanceState")
 
         if (bundle != null) {
             // Del "paquete" recuperamos el punto por el que se hallaba la reproducción.
-
             pos = bundle.getInt("posicion")
-            Log.d("MultimediaLog", "Valor de pos = $pos");
+            Log.d("Audio", "Valor de pos tras revisar el bundle = $pos");
+        } else {
+            Log.d("Audio", "Valor de pos si no hay bundle = $pos");
         }
-        Log.d("MultimediaLog", "Valor de pos = $pos");
     }
 
     override fun onResume(){
         super.onResume()
-        Log.d("MultimediaLog", "En el onResume");
-        Log.d("MultimediaLog", "Valor de pos = $pos");
+        Log.d("Audio", "En el onResume");
+        Log.d("Audio", "Valor de pos en el onResume = $pos");
         // El onResume se ejecuta tras el onCreate.
-
-        if (mediaPlayer != null) {
-            Log.d("MultimediaLog", "ANTES DEL SEEK, valor de pos = $pos");
-
-            // Usamos la variable que habíamos empleado para guardar la posición de la
-            // reproducción para llevar la reproducción directamente hasta ese punto.
-            mediaPlayer!!.seekTo(pos)
-
-            // Si había una reproducción en proceso y no se había pausado el reproductor,
-            // la reproducción se inicia. Si no, se busca la posición por la que iba la
-            // reproducción, pero ésta no se inicia.
-            if (isPlaying && !isPaused) {
-                mediaPlayer!!.start()
-            }
-
-            // Y metemos el control de sonidos vía botones.
-            controlSonido(nombreAudio)
-        }
     }
 
     /**

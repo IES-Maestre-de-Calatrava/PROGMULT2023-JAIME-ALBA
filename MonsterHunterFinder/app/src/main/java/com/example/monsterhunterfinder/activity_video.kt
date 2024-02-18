@@ -371,8 +371,4 @@ class activity_video : AppCompatActivity() {
 
     // funcionamiento por defecto: ante un giro de dispositivo, la posición se guarda, pero
     // la reproducción se pausa y el juego de botones pasa a sólo play
-
-    // si le doy a stop en el portrait: funcionan bien las reproducciones iniciadas en portrait
-    // si le doy a stop en el landscape: funcionan bien las reproducciones iniciadas en el landscape
-    // no pueden coexistir
 }
