@@ -7,72 +7,38 @@
     android:background="@color/material_dynamic_neutral20"
     tools:context=".activity_perfil_anadir">
 
-    <TextView
-        android:id="@+id/textoFoto"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="350dp"
-        android:hint="@string/enlaceFoto"
-        android:textColorHint="@color/material_dynamic_neutral70"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/botonHacerFoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginBottom="7dp"
         android:backgroundTint="@android:color/system_neutral1_900"
         app:icon="@drawable/baseline_photo_camera_24"
         app:iconGravity="textStart"
         app:iconSize="28dp"
         app:iconTint="@android:color/holo_orange_dark"
-        app:layout_constraintBottom_toBottomOf="@+id/botonGaleriaFoto"
-        app:layout_constraintEnd_toStartOf="@+id/botonGaleriaFoto"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/botonGaleriaFoto" />
+        app:layout_constraintBottom_toTopOf="@+id/botonVolverAnadir"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/botonVolverAnadir"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/botonGaleriaFoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="7dp"
+        android:layout_marginStart="15dp"
         android:backgroundTint="@android:color/system_neutral1_900"
         app:icon="@drawable/baseline_upload_24"
         app:iconGravity="textStart"
         app:iconSize="28dp"
         app:iconTint="@android:color/holo_orange_dark"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/textoVideo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:text="@string/videoAnadir"
-        android:textColor="@color/material_dynamic_neutral70"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textoFoto"
-        app:layout_constraintVertical_bias="0.0" />
-
+        app:layout_constraintBottom_toBottomOf="@+id/botonHacerFoto"
+        app:layout_constraintStart_toEndOf="@+id/botonHacerFoto"
+        app:layout_constraintTop_toTopOf="@+id/botonHacerFoto" />
 
     <VideoView
         android:id="@+id/videoViewAnadir"
@@ -80,14 +46,12 @@
         android:layout_height="0dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
-        android:layout_marginEnd="275dp"
-        android:layout_marginBottom="75dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/botonGrabarVideo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textoVideo"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toEndOf="@+id/imageViewAnadir"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/botonGrabarVideo"
@@ -116,12 +80,12 @@
         app:iconGravity="textStart"
         app:iconSize="28dp"
         app:iconTint="@color/mtrl_textinput_default_box_stroke_color"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/botonConfirmarAnadir"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/videoViewAnadir"
-        app:layout_constraintTop_toTopOf="@+id/videoViewAnadir"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/botonConfirmarAnadir"
@@ -152,5 +116,18 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         tools:onClick="volver" />
+
+    <ImageView
+        android:id="@+id/imageViewAnadir"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/botonHacerFoto"
+        app:layout_constraintEnd_toEndOf="@+id/botonGaleriaFoto"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

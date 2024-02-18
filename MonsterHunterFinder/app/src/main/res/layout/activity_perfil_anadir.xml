@@ -54,7 +54,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textoFoto"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewAnadir"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
@@ -104,6 +104,8 @@
         android:id="@+id/botonGaleriaVideo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
         android:backgroundTint="@android:color/system_neutral1_900"
         app:icon="@drawable/baseline_upload_24"
@@ -111,7 +113,11 @@
         app:iconSize="28dp"
         app:iconTint="@color/mtrl_textinput_default_box_stroke_color"
         app:layout_constraintBottom_toTopOf="@+id/botonConfirmarAnadir"
-        app:layout_constraintEnd_toEndOf="@+id/botonConfirmarAnadir" />
+        app:layout_constraintEnd_toEndOf="@+id/botonConfirmarAnadir"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/videoViewAnadir"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/botonConfirmarAnadir"
@@ -143,6 +149,22 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         tools:onClick="volver" />
+
+    <ImageView
+        android:id="@+id/imageViewAnadir"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="475dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textoFoto"
+        app:layout_constraintVertical_bias="0.0"
+        tools:srcCompat="@tools:sample/avatars" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

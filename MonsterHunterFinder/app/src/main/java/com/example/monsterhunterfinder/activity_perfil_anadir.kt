@@ -188,7 +188,7 @@ class activity_perfil_anadir : AppCompatActivity() {
                     } else {
                         uriGaleriaFoto = data.data!!
                     }
-
+                    binding.imageViewAnadir.setImageURI(uriGaleriaFoto)
                     actualizarEstadoBoton()
                 }
 
