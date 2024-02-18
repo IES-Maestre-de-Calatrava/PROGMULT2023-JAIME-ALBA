@@ -104,14 +104,6 @@ class activity_perfil_anadir : AppCompatActivity() {
         }
 
 
-
-        // Inicialmente, los botones para controlar vídeo están deshabilitados
-        binding.botonPlayAnadir.isEnabled = false
-        binding.botonPauseAnadir.isEnabled = false
-        binding.botonStopAnadir.isEnabled = false
-        binding.botonRetrAnadir.isEnabled = false
-        binding.botonAvanAnadir.isEnabled = false
-
         // Inicialmente, el botón de confirmar es invisible.
         // Se hará visible solamente cuando se hayan seleccionado un
         // vídeo y una foto, de manera que únicamente se pueda confirmar
@@ -130,12 +122,18 @@ class activity_perfil_anadir : AppCompatActivity() {
 
         // Listener para el botón de grabar vídeo
         binding.botonGrabarVideo.setOnClickListener{
+            // Primero se detiene cualquier reproducción que hubiera en proceso
+            pararReproduccion()
+
             comenzarGrabacion()
             binding.botonGaleriaVideo.visibility = View.INVISIBLE
         }
 
         // Listener para el botón de añadir vídeo desde la galería
         binding.botonGaleriaVideo.setOnClickListener {
+            // Primero se detiene cualquier reproducción que hubiera en proceso
+            pararReproduccion()
+
             SeleccionarVideoDeGaleria()
             binding.botonGrabarVideo.visibility = View.INVISIBLE
         }
@@ -174,8 +172,8 @@ class activity_perfil_anadir : AppCompatActivity() {
                     // va a subir a la galería de su perfil
                     uriGaleriaVideo = data.data!!
 
-                    // Método para controlar la reproducción de vídeo
-                    controlVideo()
+                    // Método para iniciar la reproducción de vídeo
+                    cargarMultimedia()
 
                 // Caso de que se haya seleccionado una foto
                 } else if (cogeFoto) {
@@ -304,45 +302,6 @@ class activity_perfil_anadir : AppCompatActivity() {
 
 
     /**
-     * Método que permite, una vez seleccionado o grabado un vídeo, controlar
-     * la reproducción del mismo en la VideoView
-     */
-    private fun controlVideo() {
-        if (hayVideo) {
-            // Se habilita el botón de Play para poder iniciar la reproducción
-            binding.botonPlayAnadir.isEnabled = true
-
-
-            // Se establecen listeners para cada botón
-            binding.botonPlayAnadir.setOnClickListener{
-                cargarMultimedia()
-            }
-
-            binding.botonPauseAnadir.setOnClickListener{
-                if (mVideoView != null) {
-                    if (mVideoView!!.isPlaying) {
-                        mVideoView!!.pause()
-                    } else {
-                        mVideoView!!.start()
-                    }
-                }
-            }
-
-            binding.botonStopAnadir.setOnClickListener{
-                pararReproduccion()
-            }
-
-            binding.botonRetrAnadir.setOnClickListener{
-                retrocederReproduccion(10000)
-            }
-
-            binding.botonAvanAnadir.setOnClickListener{
-                avanzarReproduccion(10000)
-            }
-        }
-    }
-
-    /**
      * Método que verifica si el reproductor de vídeo con el que se trabaja
      * es nulo, lo crea en caso afirmativo y, en la propia creación, carga
      * desde el almacenamiento de Firebase el vídeo que va asociado a la
@@ -361,46 +320,8 @@ class activity_perfil_anadir : AppCompatActivity() {
         // Tras el proceso de creación, la reproducción se inicia
         mVideoView!!.setBackgroundColor(Color.TRANSPARENT)
         mVideoView!!.start()
-
-        // Y aquí jugamos con habilitar o deshabilitar botones para evitar errores.
-        // Si hay reproducción activa, deshabilito el botón play. A los otros sí
-        // se les puede dar.
-        binding.botonPlayAnadir.isEnabled = false
-        binding.botonStopAnadir.isEnabled = true
-        binding.botonPauseAnadir.isEnabled = true
-        binding.botonRetrAnadir.isEnabled = true
-        binding.botonAvanAnadir.isEnabled = true
     }
 
-    /**
-     * Función que atrasa la reproducción, restando tiempo
-     * a la currentPosition de la VideoView.
-     * El coerceIn se usa para vigilar que la posición final
-     * esté dentro de un rango válido del tiempo de ejecución.
-     *
-     * @param millis: Número entero que equivale al momento actual de la reproducción
-     */
-    private fun retrocederReproduccion(millis: Int) {
-        if (mVideoView != null) {
-            val newPosition = mVideoView!!.currentPosition - millis
-            mVideoView!!.seekTo(newPosition.coerceIn(0, mVideoView!!.duration))
-        }
-    }
-
-    /**
-     * Función que adelanta la reproducción, sumando tiempo
-     * a la currentPosition de la VideoView.
-     * El coerceIn se usa para vigilar que la posición final
-     * esté dentro de un rango válido del tiempo de ejecución.
-     *
-     * @param millis: Número entero que equivale al momento actual de la reproducción
-     */
-    private fun avanzarReproduccion(millis: Int) {
-        if (mVideoView != null) {
-            val newPosition = mVideoView!!.currentPosition + millis
-            mVideoView!!.seekTo(newPosition.coerceIn(0, mVideoView!!.duration))
-        }
-    }
 
     /**
      * Método empleado para detener la reproducción cuando se presiona el
@@ -413,15 +334,8 @@ class activity_perfil_anadir : AppCompatActivity() {
 
             mVideoView!!.setBackgroundColor(Color.BLACK)
             mVideoView = null
-
-            binding.botonPlayAnadir.isEnabled = true
-            binding.botonStopAnadir.isEnabled = false
-            binding.botonPauseAnadir.isEnabled = false
-            binding.botonRetrAnadir.isEnabled = false
-            binding.botonAvanAnadir.isEnabled = false
         }
     }
-
 
 
     /**
